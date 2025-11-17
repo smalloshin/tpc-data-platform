@@ -499,10 +499,10 @@ const KnowledgeGraphD3 = ({ onConceptClick }: KnowledgeGraphD3Props) => {
       setGraphData({ ...graphData });
     }
     
-    // 在下一個渲染週期恢復滾動位置
-    requestAnimationFrame(() => {
+    // 使用 setTimeout 確保所有 DOM 更新完成後恢復滾動位置
+    setTimeout(() => {
       window.scrollTo(0, scrollY);
-    });
+    }, 0);
   };
 
   if (!graphData) {
