@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import FAQSection from "@/components/FAQSection";
 
 interface Category {
   id: string;
@@ -15,13 +16,6 @@ interface Category {
 interface SearchInterfaceProps {
   category: Category;
   onBack: () => void;
-}
-
-interface FAQCategory {
-  category: string;
-  icon: string;
-  description: string;
-  questions: any[];
 }
 
 interface Situation {
@@ -41,21 +35,17 @@ interface SearchResult {
 }
 
 const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
-  const [faqData, setFaqData] = useState<{ faq_categories: FAQCategory[] } | null>(null);
   const [matchingResults, setMatchingResults] = useState<any>(null);
   const [knowledgeGraph, setKnowledgeGraph] = useState<any>(null);
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [keywordInput, setKeywordInput] = useState("");
-  const [selectedFAQ, setSelectedFAQ] = useState<any>(null);
 
   useEffect(() => {
     // 載入資料
     Promise.all([
-      fetch("/data/輸電類別_生活化FAQ.json").then(r => r.json()),
       fetch("/data/transmission_matching_results.json").then(r => r.json()),
       fetch("/data/transmission_knowledge_graph.json").then(r => r.json())
-    ]).then(([faq, matching, kg]) => {
-      setFaqData(faq);
+    ]).then(([matching, kg]) => {
       setMatchingResults(matching);
       setKnowledgeGraph(kg);
     }).catch(err => console.error("載入資料失敗:", err));
@@ -202,22 +192,16 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
     setSearchResults(results);
   };
 
-  const handleFAQClick = (question: any) => {
-    setSelectedFAQ(question);
-    // 搜尋相關資料集
+  const handleFAQDatasetSelect = (datasets: string[], question: string) => {
     const results: SearchResult[] = [];
-    const processedDatasets = new Set<string>();
-
-    question.related_datasets?.forEach((datasetName: string) => {
-      if (!processedDatasets.has(datasetName)) {
-        processedDatasets.add(datasetName);
-        results.push({
-          name: datasetName,
-          relevance: 1.0,
-          method: 'FAQ 推薦',
-          matchReason: `相關問題: ${question.question}`
-        });
-      }
+    
+    datasets.forEach((datasetName: string) => {
+      results.push({
+        name: datasetName,
+        relevance: 1.0,
+        method: 'FAQ 推薦',
+        matchReason: `相關問題: ${question}`
+      });
     });
 
     setSearchResults(results);
@@ -246,42 +230,7 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
         </TabsList>
 
         <TabsContent value="faq">
-          <Card className="p-6 bg-gray-50">
-            <h3 className="text-xl font-semibold mb-4">從生活化問題開始探索</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-              {faqData?.faq_categories.slice(0, 6).map((cat) => (
-                <Button
-                  key={cat.category}
-                  variant="outline"
-                  className="h-auto py-4 px-4 justify-start gap-3 hover:bg-primary hover:text-white transition-colors"
-                  onClick={() => {
-                    // 顯示該類別的第一個問題
-                    if (cat.questions.length > 0) {
-                      handleFAQClick(cat.questions[0]);
-                    }
-                  }}
-                >
-                  <span className="text-2xl">{cat.icon}</span>
-                  <span className="font-medium">{cat.category}</span>
-                </Button>
-              ))}
-            </div>
-            {faqData && (
-              <div className="space-y-3">
-                <h4 className="font-medium text-gray-700">熱門問題：</h4>
-                {faqData.faq_categories[0]?.questions.slice(0, 5).map((q, idx) => (
-                  <button
-                    key={idx}
-                    className="w-full text-left p-4 bg-white rounded-lg hover:bg-primary/10 transition-colors border border-gray-200"
-                    onClick={() => handleFAQClick(q)}
-                  >
-                    <div className="font-medium text-gray-800">{q.question}</div>
-                    <div className="text-sm text-gray-500 mt-1">{q.answer_hint}</div>
-                  </button>
-                ))}
-              </div>
-            )}
-          </Card>
+          <FAQSection onDatasetSelect={handleFAQDatasetSelect} />
         </TabsContent>
 
         <TabsContent value="situation">
