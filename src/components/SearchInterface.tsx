@@ -42,6 +42,9 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [keywordInput, setKeywordInput] = useState("");
   const [situations, setSituations] = useState<Situation[]>([]);
+  const [availableKeywords, setAvailableKeywords] = useState<string[]>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([]);
   const resultsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -54,8 +57,32 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
       setMatchingResults(matching);
       setKnowledgeGraph(kg);
       setSituations(situationsData.situations);
+      
+      // 提取所有可用的關鍵字
+      const keywordSet = new Set<string>(
+        matching.matching_results.map((r: any) => String(r.關鍵字)).filter((k: string) => k)
+      );
+      const keywords = Array.from(keywordSet).sort();
+      setAvailableKeywords(keywords);
     }).catch(err => console.error("載入資料失敗:", err));
   }, []);
+
+  // 處理關鍵字輸入變化，更新建議列表
+  useEffect(() => {
+    if (!keywordInput.trim()) {
+      setFilteredSuggestions([]);
+      setShowSuggestions(false);
+      return;
+    }
+
+    const input = keywordInput.trim().toLowerCase();
+    const suggestions = availableKeywords
+      .filter(kw => kw.toLowerCase().includes(input))
+      .slice(0, 10); // 最多顯示 10 個建議
+    
+    setFilteredSuggestions(suggestions);
+    setShowSuggestions(suggestions.length > 0);
+  }, [keywordInput, availableKeywords]);
 
 
   const calculateRelevance = (records: any[]) => {
@@ -164,10 +191,22 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
     }, 100);
   };
 
-  const handleKeywordSearch = () => {
-    if (!keywordInput.trim()) return;
-    const results = searchByKeyword(keywordInput.trim());
+  const handleKeywordSearch = (keyword?: string) => {
+    const searchKeyword = keyword || keywordInput.trim();
+    if (!searchKeyword) return;
+    
+    setShowSuggestions(false);
+    const results = searchByKeyword(searchKeyword);
     setSearchResults(results);
+    
+    if (results.length === 0) {
+      toast({ 
+        title: "沒有找到相關資料集", 
+        description: `關鍵字「${searchKeyword}」暫無對應結果，請嘗試其他關鍵字。` 
+      });
+      return;
+    }
+    
     scrollToResults();
   };
 
@@ -265,15 +304,35 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
       {/* 關鍵字搜尋區塊 */}
       <Card className="p-6 bg-gray-50 mb-8">
         <h3 className="text-xl font-semibold mb-4">🔍 關鍵字搜尋</h3>
-        <div className="flex gap-3 mb-6">
-          <Input
-            placeholder="例如：變電所、饋線、輸電線路..."
-            value={keywordInput}
-            onChange={(e) => setKeywordInput(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && handleKeywordSearch()}
-            className="text-lg"
-          />
-          <Button onClick={handleKeywordSearch} className="px-8">
+        <div className="flex gap-3 mb-6 relative">
+          <div className="flex-1 relative">
+            <Input
+              placeholder="例如：變電所、饋線、輸電線路..."
+              value={keywordInput}
+              onChange={(e) => setKeywordInput(e.target.value)}
+              onKeyPress={(e) => e.key === 'Enter' && handleKeywordSearch()}
+              onFocus={() => keywordInput && setShowSuggestions(true)}
+              onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+              className="text-lg"
+            />
+            {showSuggestions && filteredSuggestions.length > 0 && (
+              <div className="absolute z-10 w-full mt-1 bg-white border rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                {filteredSuggestions.map((suggestion, idx) => (
+                  <div
+                    key={idx}
+                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
+                    onClick={() => {
+                      setKeywordInput(suggestion);
+                      handleKeywordSearch(suggestion);
+                    }}
+                  >
+                    {suggestion}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+          <Button onClick={() => handleKeywordSearch()} className="px-8">
             搜尋
           </Button>
         </div>
