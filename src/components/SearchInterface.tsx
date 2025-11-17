@@ -451,47 +451,71 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
         </div>
       </Card>
 
-      {/* 常見問題和概念瀏覽並排 */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* 常見問題 */}
-        <div className="space-y-4">
+      {/* 常見問題和概念瀏覽 */}
+      <div className="space-y-6">
+        {/* 按鈕列 */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Button
-            variant="outline"
-            className="w-full justify-start text-lg py-6 hover:bg-primary/10"
-            onClick={() => setShowFAQ(!showFAQ)}
+            variant={showFAQ ? "default" : "outline"}
+            className="w-full justify-start text-lg py-8 transition-all"
+            onClick={() => {
+              setShowFAQ(!showFAQ);
+              if (!showFAQ) setShowConcepts(false);
+            }}
           >
-            <span className="text-2xl mr-3">💬</span>
-            <span className="font-semibold">常見問題</span>
-            <span className="ml-auto text-sm text-muted-foreground">
-              {showFAQ ? '收合 ▲' : '展開 ▼'}
+            <span className="text-3xl mr-4">💬</span>
+            <div className="flex flex-col items-start">
+              <span className="font-semibold">常見問題</span>
+              <span className="text-xs opacity-70">快速找到相關資料集</span>
+            </div>
+            <span className="ml-auto text-sm">
+              {showFAQ ? '▲' : '▼'}
             </span>
           </Button>
-          {showFAQ && (
-            <div className="animate-fade-in">
-              <FAQSection onDatasetSelect={handleFAQDatasetSelect} />
+
+          <Button
+            variant={showConcepts ? "default" : "outline"}
+            className="w-full justify-start text-lg py-8 transition-all"
+            onClick={() => {
+              setShowConcepts(!showConcepts);
+              if (!showConcepts) setShowFAQ(false);
+            }}
+          >
+            <span className="text-3xl mr-4">🗂️</span>
+            <div className="flex flex-col items-start">
+              <span className="font-semibold">概念瀏覽</span>
+              <span className="text-xs opacity-70">依主題分類探索</span>
             </div>
-          )}
+            <span className="ml-auto text-sm">
+              {showConcepts ? '▲' : '▼'}
+            </span>
+          </Button>
         </div>
 
-        {/* 概念瀏覽 */}
-        <div className="space-y-4">
-          <Button
-            variant="outline"
-            className="w-full justify-start text-lg py-6 hover:bg-primary/10"
-            onClick={() => setShowConcepts(!showConcepts)}
-          >
-            <span className="text-2xl mr-3">🗂️</span>
-            <span className="font-semibold">概念瀏覽</span>
-            <span className="ml-auto text-sm text-muted-foreground">
-              {showConcepts ? '收合 ▲' : '展開 ▼'}
-            </span>
-          </Button>
-          {showConcepts && (
-            <div className="animate-fade-in">
-              <ConceptExplorer onConceptSelect={handleConceptSelect} />
+        {/* 展開內容區（全寬） */}
+        {showFAQ && (
+          <Card className="p-6 animate-fade-in">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-xl font-semibold">💬 常見問題</h3>
+              <Button variant="ghost" size="sm" onClick={() => setShowFAQ(false)}>
+                收合 ✕
+              </Button>
             </div>
-          )}
-        </div>
+            <FAQSection onDatasetSelect={handleFAQDatasetSelect} />
+          </Card>
+        )}
+
+        {showConcepts && (
+          <Card className="p-6 animate-fade-in">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-xl font-semibold">🗂️ 概念瀏覽</h3>
+              <Button variant="ghost" size="sm" onClick={() => setShowConcepts(false)}>
+                收合 ✕
+              </Button>
+            </div>
+            <ConceptExplorer onConceptSelect={handleConceptSelect} />
+          </Card>
+        )}
       </div>
 
       {/* 搜尋結果 */}
