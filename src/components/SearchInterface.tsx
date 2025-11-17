@@ -111,7 +111,10 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
   };
 
   const searchBySituation = (situation: Situation): SearchResult[] => {
-    if (!knowledgeGraph || !matchingResults) return [];
+    if (!knowledgeGraph || !matchingResults) {
+      console.log('知識圖譜或匹配結果未載入');
+      return [];
+    }
     
     const results: SearchResult[] = [];
     const processedDatasets = new Set<string>();
@@ -121,11 +124,16 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
         (n: any) => n.type === 'concept' && n.label === conceptName
       );
 
-      if (!conceptNode) return;
+      if (!conceptNode) {
+        console.log(`找不到概念: ${conceptName}`);
+        return;
+      }
 
-      const keywordLinks = knowledgeGraph.links.filter(
+      const keywordLinks = knowledgeGraph.links?.filter(
         (l: any) => l.type === 'keyword_to_concept' && l.target === conceptNode.id
-      );
+      ) || [];
+
+      console.log(`概念「${conceptName}」找到 ${keywordLinks.length} 個關鍵字連結`);
 
       keywordLinks.forEach((link: any) => {
         const keywordName = link.source.replace('keyword_', '');
@@ -144,6 +152,7 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
       });
     });
 
+    console.log(`情境「${situation.name}」找到 ${results.length} 筆結果`);
     return results.sort((a, b) => b.relevance - a.relevance);
   };
 
