@@ -34,6 +34,7 @@ const KnowledgeGraphD3 = ({ onConceptClick }: KnowledgeGraphD3Props) => {
   const [typeFilter, setTypeFilter] = useState<'all' | 'keyword' | 'concept' | 'dataset'>('all');
   const [stageFilter, setStageFilter] = useState<'all' | '第一階段' | '第二階段' | '第三階段'>('all');
   const [selectedNode, setSelectedNode] = useState<GraphNode | null>(null);
+  const [relatedDatasets, setRelatedDatasets] = useState<GraphNode[]>([]);
   const [stats, setStats] = useState({ nodes: 0, links: 0, concepts: 0, keywords: 0, datasets: 0 });
 
   // 載入資料
@@ -188,6 +189,101 @@ const KnowledgeGraphD3 = ({ onConceptClick }: KnowledgeGraphD3Props) => {
     // 點擊節點處理
     function handleNodeClick(d: GraphNode) {
       setSelectedNode(d);
+      
+      // 收集相關資料集
+      const datasets: GraphNode[] = [];
+      
+      if (d.type === 'keyword') {
+        // 關鍵字：收集該階段與該關鍵字相關的資料集
+        const keywordStage = d.stage;
+        const connectedConceptIds = new Set<string>();
+        
+        // 找到與關鍵字相連的概念
+        links.forEach((link: any) => {
+          const sourceId = typeof link.source === 'object' ? link.source.id : link.source;
+          const targetId = typeof link.target === 'object' ? link.target.id : link.target;
+          const sourceNode = nodes.find(n => n.id === sourceId);
+          const targetNode = nodes.find(n => n.id === targetId);
+          
+          if (sourceId === d.id && targetNode?.type === 'concept') {
+            connectedConceptIds.add(targetId);
+          }
+          if (targetId === d.id && sourceNode?.type === 'concept') {
+            connectedConceptIds.add(sourceId);
+          }
+        });
+        
+        // 找到這些概念相連的資料集（只顯示與關鍵字相同階段的）
+        links.forEach((link: any) => {
+          const sourceId = typeof link.source === 'object' ? link.source.id : link.source;
+          const targetId = typeof link.target === 'object' ? link.target.id : link.target;
+          const sourceNode = nodes.find(n => n.id === sourceId);
+          const targetNode = nodes.find(n => n.id === targetId);
+          
+          if (connectedConceptIds.has(sourceId) && targetNode?.type === 'dataset') {
+            if (link.stage === keywordStage || !link.stage) {
+              if (!datasets.find(ds => ds.id === targetNode.id)) {
+                datasets.push(targetNode);
+              }
+            }
+          }
+          
+          if (connectedConceptIds.has(targetId) && sourceNode?.type === 'dataset') {
+            if (link.stage === keywordStage || !link.stage) {
+              if (!datasets.find(ds => ds.id === sourceNode.id)) {
+                datasets.push(sourceNode);
+              }
+            }
+          }
+        });
+        
+        // 也處理關鍵字直接連到資料集的情況
+        links.forEach((link: any) => {
+          const sourceId = typeof link.source === 'object' ? link.source.id : link.source;
+          const targetId = typeof link.target === 'object' ? link.target.id : link.target;
+          const sourceNode = nodes.find(n => n.id === sourceId);
+          const targetNode = nodes.find(n => n.id === targetId);
+          
+          if (sourceId === d.id && targetNode?.type === 'dataset') {
+            if (link.stage === keywordStage || !link.stage) {
+              if (!datasets.find(ds => ds.id === targetNode.id)) {
+                datasets.push(targetNode);
+              }
+            }
+          }
+          if (targetId === d.id && sourceNode?.type === 'dataset') {
+            if (link.stage === keywordStage || !link.stage) {
+              if (!datasets.find(ds => ds.id === sourceNode.id)) {
+                datasets.push(sourceNode);
+              }
+            }
+          }
+        });
+      } else if (d.type === 'dataset') {
+        // 資料集：只顯示該資料集自己
+        datasets.push(d);
+      } else if (d.type === 'concept') {
+        // 概念：收集與該概念相連的所有資料集
+        links.forEach((link: any) => {
+          const sourceId = typeof link.source === 'object' ? link.source.id : link.source;
+          const targetId = typeof link.target === 'object' ? link.target.id : link.target;
+          const sourceNode = nodes.find(n => n.id === sourceId);
+          const targetNode = nodes.find(n => n.id === targetId);
+          
+          if (sourceId === d.id && targetNode?.type === 'dataset') {
+            if (!datasets.find(ds => ds.id === targetNode.id)) {
+              datasets.push(targetNode);
+            }
+          }
+          if (targetId === d.id && sourceNode?.type === 'dataset') {
+            if (!datasets.find(ds => ds.id === sourceNode.id)) {
+              datasets.push(sourceNode);
+            }
+          }
+        });
+      }
+      
+      setRelatedDatasets(datasets);
       
       // 高亮相關節點
       const connectedNodeIds = new Set<string>();
@@ -369,6 +465,7 @@ const KnowledgeGraphD3 = ({ onConceptClick }: KnowledgeGraphD3Props) => {
     setTypeFilter('all');
     setStageFilter('all');
     setSelectedNode(null);
+    setRelatedDatasets([]);
     
     // 重新觸發圖表更新以重置高亮狀態
     if (graphData) {
@@ -508,7 +605,10 @@ const KnowledgeGraphD3 = ({ onConceptClick }: KnowledgeGraphD3Props) => {
                 variant="ghost"
                 size="sm"
                 className="h-6 w-6 p-0"
-                onClick={() => setSelectedNode(null)}
+                onClick={() => {
+                  setSelectedNode(null);
+                  setRelatedDatasets([]);
+                }}
               >
                 <X className="h-4 w-4" />
               </Button>
@@ -526,6 +626,45 @@ const KnowledgeGraphD3 = ({ onConceptClick }: KnowledgeGraphD3Props) => {
           </div>
         )}
       </Card>
+
+      {/* 相關資料集列表 */}
+      {relatedDatasets.length > 0 && (
+        <Card className="p-4">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="font-semibold text-lg">
+              相關資料集 ({relatedDatasets.length})
+            </h3>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setRelatedDatasets([])}
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+            {relatedDatasets.map((dataset) => (
+              <div
+                key={dataset.id}
+                className="p-3 border rounded-lg hover:shadow-md transition-shadow bg-background"
+              >
+                <div className="space-y-2">
+                  <h4 className="font-medium text-sm line-clamp-2">{dataset.label}</h4>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <Badge variant="secondary" className="text-xs">ID: {dataset.id}</Badge>
+                    {dataset.stage && <Badge variant="outline" className="text-xs">{dataset.stage}</Badge>}
+                  </div>
+                  {dataset.category && (
+                    <p className="text-xs text-muted-foreground">
+                      類別: {dataset.category}
+                    </p>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </Card>
+      )}
     </div>
   );
 };
