@@ -63,10 +63,10 @@ const ConceptExplorer = ({ onConceptSelect }: ConceptExplorerProps) => {
             datasetGroups[datasetName].push(record);
           });
 
-          // 檢查是否至少有一個資料集的相關性 >= 0.5
+          // 檢查是否至少有一個資料集的相關性 >= 0
           return Object.values(datasetGroups).some(records => {
             const relevance = calculateRelevance(records);
-            return relevance >= 0.5;
+            return relevance >= 0;
           });
         };
         
@@ -85,7 +85,7 @@ const ConceptExplorer = ({ onConceptSelect }: ConceptExplorerProps) => {
           return hasValidKeyword;
         });
         
-        console.log(`總共 ${conceptNodes.length} 個概念，其中 ${conceptsWithDatasets.length} 個有連接到有效的資料集（relevance >= 0.5）`);
+        console.log(`總共 ${conceptNodes.length} 個概念，其中 ${conceptsWithDatasets.length} 個有連接到有效的資料集（relevance >= 0）`);
         setConcepts(conceptsWithDatasets);
       })
       .catch((err) => console.error("載入概念失敗:", err));

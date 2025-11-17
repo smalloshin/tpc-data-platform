@@ -114,7 +114,7 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
     return Math.min(score / records.length, 1);
   };
 
-  const searchByKeyword = (keyword: string, threshold = 0.5): SearchResult[] => {
+  const searchByKeyword = (keyword: string, threshold = 0): SearchResult[] => {
     if (!matchingResults) return [];
     
     const results: SearchResult[] = [];
@@ -261,7 +261,7 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
 
     keywordLinks.forEach((link: any) => {
       const keywordName = link.source.replace('keyword_', '');
-      const keywordResults = searchByKeyword(keywordName, 0.5);
+      const keywordResults = searchByKeyword(keywordName, 0);
 
       keywordResults.forEach(result => {
         if (!processedDatasets.has(result.name)) {
