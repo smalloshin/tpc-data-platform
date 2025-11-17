@@ -414,11 +414,11 @@ const KnowledgeGraphD3 = ({ onConceptClick }: KnowledgeGraphD3Props) => {
         return highlightedLinks.has(linkKey) ? '#667eea' : '#999';
       });
       
-      // 標籤：概念節點總是顯示，資料集節點只在被強調時顯示
+      // 標籤：概念節點總是顯示，關鍵字和資料集節點在被強調時顯示
       label.style('opacity', (n: GraphNode) => {
         if (n.type === 'concept') {
           return connectedNodeIds.has(n.id) ? 1 : 0.2;
-        } else if (n.type === 'dataset') {
+        } else if (n.type === 'keyword' || n.type === 'dataset') {
           return connectedNodeIds.has(n.id) ? 1 : 0;
         }
         return 0;
