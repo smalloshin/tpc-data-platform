@@ -1,0 +1,410 @@
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
+interface Category {
+  id: string;
+  name: string;
+  icon: string;
+  description: string;
+}
+
+interface SearchInterfaceProps {
+  category: Category;
+  onBack: () => void;
+}
+
+interface FAQCategory {
+  category: string;
+  icon: string;
+  description: string;
+  questions: any[];
+}
+
+interface Situation {
+  name: string;
+  icon: string;
+  description: string;
+  concepts: string[];
+}
+
+interface SearchResult {
+  name: string;
+  relevance: number;
+  stage?: string;
+  method?: string;
+  keywords?: string[];
+  matchReason?: string;
+}
+
+const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
+  const [faqData, setFaqData] = useState<{ faq_categories: FAQCategory[] } | null>(null);
+  const [matchingResults, setMatchingResults] = useState<any>(null);
+  const [knowledgeGraph, setKnowledgeGraph] = useState<any>(null);
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+  const [keywordInput, setKeywordInput] = useState("");
+  const [selectedFAQ, setSelectedFAQ] = useState<any>(null);
+
+  useEffect(() => {
+    // 載入資料
+    Promise.all([
+      fetch("/data/輸電類別_生活化FAQ.json").then(r => r.json()),
+      fetch("/data/transmission_matching_results.json").then(r => r.json()),
+      fetch("/data/transmission_knowledge_graph.json").then(r => r.json())
+    ]).then(([faq, matching, kg]) => {
+      setFaqData(faq);
+      setMatchingResults(matching);
+      setKnowledgeGraph(kg);
+    }).catch(err => console.error("載入資料失敗:", err));
+  }, []);
+
+  const situations: Situation[] = [
+    {
+      name: "停電問題",
+      icon: "🔌",
+      description: "停電通知、搶修進度",
+      concepts: ["停電管理", "故障管理", "應急處理"]
+    },
+    {
+      name: "電費查詢",
+      icon: "💰",
+      description: "電價、帳單、繳費資訊",
+      concepts: ["電價結構", "用電計費", "帳務管理"]
+    },
+    {
+      name: "用電安全",
+      icon: "🛡️",
+      description: "供電品質、電壓穩定",
+      concepts: ["電力品質", "電壓系統", "安全保護"]
+    },
+    {
+      name: "再生能源",
+      icon: "🌱",
+      description: "綠能併網、發電資訊",
+      concepts: ["再生能源", "發電系統", "能源結構"]
+    },
+    {
+      name: "設施資訊",
+      icon: "🏗️",
+      description: "變電所、線路設施",
+      concepts: ["變電所", "輸電線路", "配電設備"]
+    },
+    {
+      name: "用電數據",
+      icon: "📊",
+      description: "用電量、負載統計",
+      concepts: ["用電統計", "負載管理", "電力調度"]
+    }
+  ];
+
+  const calculateRelevance = (records: any[]) => {
+    let score = 0;
+    const weights = {
+      '第一階段': 0.4,
+      '第二階段': 0.3,
+      '第三階段': 0.2
+    };
+    
+    records.forEach(r => {
+      const stage = r.匹配階段 || '第三階段';
+      score += (weights[stage as keyof typeof weights] || 0.1);
+      score += (r.相關性分數 || 5) / 100;
+    });
+    
+    return Math.min(score / records.length, 1);
+  };
+
+  const searchByKeyword = (keyword: string, threshold = 0.6): SearchResult[] => {
+    if (!matchingResults) return [];
+    
+    const results: SearchResult[] = [];
+    const matchRecords = matchingResults.matching_results.filter(
+      (r: any) => r.關鍵字 === keyword
+    );
+
+    const datasetGroups: { [key: string]: any[] } = {};
+    matchRecords.forEach((record: any) => {
+      const datasetName = record.資料集名稱;
+      if (!datasetGroups[datasetName]) {
+        datasetGroups[datasetName] = [];
+      }
+      datasetGroups[datasetName].push(record);
+    });
+
+    Object.entries(datasetGroups).forEach(([datasetName, records]) => {
+      const relevance = calculateRelevance(records);
+
+      if (relevance >= threshold) {
+        const allKeywords = [...new Set(records.map(r => r.關鍵字))];
+
+        results.push({
+          name: datasetName,
+          relevance: relevance,
+          stage: records[0].匹配階段 || '未知',
+          method: records[0].匹配方式 || '關鍵字匹配',
+          keywords: allKeywords,
+          matchReason: records[0].匹配原因 || ''
+        });
+      }
+    });
+
+    return results.sort((a, b) => b.relevance - a.relevance);
+  };
+
+  const searchBySituation = (situation: Situation): SearchResult[] => {
+    if (!knowledgeGraph || !matchingResults) return [];
+    
+    const results: SearchResult[] = [];
+    const processedDatasets = new Set<string>();
+
+    situation.concepts.forEach(conceptName => {
+      const conceptNode = knowledgeGraph.nodes.find(
+        (n: any) => n.type === 'concept' && n.label === conceptName
+      );
+
+      if (!conceptNode) return;
+
+      const keywordLinks = knowledgeGraph.links.filter(
+        (l: any) => l.type === 'keyword_to_concept' && l.target === conceptNode.id
+      );
+
+      keywordLinks.forEach((link: any) => {
+        const keywordName = link.source.replace('keyword_', '');
+        const keywordResults = searchByKeyword(keywordName, 0.5);
+
+        keywordResults.forEach(result => {
+          if (!processedDatasets.has(result.name)) {
+            processedDatasets.add(result.name);
+            results.push({
+              ...result,
+              method: `情境導引: ${situation.name}`,
+              matchReason: `透過概念「${conceptName}」`
+            });
+          }
+        });
+      });
+    });
+
+    return results.sort((a, b) => b.relevance - a.relevance);
+  };
+
+  const handleKeywordSearch = () => {
+    if (!keywordInput.trim()) return;
+    const results = searchByKeyword(keywordInput.trim());
+    setSearchResults(results);
+  };
+
+  const handleSituationClick = (situation: Situation) => {
+    const results = searchBySituation(situation);
+    setSearchResults(results);
+  };
+
+  const handleFAQClick = (question: any) => {
+    setSelectedFAQ(question);
+    // 搜尋相關資料集
+    const results: SearchResult[] = [];
+    const processedDatasets = new Set<string>();
+
+    question.related_datasets?.forEach((datasetName: string) => {
+      if (!processedDatasets.has(datasetName)) {
+        processedDatasets.add(datasetName);
+        results.push({
+          name: datasetName,
+          relevance: 1.0,
+          method: 'FAQ 推薦',
+          matchReason: `相關問題: ${question.question}`
+        });
+      }
+    });
+
+    setSearchResults(results);
+  };
+
+  return (
+    <div className="bg-white rounded-3xl p-10 shadow-2xl animate-in fade-in duration-500">
+      <Button 
+        variant="ghost" 
+        onClick={onBack}
+        className="mb-8 bg-gray-100 hover:bg-gray-200"
+      >
+        ← 返回選擇
+      </Button>
+
+      <div className="flex items-center gap-4 mb-10">
+        <span className="text-5xl">{category.icon}</span>
+        <h2 className="text-3xl font-bold">{category.name}資料集搜尋</h2>
+      </div>
+
+      <Tabs defaultValue="faq" className="w-full">
+        <TabsList className="grid w-full grid-cols-3 mb-8">
+          <TabsTrigger value="faq">💬 常見問題</TabsTrigger>
+          <TabsTrigger value="situation">🎯 使用情境</TabsTrigger>
+          <TabsTrigger value="keyword">🔍 關鍵字搜尋</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="faq">
+          <Card className="p-6 bg-gray-50">
+            <h3 className="text-xl font-semibold mb-4">從生活化問題開始探索</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+              {faqData?.faq_categories.slice(0, 6).map((cat) => (
+                <Button
+                  key={cat.category}
+                  variant="outline"
+                  className="h-auto py-4 px-4 justify-start gap-3 hover:bg-primary hover:text-white transition-colors"
+                  onClick={() => {
+                    // 顯示該類別的第一個問題
+                    if (cat.questions.length > 0) {
+                      handleFAQClick(cat.questions[0]);
+                    }
+                  }}
+                >
+                  <span className="text-2xl">{cat.icon}</span>
+                  <span className="font-medium">{cat.category}</span>
+                </Button>
+              ))}
+            </div>
+            {faqData && (
+              <div className="space-y-3">
+                <h4 className="font-medium text-gray-700">熱門問題：</h4>
+                {faqData.faq_categories[0]?.questions.slice(0, 5).map((q, idx) => (
+                  <button
+                    key={idx}
+                    className="w-full text-left p-4 bg-white rounded-lg hover:bg-primary/10 transition-colors border border-gray-200"
+                    onClick={() => handleFAQClick(q)}
+                  >
+                    <div className="font-medium text-gray-800">{q.question}</div>
+                    <div className="text-sm text-gray-500 mt-1">{q.answer_hint}</div>
+                  </button>
+                ))}
+              </div>
+            )}
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="situation">
+          <Card className="p-6 bg-gray-50">
+            <h3 className="text-xl font-semibold mb-4">根據使用場景尋找資料</h3>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              {situations.map((sit) => (
+                <button
+                  key={sit.name}
+                  className="p-6 bg-white rounded-xl hover:bg-primary hover:text-white transition-all shadow-sm hover:shadow-md"
+                  onClick={() => handleSituationClick(sit)}
+                >
+                  <div className="text-4xl mb-2">{sit.icon}</div>
+                  <div className="font-semibold text-lg mb-1">{sit.name}</div>
+                  <div className="text-sm opacity-80">{sit.description}</div>
+                </button>
+              ))}
+            </div>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="keyword">
+          <Card className="p-6 bg-gray-50">
+            <h3 className="text-xl font-semibold mb-4">直接輸入專業關鍵字</h3>
+            <div className="flex gap-3 mb-6">
+              <Input
+                placeholder="例如：變電所、饋線、輸電線路..."
+                value={keywordInput}
+                onChange={(e) => setKeywordInput(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleKeywordSearch()}
+                className="text-lg"
+              />
+              <Button onClick={handleKeywordSearch} className="px-8">
+                搜尋
+              </Button>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <span className="text-sm text-gray-600">快速搜尋：</span>
+              {['變電所', '饋線', '停電', '再生能源', '電價', '負載'].map((kw) => (
+                <Badge
+                  key={kw}
+                  variant="secondary"
+                  className="cursor-pointer hover:bg-primary hover:text-white"
+                  onClick={() => {
+                    setKeywordInput(kw);
+                    const results = searchByKeyword(kw);
+                    setSearchResults(results);
+                  }}
+                >
+                  {kw}
+                </Badge>
+              ))}
+            </div>
+          </Card>
+        </TabsContent>
+      </Tabs>
+
+      {/* 搜尋結果 */}
+      {searchResults.length > 0 && (
+        <div className="mt-8">
+          <h3 className="text-2xl font-bold mb-6">
+            找到 {searchResults.length} 個相關資料集
+          </h3>
+          <div className="space-y-4">
+            {searchResults.map((result, idx) => (
+              <Card key={idx} className="p-6 hover:shadow-lg transition-shadow">
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <h4 className="text-lg font-semibold text-gray-800 mb-2">
+                      {result.name}
+                    </h4>
+                    <div className="flex flex-wrap gap-2 mb-3">
+                      <Badge variant="outline">
+                        {result.method || '關鍵字匹配'}
+                      </Badge>
+                      {result.stage && (
+                        <Badge variant="secondary">{result.stage}</Badge>
+                      )}
+                      <Badge 
+                        className="bg-gradient-to-r from-[#667eea] to-[#764ba2] text-white"
+                      >
+                        相關度: {(result.relevance * 100).toFixed(0)}%
+                      </Badge>
+                    </div>
+                    {result.matchReason && (
+                      <p className="text-sm text-gray-600 mb-2">
+                        匹配原因: {result.matchReason}
+                      </p>
+                    )}
+                    {result.keywords && result.keywords.length > 0 && (
+                      <div className="flex flex-wrap gap-1">
+                        {result.keywords.slice(0, 5).map((kw, i) => (
+                          <Badge key={i} variant="outline" className="text-xs">
+                            {kw}
+                          </Badge>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex gap-2 ml-4">
+                    <Button 
+                      size="sm" 
+                      variant="outline"
+                      onClick={() => window.open(`https://data.gov.tw/`, '_blank')}
+                    >
+                      查看詳情
+                    </Button>
+                    <Button 
+                      size="sm"
+                      className="bg-gradient-to-r from-[#667eea] to-[#764ba2]"
+                      onClick={() => window.open(`https://data.gov.tw/`, '_blank')}
+                    >
+                      下載資料
+                    </Button>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default SearchInterface;

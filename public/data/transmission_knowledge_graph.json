@@ -1,0 +1,3280 @@
+{
+  "nodes": [
+    {
+      "id": "C001",
+      "label": "輸電線路",
+      "type": "concept",
+      "category": "設施類型",
+      "color": "#F5A623",
+      "size": 15
+    },
+    {
+      "id": "C002",
+      "label": "變壓器設備",
+      "type": "concept",
+      "category": "設備",
+      "color": "#F5A623",
+      "size": 15
+    },
+    {
+      "id": "C003",
+      "label": "變電所",
+      "type": "concept",
+      "category": "設施類型",
+      "color": "#F5A623",
+      "size": 15
+    },
+    {
+      "id": "C004",
+      "label": "開關設備",
+      "type": "concept",
+      "category": "設備",
+      "color": "#F5A623",
+      "size": 15
+    },
+    {
+      "id": "C005",
+      "label": "測量設備",
+      "type": "concept",
+      "category": "設備",
+      "color": "#F5A623",
+      "size": 15
+    },
+    {
+      "id": "C006",
+      "label": "保護設備",
+      "type": "concept",
+      "category": "設備",
+      "color": "#F5A623",
+      "size": 15
+    },
+    {
+      "id": "C007",
+      "label": "配電設備",
+      "type": "concept",
+      "category": "設備",
+      "color": "#F5A623",
+      "size": 15
+    },
+    {
+      "id": "C008",
+      "label": "電壓系統",
+      "type": "concept",
+      "category": "技術參數",
+      "color": "#F5A623",
+      "size": 15
+    },
+    {
+      "id": "C009",
+      "label": "輸電運作",
+      "type": "concept",
+      "category": "運作管理",
+      "color": "#F5A623",
+      "size": 15
+    },
+    {
+      "id": "C010",
+      "label": "輸電系統",
+      "type": "concept",
+      "category": "系統",
+      "color": "#F5A623",
+      "size": 15
+    },
+    {
+      "id": "C011",
+      "label": "互聯系統",
+      "type": "concept",
+      "category": "系統",
+      "color": "#F5A623",
+      "size": 15
+    },
+    {
+      "id": "C012",
+      "label": "高壓直流",
+      "type": "concept",
+      "category": "技術",
+      "color": "#F5A623",
+      "size": 15
+    },
+    {
+      "id": "C013",
+      "label": "線路設施",
+      "type": "concept",
+      "category": "設施",
+      "color": "#F5A623",
+      "size": 15
+    },
+    {
+      "id": "C014",
+      "label": "電力交易",
+      "type": "concept",
+      "category": "運作管理",
+      "color": "#F5A623",
+      "size": 15
+    },
+    {
+      "id": "C015",
+      "label": "故障管理",
+      "type": "concept",
+      "category": "運作管理",
+      "color": "#F5A623",
+      "size": 15
+    },
+    {
+      "id": "keyword_饋線",
+      "label": "饋線",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "",
+      "stage": "第一階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_高壓",
+      "label": "高壓",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "",
+      "stage": "第一階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_主變壓器",
+      "label": "主變壓器",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "",
+      "stage": "第一階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_變壓器",
+      "label": "變壓器",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "",
+      "stage": "第一階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_一次變電所",
+      "label": "一次變電所",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "",
+      "stage": "第一階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_變電所",
+      "label": "變電所",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "",
+      "stage": "第一階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_二次變電所",
+      "label": "二次變電所",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "",
+      "stage": "第一階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_電網",
+      "label": "電網",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "",
+      "stage": "第一階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_電壓",
+      "label": "電壓",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "",
+      "stage": "第一階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_線路損耗",
+      "label": "線路損耗",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "線路損耗是因為電力傳輸過程中所產生的能量損失，符合輸電的主要功能和特徵。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_超高壓系統",
+      "label": "超高壓系統",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "超高壓系統符合高電壓（≥69kV）系統，主要功能是長距離電力傳輸。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_一次系統",
+      "label": "一次系統",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "一次系統屬於161 kV設備，符合高電壓系統的定義，主要功能是電力傳輸。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_超高壓變電所 (仟伏安)",
+      "label": "超高壓變電所 (仟伏安)",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "超高壓變電所是高電壓系統的一部分，主要功能是大規模電力傳輸，符合輸電類別的定義。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_一次變電所 (仟伏安)",
+      "label": "一次變電所 (仟伏安)",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "一次變電所屬於高電壓系統，主要功能是大規模電力傳輸，位於發電廠到變電站之間。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_超高壓輸電線 (公里)",
+      "label": "超高壓輸電線 (公里)",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "該名詞涉及高電壓系統，主要功能為大規模電力傳輸，符合輸電類別的核心標準。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_一次輸電線 (公里)",
+      "label": "一次輸電線 (公里)",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "根據標準，此名詞涉及高電壓（161 kV）系統，並且是從發電廠到變電站的電力傳輸。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_二次系統",
+      "label": "二次系統",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "二次系統屬於69kV設備，符合高電壓系統的定義，主要功能是電力傳輸。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_線路損失率 (%)",
+      "label": "線路損失率 (%)",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "線路損失率是計算輸電過程中電量損失的指標，符合輸電的主要功能和位置特徵。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_氣衝式斷路器",
+      "label": "氣衝式斷路器",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "氣衝式斷路器是輸電系統中的重要設備，主要用於高電壓電力的傳輸和保護。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_斷路器",
+      "label": "斷路器",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "斷路器在輸電系統中用於保護和控制高電壓電力的傳輸，符合輸電的功能和位置特徵。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_隔離開關",
+      "label": "隔離開關",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "隔離開關是輸電系統中的一部分，主要功能是電力傳輸，符合輸電類別的定義。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_隔離及接地開關",
+      "label": "隔離及接地開關",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "隔離及接地開關在高電壓系統中用於電力傳輸，符合輸電類別的功能和位置特徵。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_氣體隔離開關",
+      "label": "氣體隔離開關",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "氣體隔離開關屬於輸電設備，主要用於高電壓系統中進行電力的傳輸和控制。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_氣體絕緣開關場",
+      "label": "氣體絕緣開關場",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "氣體絕緣開關場是高電壓系統的一部分，主要功能是進行大規模電力傳輸，符合輸電類別的定義。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_氣體絕緣開關設備",
+      "label": "氣體絕緣開關設備",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "氣體絕緣開關設備通常用於高電壓輸電系統，符合從發電廠到變電站的電力傳輸功能。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_高壓(電壓)",
+      "label": "高壓(電壓)",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "高壓電壓符合輸電類別的電壓等級，並且主要功能是大規模、高電壓電力傳輸。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_隔離相匯流排",
+      "label": "隔離相匯流排",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "隔離相匯流排在高電壓系統中用於電力的傳輸，符合輸電的功能和位置特徵。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_避雷器",
+      "label": "避雷器",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "避雷器是輸電系統中的保護設備，符合高電壓電力傳輸的特徵。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_磁吹式斷路器",
+      "label": "磁吹式斷路器",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "該設備可用於高電壓系統中，並且在發電廠到變電站的電力傳輸中扮演重要角色。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_油斷路器",
+      "label": "油斷路器",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "油斷路器是輸電系統中的重要設備，主要用於高電壓電力的傳輸和保護，符合輸電類別的定義。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_有載分接頭切換器",
+      "label": "有載分接頭切換器",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "有載分接頭切換器在高電壓系統中調整電壓，符合輸電的功能和位置特徵。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_六氟化硫斷路器",
+      "label": "六氟化硫斷路器",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "六氟化硫斷路器屬於輸電設備，主要用於高電壓系統中的電力傳輸。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_開關場",
+      "label": "開關場",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "開關場通常位於發電廠與變電站之間，涉及高電壓電力的傳輸，符合輸電的定義。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_開關設備",
+      "label": "開關設備",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "開關設備在高電壓系統中用於電力的傳輸，符合輸電的主要功能和系統位置要求。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_超高壓變電所",
+      "label": "超高壓變電所",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "超高壓變電所符合輸電類別的定義，主要功能是大規模、高電壓電力傳輸。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_連絡斷路器",
+      "label": "連絡斷路器",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "連絡斷路器在高電壓系統中用於控制和保護電力傳輸，符合輸電的功能和位置特徵。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_電力交易所負載",
+      "label": "電力交易所負載",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "該名詞涉及通過輸電設施接收電力，符合輸電的功能和位置特徵。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_提供控制能力的輸電系統運營商 (TSO)",
+      "label": "提供控制能力的輸電系統運營商 (TSO)",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "該名詞涉及輸電系統運營商，符合輸電的主要功能，即電力的長距離傳輸。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_高壓直流轉換站",
+      "label": "高壓直流轉換站",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "高壓直流轉換站涉及高電壓系統，主要功能為大規模電力傳輸，符合輸電類別的核心標準。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_高壓直流轉換單元",
+      "label": "高壓直流轉換單元",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "該名詞涉及高壓直流轉換，符合輸電的高電壓系統及大規模電力傳輸的定義。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_相關TSO（相關傳輸系統運營商）",
+      "label": "相關TSO（相關傳輸系統運營商）",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "該名詞涉及高壓系統的運營，符合輸電的主要功能和位置特徵。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_高壓直流系統",
+      "label": "高壓直流系統",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "高壓直流系統符合輸電類別的定義，主要功能是大規模、長距離的高電壓電力傳輸。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_傳輸系統（傳輸網絡）",
+      "label": "傳輸系統（傳輸網絡）",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "傳輸系統涉及高電壓電力的長距離傳輸，符合輸電類別的核心標準。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_輸電線路",
+      "label": "輸電線路",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "輸電線路涉及高電壓系統，主要功能是大規模電力傳輸，符合輸電類別的核心標準。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_互聯",
+      "label": "互聯",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "互聯涉及兩個或多個電力系統之間的共同傳輸線路，符合輸電的主要功能和系統位置標準。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_支持物",
+      "label": "支持物",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "支持物是輸電線路的主要支撐單元，符合輸電類別的功能和位置特徵。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_桿/塔類型",
+      "label": "桿/塔類型",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "桿/塔類型支撐輸電線，符合高電壓系統的功能，位於發電廠到變電站之間。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_連接",
+      "label": "連接",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "連接允許在兩個電力系統之間傳輸電能，符合輸電的主要功能和系統位置。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_單迴路線",
+      "label": "單迴路線",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "單迴路線符合輸電類別的定義，主要功能是長距離電力傳輸，且通常涉及高電壓系統。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_絕緣礙子",
+      "label": "絕緣礙子",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "絕緣礙子用於輸電線中，支撐導體並隔離電氣，符合輸電的功能和位置特徵。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_傳輸能力",
+      "label": "傳輸能力",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "傳輸能力涉及跨區域或國際電力線的總體容量，符合輸電類別的主要功能及系統位置標準。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_傳輸網絡",
+      "label": "傳輸網絡",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "傳輸網絡涉及高電壓系統，主要功能是大規模長距離電力傳輸，符合輸電類別標準。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_熱限值",
+      "label": "熱限值",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "熱限值與高電壓系統相關，主要功能是大規模電力傳輸，符合輸電類別的定義。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_輸電（電力）",
+      "label": "輸電（電力）",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "輸電涉及高電壓系統的電力傳輸，符合輸電類別的核心標準。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_輸電系統（電力）",
+      "label": "輸電系統（電力）",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "輸電系統涉及高電壓電力的長距離傳輸，符合輸電類別的核心標準。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_系統互聯",
+      "label": "系統互聯",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "系統互聯允許電能在任一方向傳輸，符合輸電的主要功能和系統位置。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_導體",
+      "label": "導體",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "導體用於高電壓系統的電力傳輸，符合輸電的主要功能和位置特徵。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_輸電線路（電力）",
+      "label": "輸電線路（電力）",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "輸電線路符合輸電類別的定義，因為它涉及高電壓系統並負責長距離電力傳輸。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_供電單位",
+      "label": "供電單位",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "供電單位擁有並維護輸電設施，符合輸電的主要功能和系統位置要求。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_聯絡線",
+      "label": "聯絡線",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "聯絡線符合輸電類別的定義，主要功能是大規模、高電壓的電力傳輸。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_聯絡線（電力）",
+      "label": "聯絡線（電力）",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "聯絡線連接兩個平衡權限區域，符合高電壓系統的電力傳輸功能。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_輸電限制（電力）",
+      "label": "輸電限制（電力）",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "該名詞描述的是在正常或應急系統運行期間的傳輸元件限制，符合輸電的主要功能和系統位置。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_雙回線",
+      "label": "雙回線",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "雙回線符合輸電類別的定義，主要功能是長距離、高電壓的電力傳輸。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_故障",
+      "label": "故障",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "故障涉及電力系統中的短路和導體斷裂，這些情況會影響高電壓電力的傳輸，符合輸電的主要功能。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_相關電網元件",
+      "label": "相關電網元件",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "相關電網元件屬於傳輸系統的元件，符合高電壓電力傳輸的定義。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_陸上電網互連點",
+      "label": "陸上電網互連點",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "該名詞涉及高電壓系統的連接，符合從發電廠到變電站的電力傳輸功能。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_電壓穩定性",
+      "label": "電壓穩定性",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "電壓穩定性是確保高電壓系統在傳輸過程中維持電壓的能力，符合輸電的主要功能。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_暫時允許的過載",
+      "label": "暫時允許的過載",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "該名詞描述的是傳輸系統元件的過載，符合輸電的功能識別和系統位置標準。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_離岸電網連接系統",
+      "label": "離岸電網連接系統",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "該系統涉及高電壓電力的傳輸，符合輸電類別的主要功能和系統位置標準。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_固定服務",
+      "label": "固定服務",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "固定服務是傳輸系統運營商提供的服務，符合輸電的主要功能，即電力的傳輸。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_相關系統運營商",
+      "label": "相關系統運營商",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "相關系統運營商負責將電力從發電廠傳輸到變電站，符合輸電的主要功能和位置特徵。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_常規緊急事件",
+      "label": "常規緊急事件",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "常規緊急事件描述了傳輸系統元件的損失，這些元件包括輸電線路和變壓器，符合輸電的主要功能和系統位置。",
+      "stage": "第二階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_送電端",
+      "label": "送電端",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "送電端位於輸電線路上，符合高電壓系統的電力傳輸定義。",
+      "stage": "第三階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_受電端",
+      "label": "受電端",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "受電端位於輸電線路上，符合輸電的主要功能和系統位置標準。",
+      "stage": "第三階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_二次輸電線v",
+      "label": "二次輸電線v",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "該名詞符合高電壓電力傳輸的定義，且電壓等級符合輸電標準。",
+      "stage": "第三階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_空氣斷開關",
+      "label": "空氣斷開關",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "空氣斷開關在高電壓系統中用於電力傳輸，符合輸電的主要功能和系統位置要求。",
+      "stage": "第三階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_匯流排比壓器",
+      "label": "匯流排比壓器",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "匯流排比壓器在高電壓系統中用於電壓監測，符合輸電的功能和位置特徵。",
+      "stage": "第三階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_線路比壓器",
+      "label": "線路比壓器",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "線路比壓器通常用於高電壓系統中，符合輸電的電壓等級和功能識別。",
+      "stage": "第三階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_行動電壓加壓車",
+      "label": "行動電壓加壓車",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "行動電壓加壓車可用於高電壓系統的電力傳輸，符合輸電的主要功能和系統位置要求。",
+      "stage": "第三階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_比壓器",
+      "label": "比壓器",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "比壓器通常用於高電壓系統中，符合輸電的電壓等級和功能識別。",
+      "stage": "第三階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_連絡變壓器",
+      "label": "連絡變壓器",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "連絡變壓器在高電壓系統中用於電力傳輸，符合輸電類別的功能和位置要求。",
+      "stage": "第三階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_擁堵管理",
+      "label": "擁堵管理",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "擁堵管理直接關聯於輸電系統的運營，旨在優化輸電容量的使用，符合輸電的主要功能。",
+      "stage": "第三階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_網路；系統",
+      "label": "網路；系統",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "該名詞符合輸電類別的定義，涉及高電壓系統的電力傳輸功能。",
+      "stage": "第三階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_次級傳輸",
+      "label": "次級傳輸",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "次級傳輸屬於高電壓系統，主要功能是大規模、長距離的電力傳輸，符合輸電類別的標準。",
+      "stage": "第三階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_互聯系統",
+      "label": "互聯系統",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "互聯系統涉及高電壓系統的電力傳輸，符合從發電廠到變電站的電力傳輸定義。",
+      "stage": "第三階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_輸電（電力）（動詞）",
+      "label": "輸電（電力）（動詞）",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "輸電涉及高電壓系統的電力傳輸，符合輸電類別的核心標準。",
+      "stage": "第三階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_轉供電能費",
+      "label": "轉供電能費",
+      "type": "keyword",
+      "category": "輸電",
+      "explanation": "轉供電能費涉及使用輸電線路，符合輸電的主要功能和系統位置。",
+      "stage": "第三階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "dataset_44193",
+      "label": "台灣電力公司台北市再生能源可併網容量",
+      "type": "dataset",
+      "dataset_id": 44193,
+      "color": "#7ED321",
+      "size": 6
+    },
+    {
+      "id": "dataset_44194",
+      "label": "台灣電力公司新北市再生能源可併網容量",
+      "type": "dataset",
+      "dataset_id": 44194,
+      "color": "#7ED321",
+      "size": 6
+    },
+    {
+      "id": "dataset_44195",
+      "label": "台灣電力公司桃園市再生能源可併網容量",
+      "type": "dataset",
+      "dataset_id": 44195,
+      "color": "#7ED321",
+      "size": 6
+    },
+    {
+      "id": "dataset_44196",
+      "label": "台灣電力公司台中市再生能源可併網容量",
+      "type": "dataset",
+      "dataset_id": 44196,
+      "color": "#7ED321",
+      "size": 6
+    },
+    {
+      "id": "dataset_44202",
+      "label": "台灣電力公司台南市再生能源可併網容量",
+      "type": "dataset",
+      "dataset_id": 44202,
+      "color": "#7ED321",
+      "size": 6
+    },
+    {
+      "id": "dataset_44203",
+      "label": "台灣電力公司高雄市再生能源可併網容量",
+      "type": "dataset",
+      "dataset_id": 44203,
+      "color": "#7ED321",
+      "size": 6
+    },
+    {
+      "id": "dataset_44204",
+      "label": "台灣電力公司嘉義縣市再生能源可併網容量",
+      "type": "dataset",
+      "dataset_id": 44204,
+      "color": "#7ED321",
+      "size": 6
+    },
+    {
+      "id": "dataset_44206",
+      "label": "台灣電力公司苗栗縣再生能源可併網容量",
+      "type": "dataset",
+      "dataset_id": 44206,
+      "color": "#7ED321",
+      "size": 6
+    },
+    {
+      "id": "dataset_44207",
+      "label": "台灣電力公司彰化縣再生能源可併網容量",
+      "type": "dataset",
+      "dataset_id": 44207,
+      "color": "#7ED321",
+      "size": 6
+    },
+    {
+      "id": "dataset_44208",
+      "label": "台灣電力公司雲林縣再生能源可併網容量",
+      "type": "dataset",
+      "dataset_id": 44208,
+      "color": "#7ED321",
+      "size": 6
+    },
+    {
+      "id": "dataset_44209",
+      "label": "台灣電力公司屏東縣再生能源可併網容量",
+      "type": "dataset",
+      "dataset_id": 44209,
+      "color": "#7ED321",
+      "size": 6
+    },
+    {
+      "id": "dataset_80285",
+      "label": "台灣電力公司新竹縣市再生能源可併網容量",
+      "type": "dataset",
+      "dataset_id": 80285,
+      "color": "#7ED321",
+      "size": 6
+    },
+    {
+      "id": "dataset_111479",
+      "label": "台灣電力公司基隆市再生能源可併網容量",
+      "type": "dataset",
+      "dataset_id": 111479,
+      "color": "#7ED321",
+      "size": 6
+    },
+    {
+      "id": "dataset_111480",
+      "label": "台灣電力公司南投縣再生能源可併網容量",
+      "type": "dataset",
+      "dataset_id": 111480,
+      "color": "#7ED321",
+      "size": 6
+    },
+    {
+      "id": "dataset_111481",
+      "label": "台灣電力公司宜蘭縣再生能源可併網容量",
+      "type": "dataset",
+      "dataset_id": 111481,
+      "color": "#7ED321",
+      "size": 6
+    },
+    {
+      "id": "dataset_111483",
+      "label": "台灣電力公司花蓮縣再生能源可併網容量",
+      "type": "dataset",
+      "dataset_id": 111483,
+      "color": "#7ED321",
+      "size": 6
+    },
+    {
+      "id": "dataset_111484",
+      "label": "台灣電力公司台東縣再生能源可併網容量",
+      "type": "dataset",
+      "dataset_id": 111484,
+      "color": "#7ED321",
+      "size": 6
+    },
+    {
+      "id": "dataset_161874",
+      "label": "台灣電力公司全國各縣市再生能源可併網容量",
+      "type": "dataset",
+      "dataset_id": 161874,
+      "color": "#7ED321",
+      "size": 6
+    },
+    {
+      "id": "dataset_16874",
+      "label": "台灣電力公司超高壓及一次變電所主變壓器裝置容量及負載",
+      "type": "dataset",
+      "dataset_id": 16874,
+      "color": "#7ED321",
+      "size": 6
+    },
+    {
+      "id": "dataset_16960",
+      "label": "台灣電力公司二次變電所主變壓器裝置容量及負載",
+      "type": "dataset",
+      "dataset_id": 16960,
+      "color": "#7ED321",
+      "size": 6
+    },
+    {
+      "id": "dataset_166642",
+      "label": "台灣電力公司郝明義提問配電變壓器採V-V接線疑義",
+      "type": "dataset",
+      "dataset_id": 166642,
+      "color": "#7ED321",
+      "size": 6
+    },
+    {
+      "id": "dataset_16877",
+      "label": "台灣電力公司變電所電磁場資訊",
+      "type": "dataset",
+      "dataset_id": 16877,
+      "color": "#7ED321",
+      "size": 6
+    },
+    {
+      "id": "dataset_29954",
+      "label": "台灣電力公司第七輸變電計畫歷年加入系統新增變電所數量",
+      "type": "dataset",
+      "dataset_id": 29954,
+      "color": "#7ED321",
+      "size": 6
+    },
+    {
+      "id": "dataset_161296",
+      "label": "台灣電力公司年度電力品質報告",
+      "type": "dataset",
+      "dataset_id": 161296,
+      "color": "#7ED321",
+      "size": 6
+    },
+    {
+      "id": "dataset_122036",
+      "label": "台灣電力公司年度線路損失量(率)",
+      "type": "dataset",
+      "dataset_id": 122036,
+      "color": "#7ED321",
+      "size": 6
+    },
+    {
+      "id": "dataset_29953",
+      "label": "台灣電力公司第七輸變電計畫歷年加入系統新增CKM數",
+      "type": "dataset",
+      "dataset_id": 29953,
+      "color": "#7ED321",
+      "size": 6
+    },
+    {
+      "id": "dataset_166619",
+      "label": "台灣電力公司輸變電計畫資訊",
+      "type": "dataset",
+      "dataset_id": 166619,
+      "color": "#7ED321",
+      "size": 6
+    },
+    {
+      "id": "dataset_103046",
+      "label": "台灣電力公司近5年系統概況",
+      "type": "dataset",
+      "dataset_id": 103046,
+      "color": "#7ED321",
+      "size": 6
+    },
+    {
+      "id": "dataset_33305",
+      "label": "台灣電力公司電桿坐標及桿號",
+      "type": "dataset",
+      "dataset_id": 33305,
+      "color": "#7ED321",
+      "size": 6
+    },
+    {
+      "id": "dataset_29929",
+      "label": "台灣電力公司供電系統介紹",
+      "type": "dataset",
+      "dataset_id": 29929,
+      "color": "#7ED321",
+      "size": 6
+    },
+    {
+      "id": "dataset_8934",
+      "label": "台灣電力公司水火力發電廠位置及機組設備",
+      "type": "dataset",
+      "dataset_id": 8934,
+      "color": "#7ED321",
+      "size": 6
+    },
+    {
+      "id": "dataset_166611",
+      "label": "台灣電力公司「電源不足時期限制用電辦法」執行及通報機制",
+      "type": "dataset",
+      "dataset_id": 166611,
+      "color": "#7ED321",
+      "size": 6
+    },
+    {
+      "id": "dataset_122741",
+      "label": "台灣電力公司配電系統重大事故停電速報案件記錄",
+      "type": "dataset",
+      "dataset_id": 122741,
+      "color": "#7ED321",
+      "size": 6
+    },
+    {
+      "id": "dataset_6570",
+      "label": "台灣電力公司服務據點相關資訊",
+      "type": "dataset",
+      "dataset_id": 6570,
+      "color": "#7ED321",
+      "size": 6
+    },
+    {
+      "id": "dataset_166610",
+      "label": "台灣電力公司電力系統緊急調度原則",
+      "type": "dataset",
+      "dataset_id": 166610,
+      "color": "#7ED321",
+      "size": 6
+    },
+    {
+      "id": "dataset_29936",
+      "label": "台灣電力公司各縣市再生能源別購入情形",
+      "type": "dataset",
+      "dataset_id": 29936,
+      "color": "#7ED321",
+      "size": 6
+    },
+    {
+      "id": "dataset_166643",
+      "label": "台灣電力公司配電線路事故分析",
+      "type": "dataset",
+      "dataset_id": 166643,
+      "color": "#7ED321",
+      "size": 6
+    },
+    {
+      "id": "dataset_26144",
+      "label": "台灣電力公司計畫性工作停電資料",
+      "type": "dataset",
+      "dataset_id": 26144,
+      "color": "#7ED321",
+      "size": 6
+    },
+    {
+      "id": "dataset_37326",
+      "label": "台灣電力公司各區域間過去電力潮流量",
+      "type": "dataset",
+      "dataset_id": 37326,
+      "color": "#7ED321",
+      "size": 6
+    },
+    {
+      "id": "dataset_35392",
+      "label": "台灣電力公司發購電量(能源別)及公用售電業售電量(用途別)",
+      "type": "dataset",
+      "dataset_id": 35392,
+      "color": "#7ED321",
+      "size": 6
+    },
+    {
+      "id": "dataset_17052",
+      "label": "台灣電力公司電價種類及適用範圍",
+      "type": "dataset",
+      "dataset_id": 17052,
+      "color": "#7ED321",
+      "size": 6
+    }
+  ],
+  "metadata": {
+    "total_nodes": 143,
+    "total_links": 186,
+    "total_keywords": 87,
+    "total_datasets": 41,
+    "stage1_count": 9,
+    "stage2_count": 63,
+    "stage3_count": 15,
+    "total_concepts": 15
+  },
+  "links": [
+    {
+      "id": "E0",
+      "source": "keyword_饋線",
+      "target": "C007",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E1",
+      "source": "keyword_高壓",
+      "target": "C008",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E2",
+      "source": "keyword_主變壓器",
+      "target": "C002",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E3",
+      "source": "keyword_變壓器",
+      "target": "C002",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E4",
+      "source": "keyword_一次變電所",
+      "target": "C003",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E5",
+      "source": "keyword_變電所",
+      "target": "C003",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E6",
+      "source": "keyword_二次變電所",
+      "target": "C003",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E7",
+      "source": "keyword_電網",
+      "target": "C010",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E8",
+      "source": "keyword_電壓",
+      "target": "C008",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E9",
+      "source": "keyword_線路損耗",
+      "target": "C009",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E10",
+      "source": "keyword_超高壓系統",
+      "target": "C008",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E11",
+      "source": "keyword_一次系統",
+      "target": "C008",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E12",
+      "source": "keyword_超高壓變電所 (仟伏安)",
+      "target": "C003",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E13",
+      "source": "keyword_一次變電所 (仟伏安)",
+      "target": "C003",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E14",
+      "source": "keyword_超高壓輸電線 (公里)",
+      "target": "C001",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E15",
+      "source": "keyword_一次輸電線 (公里)",
+      "target": "C001",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E16",
+      "source": "keyword_二次系統",
+      "target": "C008",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E17",
+      "source": "keyword_線路損失率 (%)",
+      "target": "C009",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E18",
+      "source": "keyword_氣衝式斷路器",
+      "target": "C004",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E19",
+      "source": "keyword_斷路器",
+      "target": "C004",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E20",
+      "source": "keyword_隔離開關",
+      "target": "C004",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E21",
+      "source": "keyword_隔離及接地開關",
+      "target": "C004",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E22",
+      "source": "keyword_氣體隔離開關",
+      "target": "C004",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E23",
+      "source": "keyword_氣體絕緣開關場",
+      "target": "C004",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E24",
+      "source": "keyword_氣體絕緣開關設備",
+      "target": "C004",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E25",
+      "source": "keyword_高壓(電壓)",
+      "target": "C008",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E26",
+      "source": "keyword_隔離相匯流排",
+      "target": "C007",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E27",
+      "source": "keyword_避雷器",
+      "target": "C006",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E28",
+      "source": "keyword_磁吹式斷路器",
+      "target": "C004",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E29",
+      "source": "keyword_油斷路器",
+      "target": "C004",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E30",
+      "source": "keyword_有載分接頭切換器",
+      "target": "C002",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E31",
+      "source": "keyword_六氟化硫斷路器",
+      "target": "C004",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E32",
+      "source": "keyword_開關場",
+      "target": "C004",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E33",
+      "source": "keyword_開關設備",
+      "target": "C004",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E34",
+      "source": "keyword_超高壓變電所",
+      "target": "C003",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E35",
+      "source": "keyword_連絡斷路器",
+      "target": "C004",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E36",
+      "source": "keyword_電力交易所負載",
+      "target": "C014",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E37",
+      "source": "keyword_提供控制能力的輸電系統運營商 (TSO)",
+      "target": "C010",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E38",
+      "source": "keyword_高壓直流轉換站",
+      "target": "C012",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E39",
+      "source": "keyword_高壓直流轉換單元",
+      "target": "C012",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E40",
+      "source": "keyword_相關TSO（相關傳輸系統運營商）",
+      "target": "C010",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E41",
+      "source": "keyword_高壓直流系統",
+      "target": "C012",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E42",
+      "source": "keyword_傳輸系統（傳輸網絡）",
+      "target": "C010",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E43",
+      "source": "keyword_輸電線路",
+      "target": "C001",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E44",
+      "source": "keyword_互聯",
+      "target": "C011",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E45",
+      "source": "keyword_支持物",
+      "target": "C013",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E46",
+      "source": "keyword_桿/塔類型",
+      "target": "C013",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E47",
+      "source": "keyword_連接",
+      "target": "C011",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E48",
+      "source": "keyword_單迴路線",
+      "target": "C001",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E49",
+      "source": "keyword_絕緣礙子",
+      "target": "C013",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E50",
+      "source": "keyword_傳輸能力",
+      "target": "C009",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E51",
+      "source": "keyword_傳輸網絡",
+      "target": "C010",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E52",
+      "source": "keyword_熱限值",
+      "target": "C009",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E53",
+      "source": "keyword_輸電（電力）",
+      "target": "C009",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E54",
+      "source": "keyword_輸電系統（電力）",
+      "target": "C010",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E55",
+      "source": "keyword_系統互聯",
+      "target": "C011",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E56",
+      "source": "keyword_導體",
+      "target": "C013",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E57",
+      "source": "keyword_輸電線路（電力）",
+      "target": "C001",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E58",
+      "source": "keyword_供電單位",
+      "target": "C010",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E59",
+      "source": "keyword_聯絡線",
+      "target": "C001",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E60",
+      "source": "keyword_聯絡線（電力）",
+      "target": "C001",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E61",
+      "source": "keyword_輸電限制（電力）",
+      "target": "C009",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E62",
+      "source": "keyword_雙回線",
+      "target": "C001",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E63",
+      "source": "keyword_故障",
+      "target": "C015",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E64",
+      "source": "keyword_相關電網元件",
+      "target": "C015",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E65",
+      "source": "keyword_陸上電網互連點",
+      "target": "C011",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E66",
+      "source": "keyword_電壓穩定性",
+      "target": "C008",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E67",
+      "source": "keyword_暫時允許的過載",
+      "target": "C009",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E68",
+      "source": "keyword_離岸電網連接系統",
+      "target": "C011",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E69",
+      "source": "keyword_固定服務",
+      "target": "C014",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E70",
+      "source": "keyword_相關系統運營商",
+      "target": "C010",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E71",
+      "source": "keyword_常規緊急事件",
+      "target": "C015",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E72",
+      "source": "keyword_送電端",
+      "target": "C009",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E73",
+      "source": "keyword_受電端",
+      "target": "C009",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E74",
+      "source": "keyword_二次輸電線v",
+      "target": "C001",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E75",
+      "source": "keyword_空氣斷開關",
+      "target": "C004",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E76",
+      "source": "keyword_匯流排比壓器",
+      "target": "C005",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E77",
+      "source": "keyword_線路比壓器",
+      "target": "C005",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E78",
+      "source": "keyword_行動電壓加壓車",
+      "target": "C002",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E79",
+      "source": "keyword_比壓器",
+      "target": "C005",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E80",
+      "source": "keyword_連絡變壓器",
+      "target": "C002",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E81",
+      "source": "keyword_擁堵管理",
+      "target": "C009",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E82",
+      "source": "keyword_網路；系統",
+      "target": "C010",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E83",
+      "source": "keyword_次級傳輸",
+      "target": "C001",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E84",
+      "source": "keyword_互聯系統",
+      "target": "C011",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E85",
+      "source": "keyword_輸電（電力）（動詞）",
+      "target": "C009",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E86",
+      "source": "keyword_轉供電能費",
+      "target": "C014",
+      "type": "keyword_to_concept",
+      "color": "#4A90E2",
+      "width": 1
+    },
+    {
+      "id": "E87",
+      "source": "C007",
+      "target": "dataset_44193",
+      "type": "concept_to_dataset",
+      "score": 1.0,
+      "via_keywords": [
+        "饋線"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E88",
+      "source": "C007",
+      "target": "dataset_44194",
+      "type": "concept_to_dataset",
+      "score": 1.0,
+      "via_keywords": [
+        "饋線"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E89",
+      "source": "C007",
+      "target": "dataset_44195",
+      "type": "concept_to_dataset",
+      "score": 1.0,
+      "via_keywords": [
+        "饋線"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E90",
+      "source": "C007",
+      "target": "dataset_44196",
+      "type": "concept_to_dataset",
+      "score": 1.0,
+      "via_keywords": [
+        "饋線"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E91",
+      "source": "C007",
+      "target": "dataset_44202",
+      "type": "concept_to_dataset",
+      "score": 1.0,
+      "via_keywords": [
+        "饋線"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E92",
+      "source": "C007",
+      "target": "dataset_44203",
+      "type": "concept_to_dataset",
+      "score": 1.0,
+      "via_keywords": [
+        "饋線"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E93",
+      "source": "C007",
+      "target": "dataset_44204",
+      "type": "concept_to_dataset",
+      "score": 1.0,
+      "via_keywords": [
+        "饋線"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E94",
+      "source": "C007",
+      "target": "dataset_44206",
+      "type": "concept_to_dataset",
+      "score": 1.0,
+      "via_keywords": [
+        "饋線"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E95",
+      "source": "C007",
+      "target": "dataset_44207",
+      "type": "concept_to_dataset",
+      "score": 1.0,
+      "via_keywords": [
+        "饋線"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E96",
+      "source": "C007",
+      "target": "dataset_44208",
+      "type": "concept_to_dataset",
+      "score": 1.0,
+      "via_keywords": [
+        "饋線"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E97",
+      "source": "C007",
+      "target": "dataset_44209",
+      "type": "concept_to_dataset",
+      "score": 1.0,
+      "via_keywords": [
+        "饋線"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E98",
+      "source": "C007",
+      "target": "dataset_80285",
+      "type": "concept_to_dataset",
+      "score": 1.0,
+      "via_keywords": [
+        "饋線"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E99",
+      "source": "C007",
+      "target": "dataset_111479",
+      "type": "concept_to_dataset",
+      "score": 1.0,
+      "via_keywords": [
+        "饋線"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E100",
+      "source": "C007",
+      "target": "dataset_111480",
+      "type": "concept_to_dataset",
+      "score": 1.0,
+      "via_keywords": [
+        "饋線"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E101",
+      "source": "C007",
+      "target": "dataset_111481",
+      "type": "concept_to_dataset",
+      "score": 1.0,
+      "via_keywords": [
+        "饋線"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E102",
+      "source": "C007",
+      "target": "dataset_111483",
+      "type": "concept_to_dataset",
+      "score": 1.0,
+      "via_keywords": [
+        "饋線"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E103",
+      "source": "C007",
+      "target": "dataset_111484",
+      "type": "concept_to_dataset",
+      "score": 1.0,
+      "via_keywords": [
+        "饋線"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E104",
+      "source": "C007",
+      "target": "dataset_161874",
+      "type": "concept_to_dataset",
+      "score": 1.0,
+      "via_keywords": [
+        "饋線"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E105",
+      "source": "C008",
+      "target": "dataset_16874",
+      "type": "concept_to_dataset",
+      "score": 0.8875,
+      "via_keywords": [
+        "高壓(電壓)",
+        "一次系統",
+        "超高壓系統",
+        "高壓"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E106",
+      "source": "C008",
+      "target": "dataset_16960",
+      "type": "concept_to_dataset",
+      "score": 0.8833333333333333,
+      "via_keywords": [
+        "二次系統",
+        "一次系統",
+        "高壓"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E107",
+      "source": "C002",
+      "target": "dataset_16874",
+      "type": "concept_to_dataset",
+      "score": 0.89,
+      "via_keywords": [
+        "變壓器",
+        "主變壓器",
+        "有載分接頭切換器",
+        "連絡變壓器"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E108",
+      "source": "C002",
+      "target": "dataset_16960",
+      "type": "concept_to_dataset",
+      "score": 0.925,
+      "via_keywords": [
+        "變壓器",
+        "主變壓器",
+        "連絡變壓器"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E109",
+      "source": "C002",
+      "target": "dataset_44193",
+      "type": "concept_to_dataset",
+      "score": 1.0,
+      "via_keywords": [
+        "變壓器"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E110",
+      "source": "C002",
+      "target": "dataset_44194",
+      "type": "concept_to_dataset",
+      "score": 1.0,
+      "via_keywords": [
+        "變壓器"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E111",
+      "source": "C002",
+      "target": "dataset_44195",
+      "type": "concept_to_dataset",
+      "score": 1.0,
+      "via_keywords": [
+        "變壓器"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E112",
+      "source": "C002",
+      "target": "dataset_44196",
+      "type": "concept_to_dataset",
+      "score": 1.0,
+      "via_keywords": [
+        "變壓器"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E113",
+      "source": "C002",
+      "target": "dataset_44202",
+      "type": "concept_to_dataset",
+      "score": 1.0,
+      "via_keywords": [
+        "變壓器"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E114",
+      "source": "C002",
+      "target": "dataset_44203",
+      "type": "concept_to_dataset",
+      "score": 1.0,
+      "via_keywords": [
+        "變壓器"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E115",
+      "source": "C002",
+      "target": "dataset_44204",
+      "type": "concept_to_dataset",
+      "score": 1.0,
+      "via_keywords": [
+        "變壓器"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E116",
+      "source": "C002",
+      "target": "dataset_44206",
+      "type": "concept_to_dataset",
+      "score": 1.0,
+      "via_keywords": [
+        "變壓器"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E117",
+      "source": "C002",
+      "target": "dataset_44207",
+      "type": "concept_to_dataset",
+      "score": 1.0,
+      "via_keywords": [
+        "變壓器"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E118",
+      "source": "C002",
+      "target": "dataset_44208",
+      "type": "concept_to_dataset",
+      "score": 1.0,
+      "via_keywords": [
+        "變壓器"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E119",
+      "source": "C002",
+      "target": "dataset_44209",
+      "type": "concept_to_dataset",
+      "score": 1.0,
+      "via_keywords": [
+        "變壓器"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E120",
+      "source": "C002",
+      "target": "dataset_80285",
+      "type": "concept_to_dataset",
+      "score": 1.0,
+      "via_keywords": [
+        "變壓器"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E121",
+      "source": "C002",
+      "target": "dataset_111479",
+      "type": "concept_to_dataset",
+      "score": 1.0,
+      "via_keywords": [
+        "變壓器"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E122",
+      "source": "C002",
+      "target": "dataset_111480",
+      "type": "concept_to_dataset",
+      "score": 1.0,
+      "via_keywords": [
+        "變壓器"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E123",
+      "source": "C002",
+      "target": "dataset_111481",
+      "type": "concept_to_dataset",
+      "score": 1.0,
+      "via_keywords": [
+        "變壓器"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E124",
+      "source": "C002",
+      "target": "dataset_111483",
+      "type": "concept_to_dataset",
+      "score": 1.0,
+      "via_keywords": [
+        "變壓器"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E125",
+      "source": "C002",
+      "target": "dataset_111484",
+      "type": "concept_to_dataset",
+      "score": 1.0,
+      "via_keywords": [
+        "變壓器"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E126",
+      "source": "C002",
+      "target": "dataset_161874",
+      "type": "concept_to_dataset",
+      "score": 1.0,
+      "via_keywords": [
+        "變壓器"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E127",
+      "source": "C002",
+      "target": "dataset_166642",
+      "type": "concept_to_dataset",
+      "score": 1.0,
+      "via_keywords": [
+        "變壓器"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E128",
+      "source": "C003",
+      "target": "dataset_16874",
+      "type": "concept_to_dataset",
+      "score": 0.9750000000000001,
+      "via_keywords": [
+        "變電所",
+        "超高壓變電所 (仟伏安)",
+        "超高壓變電所",
+        "一次變電所 (仟伏安)",
+        "一次變電所"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E129",
+      "source": "C003",
+      "target": "dataset_16960",
+      "type": "concept_to_dataset",
+      "score": 1.0,
+      "via_keywords": [
+        "一次變電所",
+        "變電所",
+        "二次變電所"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E130",
+      "source": "C003",
+      "target": "dataset_16877",
+      "type": "concept_to_dataset",
+      "score": 1.0,
+      "via_keywords": [
+        "變電所"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E131",
+      "source": "C003",
+      "target": "dataset_29954",
+      "type": "concept_to_dataset",
+      "score": 1.0,
+      "via_keywords": [
+        "變電所"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E132",
+      "source": "C010",
+      "target": "dataset_161296",
+      "type": "concept_to_dataset",
+      "score": 1.0,
+      "via_keywords": [
+        "電網"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E133",
+      "source": "C008",
+      "target": "dataset_161296",
+      "type": "concept_to_dataset",
+      "score": 0.925,
+      "via_keywords": [
+        "電壓穩定性",
+        "電壓"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E134",
+      "source": "C009",
+      "target": "dataset_122036",
+      "type": "concept_to_dataset",
+      "score": 0.8,
+      "via_keywords": [
+        "擁堵管理",
+        "線路損耗",
+        "輸電（電力）（動詞）",
+        "線路損失率 (%)",
+        "送電端"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E135",
+      "source": "C001",
+      "target": "dataset_29953",
+      "type": "concept_to_dataset",
+      "score": 0.8166666666666668,
+      "via_keywords": [
+        "一次輸電線 (公里)",
+        "超高壓輸電線 (公里)",
+        "次級傳輸"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E136",
+      "source": "C004",
+      "target": "dataset_16874",
+      "type": "concept_to_dataset",
+      "score": 0.703846153846154,
+      "via_keywords": [
+        "六氟化硫斷路器",
+        "氣衝式斷路器",
+        "開關設備",
+        "隔離開關",
+        "開關場",
+        "氣體隔離開關",
+        "斷路器",
+        "隔離及接地開關",
+        "磁吹式斷路器",
+        "油斷路器"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E137",
+      "source": "C004",
+      "target": "dataset_166619",
+      "type": "concept_to_dataset",
+      "score": 0.7124999999999999,
+      "via_keywords": [
+        "氣體絕緣開關場",
+        "連絡斷路器",
+        "開關場",
+        "氣體絕緣開關設備"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E138",
+      "source": "C007",
+      "target": "dataset_166619",
+      "type": "concept_to_dataset",
+      "score": 0.65,
+      "via_keywords": [
+        "隔離相匯流排"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E139",
+      "source": "C006",
+      "target": "dataset_166619",
+      "type": "concept_to_dataset",
+      "score": 0.75,
+      "via_keywords": [
+        "避雷器"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E140",
+      "source": "C014",
+      "target": "dataset_103046",
+      "type": "concept_to_dataset",
+      "score": 0.7,
+      "via_keywords": [
+        "電力交易所負載"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E141",
+      "source": "C010",
+      "target": "dataset_166619",
+      "type": "concept_to_dataset",
+      "score": 0.8099999999999999,
+      "via_keywords": [
+        "相關系統運營商",
+        "傳輸網絡",
+        "相關TSO（相關傳輸系統運營商）",
+        "傳輸系統（傳輸網絡）",
+        "提供控制能力的輸電系統運營商 (TSO)"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E142",
+      "source": "C012",
+      "target": "dataset_166619",
+      "type": "concept_to_dataset",
+      "score": 0.7166666666666667,
+      "via_keywords": [
+        "高壓直流轉換單元",
+        "高壓直流系統",
+        "高壓直流轉換站"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E143",
+      "source": "C012",
+      "target": "dataset_16874",
+      "type": "concept_to_dataset",
+      "score": 0.65,
+      "via_keywords": [
+        "高壓直流系統"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E144",
+      "source": "C001",
+      "target": "dataset_122036",
+      "type": "concept_to_dataset",
+      "score": 0.75,
+      "via_keywords": [
+        "二次輸電線v",
+        "輸電線路"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E145",
+      "source": "C001",
+      "target": "dataset_33305",
+      "type": "concept_to_dataset",
+      "score": 0.7,
+      "via_keywords": [
+        "輸電線路"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E146",
+      "source": "C011",
+      "target": "dataset_166619",
+      "type": "concept_to_dataset",
+      "score": 0.75,
+      "via_keywords": [
+        "離岸電網連接系統",
+        "互聯",
+        "互聯系統"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E147",
+      "source": "C013",
+      "target": "dataset_33305",
+      "type": "concept_to_dataset",
+      "score": 0.8000000000000002,
+      "via_keywords": [
+        "桿/塔類型",
+        "導體",
+        "支持物"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E148",
+      "source": "C011",
+      "target": "dataset_29953",
+      "type": "concept_to_dataset",
+      "score": 0.725,
+      "via_keywords": [
+        "系統互聯",
+        "連接"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E149",
+      "source": "C011",
+      "target": "dataset_29954",
+      "type": "concept_to_dataset",
+      "score": 0.725,
+      "via_keywords": [
+        "系統互聯",
+        "連接"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E150",
+      "source": "C001",
+      "target": "dataset_166619",
+      "type": "concept_to_dataset",
+      "score": 0.825,
+      "via_keywords": [
+        "輸電線路（電力）",
+        "輸電線路",
+        "雙回線",
+        "單迴路線"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E151",
+      "source": "C013",
+      "target": "dataset_166619",
+      "type": "concept_to_dataset",
+      "score": 0.7,
+      "via_keywords": [
+        "絕緣礙子"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E152",
+      "source": "C009",
+      "target": "dataset_16874",
+      "type": "concept_to_dataset",
+      "score": 0.8,
+      "via_keywords": [
+        "熱限值",
+        "輸電（電力）",
+        "受電端",
+        "傳輸能力",
+        "暫時允許的過載"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E153",
+      "source": "C009",
+      "target": "dataset_166619",
+      "type": "concept_to_dataset",
+      "score": 0.7766666666666667,
+      "via_keywords": [
+        "傳輸能力",
+        "擁堵管理",
+        "送電端"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E154",
+      "source": "C010",
+      "target": "dataset_16874",
+      "type": "concept_to_dataset",
+      "score": 0.9,
+      "via_keywords": [
+        "輸電系統（電力）"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E155",
+      "source": "C010",
+      "target": "dataset_122036",
+      "type": "concept_to_dataset",
+      "score": 0.8,
+      "via_keywords": [
+        "輸電系統（電力）"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E156",
+      "source": "C010",
+      "target": "dataset_29929",
+      "type": "concept_to_dataset",
+      "score": 0.75,
+      "via_keywords": [
+        "網路；系統",
+        "供電單位"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E157",
+      "source": "C001",
+      "target": "dataset_8934",
+      "type": "concept_to_dataset",
+      "score": 0.65,
+      "via_keywords": [
+        "聯絡線（電力）",
+        "聯絡線"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E158",
+      "source": "C009",
+      "target": "dataset_166611",
+      "type": "concept_to_dataset",
+      "score": 0.75,
+      "via_keywords": [
+        "輸電限制（電力）"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E159",
+      "source": "C015",
+      "target": "dataset_122741",
+      "type": "concept_to_dataset",
+      "score": 0.9,
+      "via_keywords": [
+        "故障"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E160",
+      "source": "C015",
+      "target": "dataset_16874",
+      "type": "concept_to_dataset",
+      "score": 0.8,
+      "via_keywords": [
+        "相關電網元件"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E161",
+      "source": "C015",
+      "target": "dataset_16877",
+      "type": "concept_to_dataset",
+      "score": 0.7,
+      "via_keywords": [
+        "相關電網元件"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E162",
+      "source": "C011",
+      "target": "dataset_44193",
+      "type": "concept_to_dataset",
+      "score": 0.7,
+      "via_keywords": [
+        "陸上電網互連點"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E163",
+      "source": "C011",
+      "target": "dataset_44194",
+      "type": "concept_to_dataset",
+      "score": 0.7,
+      "via_keywords": [
+        "陸上電網互連點"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E164",
+      "source": "C011",
+      "target": "dataset_44195",
+      "type": "concept_to_dataset",
+      "score": 0.7,
+      "via_keywords": [
+        "陸上電網互連點"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E165",
+      "source": "C011",
+      "target": "dataset_44196",
+      "type": "concept_to_dataset",
+      "score": 0.7,
+      "via_keywords": [
+        "陸上電網互連點"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E166",
+      "source": "C011",
+      "target": "dataset_44202",
+      "type": "concept_to_dataset",
+      "score": 0.7,
+      "via_keywords": [
+        "陸上電網互連點"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E167",
+      "source": "C011",
+      "target": "dataset_44203",
+      "type": "concept_to_dataset",
+      "score": 0.7,
+      "via_keywords": [
+        "陸上電網互連點"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E168",
+      "source": "C011",
+      "target": "dataset_44204",
+      "type": "concept_to_dataset",
+      "score": 0.7,
+      "via_keywords": [
+        "陸上電網互連點"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E169",
+      "source": "C014",
+      "target": "dataset_6570",
+      "type": "concept_to_dataset",
+      "score": 0.7,
+      "via_keywords": [
+        "固定服務"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E170",
+      "source": "C015",
+      "target": "dataset_166610",
+      "type": "concept_to_dataset",
+      "score": 0.9,
+      "via_keywords": [
+        "常規緊急事件"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E171",
+      "source": "C009",
+      "target": "dataset_16960",
+      "type": "concept_to_dataset",
+      "score": 0.8,
+      "via_keywords": [
+        "受電端"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E172",
+      "source": "C009",
+      "target": "dataset_29936",
+      "type": "concept_to_dataset",
+      "score": 0.6,
+      "via_keywords": [
+        "受電端"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E173",
+      "source": "C001",
+      "target": "dataset_166643",
+      "type": "concept_to_dataset",
+      "score": 0.65,
+      "via_keywords": [
+        "二次輸電線v"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E174",
+      "source": "C004",
+      "target": "dataset_166643",
+      "type": "concept_to_dataset",
+      "score": 0.7,
+      "via_keywords": [
+        "空氣斷開關"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E175",
+      "source": "C004",
+      "target": "dataset_26144",
+      "type": "concept_to_dataset",
+      "score": 0.6,
+      "via_keywords": [
+        "空氣斷開關"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E176",
+      "source": "C005",
+      "target": "dataset_161296",
+      "type": "concept_to_dataset",
+      "score": 0.7333333333333334,
+      "via_keywords": [
+        "線路比壓器",
+        "匯流排比壓器",
+        "比壓器"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E177",
+      "source": "C005",
+      "target": "dataset_122036",
+      "type": "concept_to_dataset",
+      "score": 0.6499999999999999,
+      "via_keywords": [
+        "線路比壓器",
+        "比壓器"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E178",
+      "source": "C002",
+      "target": "dataset_26144",
+      "type": "concept_to_dataset",
+      "score": 0.65,
+      "via_keywords": [
+        "行動電壓加壓車"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E179",
+      "source": "C002",
+      "target": "dataset_166610",
+      "type": "concept_to_dataset",
+      "score": 0.6,
+      "via_keywords": [
+        "行動電壓加壓車"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E180",
+      "source": "C010",
+      "target": "dataset_103046",
+      "type": "concept_to_dataset",
+      "score": 0.75,
+      "via_keywords": [
+        "網路；系統"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E181",
+      "source": "C001",
+      "target": "dataset_16960",
+      "type": "concept_to_dataset",
+      "score": 0.8,
+      "via_keywords": [
+        "次級傳輸"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E182",
+      "source": "C011",
+      "target": "dataset_122036",
+      "type": "concept_to_dataset",
+      "score": 0.65,
+      "via_keywords": [
+        "互聯系統"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E183",
+      "source": "C009",
+      "target": "dataset_37326",
+      "type": "concept_to_dataset",
+      "score": 0.8,
+      "via_keywords": [
+        "輸電（電力）（動詞）"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E184",
+      "source": "C014",
+      "target": "dataset_35392",
+      "type": "concept_to_dataset",
+      "score": 0.7,
+      "via_keywords": [
+        "轉供電能費"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    },
+    {
+      "id": "E185",
+      "source": "C014",
+      "target": "dataset_17052",
+      "type": "concept_to_dataset",
+      "score": 0.7,
+      "via_keywords": [
+        "轉供電能費"
+      ],
+      "color": "#7ED321",
+      "width": 1.5
+    }
+  ]
+}
