@@ -19,21 +19,37 @@ const ConceptExplorer = ({ onConceptSelect }: ConceptExplorerProps) => {
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
 
   useEffect(() => {
-    fetch("/data/transmission_knowledge_graph.json")
-      .then((r) => r.json())
-      .then((data) => {
-        const conceptNodes = data.nodes.filter((n: any) => n.type === "concept");
+    // 同時載入知識圖譜和匹配結果
+    Promise.all([
+      fetch("/data/transmission_knowledge_graph.json").then(r => r.json()),
+      fetch("/data/transmission_matching_results.json").then(r => r.json())
+    ])
+      .then(([kgData, matchingData]) => {
+        const conceptNodes = kgData.nodes.filter((n: any) => n.type === "concept");
         
-        // 過濾出有連接到關鍵字的概念（即有資料集）
-        const conceptsWithKeywords = conceptNodes.filter((concept: any) => {
-          const hasKeywordLinks = data.links?.some(
+        // 獲取所有在 matching_results 中存在的關鍵字
+        const availableKeywords = new Set(
+          matchingData.matching_results.map((r: any) => r.關鍵字)
+        );
+        
+        // 過濾出有連接到「存在於 matching_results 中的關鍵字」的概念
+        const conceptsWithDatasets = conceptNodes.filter((concept: any) => {
+          const keywordLinks = kgData.links?.filter(
             (link: any) => link.type === 'keyword_to_concept' && link.target === concept.id
-          );
-          return hasKeywordLinks;
+          ) || [];
+          
+          // 檢查是否至少有一個關鍵字在 matching_results 中存在
+          const hasValidKeyword = keywordLinks.some((link: any) => {
+            const keywordName = link.source.replace('keyword_', '');
+            return availableKeywords.has(keywordName);
+          });
+          
+          return hasValidKeyword;
         });
         
-        console.log(`總共 ${conceptNodes.length} 個概念，其中 ${conceptsWithKeywords.length} 個有連接到資料集`);
-        setConcepts(conceptsWithKeywords);
+        console.log(`總共 ${conceptNodes.length} 個概念，其中 ${conceptsWithDatasets.length} 個有連接到有效的資料集`);
+        console.log(`可用關鍵字數量: ${availableKeywords.size}`);
+        setConcepts(conceptsWithDatasets);
       })
       .catch((err) => console.error("載入概念失敗:", err));
   }, []);
