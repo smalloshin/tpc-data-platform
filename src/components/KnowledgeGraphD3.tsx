@@ -195,26 +195,61 @@ const KnowledgeGraphD3 = ({ onConceptClick }: KnowledgeGraphD3Props) => {
       connectedNodeIds.add(d.id);
       
       if (d.type === 'keyword') {
-        // 如果點擊的是關鍵字
+        // 如果點擊的是關鍵字，需要高亮兩層路徑：關鍵字 → 概念 → 資料集
+        const connectedConceptIds = new Set<string>();
+        
+        // 第一層：找到與關鍵字相連的概念
         links.forEach((link: any) => {
           const sourceId = typeof link.source === 'object' ? link.source.id : link.source;
           const targetId = typeof link.target === 'object' ? link.target.id : link.target;
           const sourceNode = nodes.find(n => n.id === sourceId);
           const targetNode = nodes.find(n => n.id === targetId);
           
-          // 1. 高亮與關鍵字相連的概念
+          // 高亮與關鍵字相連的概念
           if (sourceId === d.id && targetNode?.type === 'concept') {
             connectedNodeIds.add(targetId);
+            connectedConceptIds.add(targetId);
             highlightedLinks.add(`${sourceId}-${targetId}`);
           }
           if (targetId === d.id && sourceNode?.type === 'concept') {
             connectedNodeIds.add(sourceId);
+            connectedConceptIds.add(sourceId);
             highlightedLinks.add(`${sourceId}-${targetId}`);
           }
+        });
+        
+        // 第二層：找到這些概念相連的資料集
+        links.forEach((link: any) => {
+          const sourceId = typeof link.source === 'object' ? link.source.id : link.source;
+          const targetId = typeof link.target === 'object' ? link.target.id : link.target;
+          const sourceNode = nodes.find(n => n.id === sourceId);
+          const targetNode = nodes.find(n => n.id === targetId);
           
-          // 2. 高亮與關鍵字相連的資料集（考慮階段篩選）
+          // 如果 source 是我們找到的概念，且 target 是資料集
+          if (connectedConceptIds.has(sourceId) && targetNode?.type === 'dataset') {
+            if (stageFilter === 'all' || link.stage === stageFilter || !link.stage) {
+              connectedNodeIds.add(targetId);
+              highlightedLinks.add(`${sourceId}-${targetId}`);
+            }
+          }
+          
+          // 如果 target 是我們找到的概念，且 source 是資料集
+          if (connectedConceptIds.has(targetId) && sourceNode?.type === 'dataset') {
+            if (stageFilter === 'all' || link.stage === stageFilter || !link.stage) {
+              connectedNodeIds.add(sourceId);
+              highlightedLinks.add(`${sourceId}-${targetId}`);
+            }
+          }
+        });
+        
+        // 也要處理關鍵字直接連到資料集的情況（如果有的話）
+        links.forEach((link: any) => {
+          const sourceId = typeof link.source === 'object' ? link.source.id : link.source;
+          const targetId = typeof link.target === 'object' ? link.target.id : link.target;
+          const sourceNode = nodes.find(n => n.id === sourceId);
+          const targetNode = nodes.find(n => n.id === targetId);
+          
           if (sourceId === d.id && targetNode?.type === 'dataset') {
-            // 檢查階段篩選
             if (stageFilter === 'all' || link.stage === stageFilter || !link.stage) {
               connectedNodeIds.add(targetId);
               highlightedLinks.add(`${sourceId}-${targetId}`);
