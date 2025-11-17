@@ -127,6 +127,7 @@ const KnowledgeGraphD3 = ({ onConceptClick }: KnowledgeGraphD3Props) => {
         .on('end', dragended) as any)
       .on('click', (event, d) => {
         event.stopPropagation();
+        event.preventDefault();
         handleNodeClick(d);
       })
       .on('mouseover', function(event, d) {
@@ -189,7 +190,15 @@ const KnowledgeGraphD3 = ({ onConceptClick }: KnowledgeGraphD3Props) => {
 
     // 點擊節點處理
     function handleNodeClick(d: GraphNode) {
+      // 保存當前滾動位置
+      const scrollY = window.scrollY;
+      
       setSelectedNode(d);
+      
+      // 在下一個渲染週期恢復滾動位置
+      requestAnimationFrame(() => {
+        window.scrollTo(0, scrollY);
+      });
       
       // 收集相關資料集
       const datasets: GraphNode[] = [];
