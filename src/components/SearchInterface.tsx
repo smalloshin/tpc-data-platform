@@ -6,7 +6,9 @@ import { Badge } from "@/components/ui/badge";
 
 import FAQSection from "@/components/FAQSection";
 import ConceptExplorer from "@/components/ConceptExplorer";
+import DatasetDetailDialog from "@/components/DatasetDetailDialog";
 import { toast } from "@/components/ui/use-toast";
+import { getDatasetDetail, type DatasetDetail } from "@/utils/datasetLoader";
 
 interface Category {
   id: string;
@@ -47,6 +49,9 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
   const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([]);
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
   const resultsRef = useRef<HTMLDivElement>(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [dialogType, setDialogType] = useState<'detail' | 'sample'>('detail');
+  const [selectedDataset, setSelectedDataset] = useState<DatasetDetail | null>(null);
 
   useEffect(() => {
     // 載入資料
@@ -319,6 +324,34 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
     scrollToResults();
   };
 
+  const handleViewDetail = async (datasetName: string) => {
+    const detail = await getDatasetDetail(datasetName);
+    if (detail) {
+      setSelectedDataset(detail);
+      setDialogType('detail');
+      setDialogOpen(true);
+    } else {
+      toast({
+        title: "找不到資料",
+        description: "無法載入此資料集的詳細說明"
+      });
+    }
+  };
+
+  const handleViewSample = async (datasetName: string) => {
+    const detail = await getDatasetDetail(datasetName);
+    if (detail) {
+      setSelectedDataset(detail);
+      setDialogType('sample');
+      setDialogOpen(true);
+    } else {
+      toast({
+        title: "找不到資料",
+        description: "無法載入此資料集的範例資料"
+      });
+    }
+  };
+
   return (
     <div className="bg-white rounded-3xl p-10 shadow-2xl animate-in fade-in duration-500">
       <Button 
@@ -477,14 +510,14 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
                     <Button 
                       size="sm" 
                       variant="outline"
-                      onClick={() => window.open(`https://data.gov.tw/`, '_blank')}
+                      onClick={() => handleViewDetail(result.name)}
                     >
                       查看詳情
                     </Button>
                     <Button 
                       size="sm"
                       className="bg-gradient-to-r from-[#667eea] to-[#764ba2]"
-                      onClick={() => window.open(`https://data.gov.tw/`, '_blank')}
+                      onClick={() => handleViewSample(result.name)}
                     >
                       範例資料
                     </Button>
@@ -495,6 +528,15 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
           </div>
         </div>
       )}
+
+      <DatasetDetailDialog
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+        datasetName={selectedDataset?.name || ''}
+        description={selectedDataset?.description}
+        sampleData={selectedDataset?.sampleData}
+        type={dialogType}
+      />
     </div>
   );
 };
