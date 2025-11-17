@@ -131,8 +131,10 @@ const KnowledgeGraphD3 = ({ onConceptClick }: KnowledgeGraphD3Props) => {
       .on('mouseover', function(event, d) {
         d3.select(this).attr('stroke-width', 3);
       })
-      .on('mouseout', function() {
-        d3.select(this).attr('stroke-width', 2);
+      .on('mouseout', function(event, d) {
+        // 保持選中節點的粗邊框
+        const strokeWidth = (selectedNode && d.id === selectedNode.id) ? 4 : 2;
+        d3.select(this).attr('stroke-width', strokeWidth);
       });
 
     // 繪製標籤（僅概念節點）
@@ -189,22 +191,82 @@ const KnowledgeGraphD3 = ({ onConceptClick }: KnowledgeGraphD3Props) => {
       
       // 高亮相關節點
       const connectedNodeIds = new Set<string>();
+      const highlightedLinks = new Set<string>();
       connectedNodeIds.add(d.id);
       
-      links.forEach((link: any) => {
-        const sourceId = typeof link.source === 'object' ? link.source.id : link.source;
-        const targetId = typeof link.target === 'object' ? link.target.id : link.target;
-        
-        if (sourceId === d.id) connectedNodeIds.add(targetId);
-        if (targetId === d.id) connectedNodeIds.add(sourceId);
-      });
+      if (d.type === 'keyword') {
+        // 如果點擊的是關鍵字
+        links.forEach((link: any) => {
+          const sourceId = typeof link.source === 'object' ? link.source.id : link.source;
+          const targetId = typeof link.target === 'object' ? link.target.id : link.target;
+          const sourceNode = nodes.find(n => n.id === sourceId);
+          const targetNode = nodes.find(n => n.id === targetId);
+          
+          // 1. 高亮與關鍵字相連的概念
+          if (sourceId === d.id && targetNode?.type === 'concept') {
+            connectedNodeIds.add(targetId);
+            highlightedLinks.add(`${sourceId}-${targetId}`);
+          }
+          if (targetId === d.id && sourceNode?.type === 'concept') {
+            connectedNodeIds.add(sourceId);
+            highlightedLinks.add(`${sourceId}-${targetId}`);
+          }
+          
+          // 2. 高亮與關鍵字相連的資料集（考慮階段篩選）
+          if (sourceId === d.id && targetNode?.type === 'dataset') {
+            // 檢查階段篩選
+            if (stageFilter === 'all' || link.stage === stageFilter || !link.stage) {
+              connectedNodeIds.add(targetId);
+              highlightedLinks.add(`${sourceId}-${targetId}`);
+            }
+          }
+          if (targetId === d.id && sourceNode?.type === 'dataset') {
+            if (stageFilter === 'all' || link.stage === stageFilter || !link.stage) {
+              connectedNodeIds.add(sourceId);
+              highlightedLinks.add(`${sourceId}-${targetId}`);
+            }
+          }
+        });
+      } else {
+        // 其他節點類型：高亮所有直接相連的節點
+        links.forEach((link: any) => {
+          const sourceId = typeof link.source === 'object' ? link.source.id : link.source;
+          const targetId = typeof link.target === 'object' ? link.target.id : link.target;
+          
+          if (sourceId === d.id) {
+            connectedNodeIds.add(targetId);
+            highlightedLinks.add(`${sourceId}-${targetId}`);
+          }
+          if (targetId === d.id) {
+            connectedNodeIds.add(sourceId);
+            highlightedLinks.add(`${sourceId}-${targetId}`);
+          }
+        });
+      }
 
       node.style('opacity', (n: GraphNode) => connectedNodeIds.has(n.id) ? 1 : 0.2);
+      node.attr('stroke-width', (n: GraphNode) => n.id === d.id ? 4 : 2);
+      node.attr('stroke', (n: GraphNode) => n.id === d.id ? '#ff0000' : '#fff');
+      
       link.style('opacity', (l: any) => {
         const sourceId = typeof l.source === 'object' ? l.source.id : l.source;
         const targetId = typeof l.target === 'object' ? l.target.id : l.target;
-        return (connectedNodeIds.has(sourceId) && connectedNodeIds.has(targetId)) ? 0.6 : 0.1;
+        const linkKey = `${sourceId}-${targetId}`;
+        return highlightedLinks.has(linkKey) ? 0.8 : 0.05;
       });
+      link.attr('stroke-width', (l: any) => {
+        const sourceId = typeof l.source === 'object' ? l.source.id : l.source;
+        const targetId = typeof l.target === 'object' ? l.target.id : l.target;
+        const linkKey = `${sourceId}-${targetId}`;
+        return highlightedLinks.has(linkKey) ? 3 : 1;
+      });
+      link.attr('stroke', (l: any) => {
+        const sourceId = typeof l.source === 'object' ? l.source.id : l.source;
+        const targetId = typeof l.target === 'object' ? l.target.id : l.target;
+        const linkKey = `${sourceId}-${targetId}`;
+        return highlightedLinks.has(linkKey) ? '#667eea' : '#999';
+      });
+      
       label.style('opacity', (n: GraphNode) => connectedNodeIds.has(n.id) ? 1 : 0.2);
 
       // 如果是概念節點，觸發回調
@@ -222,12 +284,24 @@ const KnowledgeGraphD3 = ({ onConceptClick }: KnowledgeGraphD3Props) => {
         return true;
       };
 
+      // 如果有選中的節點，重新應用高亮
+      if (selectedNode) {
+        handleNodeClick(selectedNode);
+        return;
+      }
+
       node.style('opacity', (d: GraphNode) => shouldShow(d) ? 1 : 0.1);
+      node.attr('stroke', '#fff');
+      node.attr('stroke-width', 2);
+      
       link.style('opacity', (l: any) => {
         const source = typeof l.source === 'object' ? l.source : nodes.find(n => n.id === l.source);
         const target = typeof l.target === 'object' ? l.target : nodes.find(n => n.id === l.target);
         return (source && target && shouldShow(source) && shouldShow(target)) ? 0.3 : 0.05;
       });
+      link.attr('stroke-width', 1);
+      link.attr('stroke', '#999');
+      
       label.style('opacity', (d: GraphNode) => shouldShow(d) ? 1 : 0.1);
 
       // 搜尋高亮
@@ -238,8 +312,6 @@ const KnowledgeGraphD3 = ({ onConceptClick }: KnowledgeGraphD3Props) => {
         node.attr('stroke-width', (d: GraphNode) => 
           d.label.toLowerCase().includes(searchTerm.toLowerCase()) ? 3 : 2
         );
-      } else {
-        node.attr('stroke', '#fff').attr('stroke-width', 2);
       }
     }
 
@@ -249,13 +321,18 @@ const KnowledgeGraphD3 = ({ onConceptClick }: KnowledgeGraphD3Props) => {
     return () => {
       simulation.stop();
     };
-  }, [graphData, searchTerm, typeFilter, stageFilter, onConceptClick]);
+  }, [graphData, searchTerm, typeFilter, stageFilter, selectedNode, onConceptClick]);
 
   const handleReset = () => {
     setSearchTerm('');
     setTypeFilter('all');
     setStageFilter('all');
     setSelectedNode(null);
+    
+    // 重新觸發圖表更新以重置高亮狀態
+    if (graphData) {
+      setGraphData({ ...graphData });
+    }
   };
 
   if (!graphData) {
