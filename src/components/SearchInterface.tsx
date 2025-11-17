@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import FAQSection from "@/components/FAQSection";
 import ConceptExplorer from "@/components/ConceptExplorer";
 import DatasetDetailDialog from "@/components/DatasetDetailDialog";
+import KnowledgeGraphViewer from "@/components/KnowledgeGraphViewer";
 import { toast } from "@/components/ui/use-toast";
 import { getDatasetDetail, type DatasetDetail } from "@/utils/datasetLoader";
 
@@ -54,6 +55,7 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
   const [selectedDataset, setSelectedDataset] = useState<DatasetDetail | null>(null);
   const [showFAQ, setShowFAQ] = useState(false);
   const [showConcepts, setShowConcepts] = useState(false);
+  const [showKnowledgeGraph, setShowKnowledgeGraph] = useState(false);
 
   useEffect(() => {
     // 載入資料
@@ -451,16 +453,19 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
         </div>
       </Card>
 
-      {/* 常見問題和概念瀏覽 */}
+      {/* 常見問題、概念瀏覽和知識圖譜 */}
       <div className="space-y-6">
         {/* 按鈕列 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <Button
             variant={showFAQ ? "default" : "outline"}
             className="w-full justify-start text-lg py-8 transition-all"
             onClick={() => {
               setShowFAQ(!showFAQ);
-              if (!showFAQ) setShowConcepts(false);
+              if (!showFAQ) {
+                setShowConcepts(false);
+                setShowKnowledgeGraph(false);
+              }
             }}
           >
             <span className="text-3xl mr-4">💬</span>
@@ -478,7 +483,10 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
             className="w-full justify-start text-lg py-8 transition-all"
             onClick={() => {
               setShowConcepts(!showConcepts);
-              if (!showConcepts) setShowFAQ(false);
+              if (!showConcepts) {
+                setShowFAQ(false);
+                setShowKnowledgeGraph(false);
+              }
             }}
           >
             <span className="text-3xl mr-4">🗂️</span>
@@ -488,6 +496,27 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
             </div>
             <span className="ml-auto text-sm">
               {showConcepts ? '▲' : '▼'}
+            </span>
+          </Button>
+
+          <Button
+            variant={showKnowledgeGraph ? "default" : "outline"}
+            className="w-full justify-start text-lg py-8 transition-all"
+            onClick={() => {
+              setShowKnowledgeGraph(!showKnowledgeGraph);
+              if (!showKnowledgeGraph) {
+                setShowFAQ(false);
+                setShowConcepts(false);
+              }
+            }}
+          >
+            <span className="text-3xl mr-4">🗺️</span>
+            <div className="flex flex-col items-start">
+              <span className="font-semibold">知識圖譜</span>
+              <span className="text-xs opacity-70">視覺化探索概念關聯</span>
+            </div>
+            <span className="ml-auto text-sm">
+              {showKnowledgeGraph ? '▲' : '▼'}
             </span>
           </Button>
         </div>
@@ -515,6 +544,18 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
             </div>
             <ConceptExplorer onConceptSelect={handleConceptSelect} />
           </Card>
+        )}
+
+        {showKnowledgeGraph && (
+          <div className="animate-fade-in">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-xl font-semibold">🗺️ 知識圖譜視覺化</h3>
+              <Button variant="ghost" size="sm" onClick={() => setShowKnowledgeGraph(false)}>
+                收合 ✕
+              </Button>
+            </div>
+            <KnowledgeGraphViewer onConceptClick={handleConceptSelect} />
+          </div>
         )}
       </div>
 
