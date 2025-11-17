@@ -45,6 +45,7 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
   const [availableKeywords, setAvailableKeywords] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([]);
+  const [searchHistory, setSearchHistory] = useState<string[]>([]);
   const resultsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -65,6 +66,16 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
       const keywords = Array.from(keywordSet).sort();
       setAvailableKeywords(keywords);
     }).catch(err => console.error("載入資料失敗:", err));
+
+    // 載入搜尋歷史
+    const savedHistory = localStorage.getItem('searchHistory');
+    if (savedHistory) {
+      try {
+        setSearchHistory(JSON.parse(savedHistory));
+      } catch (e) {
+        console.error("載入搜尋歷史失敗:", e);
+      }
+    }
   }, []);
 
   // 處理關鍵字輸入變化，更新建議列表
@@ -191,6 +202,25 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
     }, 100);
   };
 
+  const addToSearchHistory = (keyword: string) => {
+    const updatedHistory = [
+      keyword,
+      ...searchHistory.filter(k => k !== keyword)
+    ].slice(0, 10); // 保留最近 10 筆
+    
+    setSearchHistory(updatedHistory);
+    localStorage.setItem('searchHistory', JSON.stringify(updatedHistory));
+  };
+
+  const clearSearchHistory = () => {
+    setSearchHistory([]);
+    localStorage.removeItem('searchHistory');
+    toast({ 
+      title: "已清除搜尋歷史", 
+      description: "所有搜尋記錄已被刪除" 
+    });
+  };
+
   const handleKeywordSearch = (keyword?: string) => {
     const searchKeyword = keyword || keywordInput.trim();
     if (!searchKeyword) return;
@@ -206,7 +236,9 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
       });
       return;
     }
-    
+
+    // 添加到搜尋歷史
+    addToSearchHistory(searchKeyword);
     scrollToResults();
   };
 
@@ -336,22 +368,50 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
             搜尋
           </Button>
         </div>
-        <div className="flex flex-wrap gap-2">
-          <span className="text-sm text-gray-600">快速搜尋：</span>
-          {['變電所', '饋線', '停電', '再生能源', '電價', '負載'].map((kw) => (
-            <Badge
-              key={kw}
-              variant="secondary"
-              className="cursor-pointer hover:bg-primary hover:text-white"
-              onClick={() => {
-                setKeywordInput(kw);
-                const results = searchByKeyword(kw);
-                setSearchResults(results);
-              }}
-            >
-              {kw}
-            </Badge>
-          ))}
+        <div className="space-y-3">
+          <div className="flex flex-wrap gap-2">
+            <span className="text-sm text-gray-600">快速搜尋：</span>
+            {['變電所', '饋線', '停電', '再生能源', '電價', '負載'].map((kw) => (
+              <Badge
+                key={kw}
+                variant="secondary"
+                className="cursor-pointer hover:bg-primary hover:text-white transition-colors"
+                onClick={() => {
+                  setKeywordInput(kw);
+                  handleKeywordSearch(kw);
+                }}
+              >
+                {kw}
+              </Badge>
+            ))}
+          </div>
+          
+          {searchHistory.length > 0 && (
+            <div className="flex flex-wrap gap-2 items-center pt-2 border-t">
+              <span className="text-sm text-gray-600">搜尋歷史：</span>
+              {searchHistory.map((kw, idx) => (
+                <Badge
+                  key={idx}
+                  variant="outline"
+                  className="cursor-pointer hover:bg-primary hover:text-white transition-colors"
+                  onClick={() => {
+                    setKeywordInput(kw);
+                    handleKeywordSearch(kw);
+                  }}
+                >
+                  {kw}
+                </Badge>
+              ))}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={clearSearchHistory}
+                className="text-xs text-gray-500 hover:text-red-600 h-6"
+              >
+                清除歷史
+              </Button>
+            </div>
+          )}
         </div>
       </Card>
 
