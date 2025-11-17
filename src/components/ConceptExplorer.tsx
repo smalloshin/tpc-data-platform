@@ -87,7 +87,9 @@ const ConceptExplorer = ({ onConceptSelect }: ConceptExplorerProps) => {
 
   return (
     <div className="space-y-4">
-      {Object.entries(groupedConcepts).map(([category, categoryConcepts]) => {
+      {Object.entries(groupedConcepts)
+        .filter(([_, categoryConcepts]) => categoryConcepts.length > 0)
+        .map(([category, categoryConcepts]) => {
         const isExpanded = expandedCategories.has(category);
         
         return (
