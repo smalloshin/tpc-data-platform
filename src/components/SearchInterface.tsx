@@ -486,7 +486,7 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
                       className="bg-gradient-to-r from-[#667eea] to-[#764ba2]"
                       onClick={() => window.open(`https://data.gov.tw/`, '_blank')}
                     >
-                      下載資料
+                      範例資料
                     </Button>
                   </div>
                 </div>
