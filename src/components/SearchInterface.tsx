@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
 import FAQSection from "@/components/FAQSection";
+import { toast } from "@/components/ui/use-toast";
 
 interface Category {
   id: string;
@@ -170,8 +171,16 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
   };
 
   const handleSituationClick = (situation: Situation) => {
+    if (!knowledgeGraph || !matchingResults) {
+      toast({ title: "資料尚未載入", description: "請稍候再試，或改用關鍵字搜尋。" });
+      return;
+    }
     const results = searchBySituation(situation);
     setSearchResults(results);
+    if (results.length === 0) {
+      toast({ title: "沒有找到相關資料集", description: `情境「${situation.name}」暫無對應結果，請嘗試其他情境或關鍵字。` });
+      return;
+    }
     scrollToResults();
   };
 
