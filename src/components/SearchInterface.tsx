@@ -52,6 +52,8 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogType, setDialogType] = useState<'detail' | 'sample'>('detail');
   const [selectedDataset, setSelectedDataset] = useState<DatasetDetail | null>(null);
+  const [showFAQ, setShowFAQ] = useState(false);
+  const [showConcepts, setShowConcepts] = useState(false);
 
   useEffect(() => {
     // 載入資料
@@ -453,14 +455,42 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* 常見問題 */}
         <div className="space-y-4">
-          <h3 className="text-xl font-semibold">💬 常見問題</h3>
-          <FAQSection onDatasetSelect={handleFAQDatasetSelect} />
+          <Button
+            variant="outline"
+            className="w-full justify-start text-lg py-6 hover:bg-primary/10"
+            onClick={() => setShowFAQ(!showFAQ)}
+          >
+            <span className="text-2xl mr-3">💬</span>
+            <span className="font-semibold">常見問題</span>
+            <span className="ml-auto text-sm text-muted-foreground">
+              {showFAQ ? '收合 ▲' : '展開 ▼'}
+            </span>
+          </Button>
+          {showFAQ && (
+            <div className="animate-fade-in">
+              <FAQSection onDatasetSelect={handleFAQDatasetSelect} />
+            </div>
+          )}
         </div>
 
         {/* 概念瀏覽 */}
         <div className="space-y-4">
-          <h3 className="text-xl font-semibold">🗂️ 概念瀏覽</h3>
-          <ConceptExplorer onConceptSelect={handleConceptSelect} />
+          <Button
+            variant="outline"
+            className="w-full justify-start text-lg py-6 hover:bg-primary/10"
+            onClick={() => setShowConcepts(!showConcepts)}
+          >
+            <span className="text-2xl mr-3">🗂️</span>
+            <span className="font-semibold">概念瀏覽</span>
+            <span className="ml-auto text-sm text-muted-foreground">
+              {showConcepts ? '收合 ▲' : '展開 ▼'}
+            </span>
+          </Button>
+          {showConcepts && (
+            <div className="animate-fade-in">
+              <ConceptExplorer onConceptSelect={handleConceptSelect} />
+            </div>
+          )}
         </div>
       </div>
 
