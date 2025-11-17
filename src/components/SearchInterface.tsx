@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
@@ -39,6 +39,7 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
   const [knowledgeGraph, setKnowledgeGraph] = useState<any>(null);
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [keywordInput, setKeywordInput] = useState("");
+  const resultsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // 載入資料
@@ -181,15 +182,23 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
     return results.sort((a, b) => b.relevance - a.relevance);
   };
 
+  const scrollToResults = () => {
+    setTimeout(() => {
+      resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+  };
+
   const handleKeywordSearch = () => {
     if (!keywordInput.trim()) return;
     const results = searchByKeyword(keywordInput.trim());
     setSearchResults(results);
+    scrollToResults();
   };
 
   const handleSituationClick = (situation: Situation) => {
     const results = searchBySituation(situation);
     setSearchResults(results);
+    scrollToResults();
   };
 
   const handleFAQDatasetSelect = (datasets: string[], question: string) => {
@@ -205,6 +214,7 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
     });
 
     setSearchResults(results);
+    scrollToResults();
   };
 
   return (
@@ -288,7 +298,7 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
 
       {/* 搜尋結果 */}
       {searchResults.length > 0 && (
-        <div className="mt-8">
+        <div ref={resultsRef} className="mt-8">
           <h3 className="text-2xl font-bold mb-6">
             找到 {searchResults.length} 個相關資料集
           </h3>
