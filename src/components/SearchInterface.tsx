@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
 import FAQSection from "@/components/FAQSection";
+import ConceptExplorer from "@/components/ConceptExplorer";
 import { toast } from "@/components/ui/use-toast";
 
 interface Category {
@@ -170,6 +171,52 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
     scrollToResults();
   };
 
+  const handleConceptSelect = (concept: any) => {
+    if (!knowledgeGraph || !matchingResults) {
+      toast({ title: "資料尚未載入", description: "請稍候再試，或改用關鍵字搜尋。" });
+      return;
+    }
+
+    const results: SearchResult[] = [];
+    const processedDatasets = new Set<string>();
+
+    // 找出與此概念相關的關鍵字連結
+    const keywordLinks = knowledgeGraph.links?.filter(
+      (l: any) => l.type === 'keyword_to_concept' && l.target === concept.id
+    ) || [];
+
+    console.log(`概念「${concept.label}」找到 ${keywordLinks.length} 個關鍵字連結`);
+
+    keywordLinks.forEach((link: any) => {
+      const keywordName = link.source.replace('keyword_', '');
+      const keywordResults = searchByKeyword(keywordName, 0.5);
+
+      keywordResults.forEach(result => {
+        if (!processedDatasets.has(result.name)) {
+          processedDatasets.add(result.name);
+          results.push({
+            ...result,
+            method: `概念導引: ${concept.label}`,
+            matchReason: `屬於「${concept.category}」類別`
+          });
+        }
+      });
+    });
+
+    console.log(`概念「${concept.label}」找到 ${results.length} 筆結果`);
+    
+    if (results.length === 0) {
+      toast({ 
+        title: "沒有找到相關資料集", 
+        description: `概念「${concept.label}」暫無對應結果，請嘗試其他概念或關鍵字。` 
+      });
+      return;
+    }
+
+    setSearchResults(results.sort((a, b) => b.relevance - a.relevance));
+    scrollToResults();
+  };
+
   const handleSituationClick = (situation: Situation) => {
     if (!knowledgeGraph || !matchingResults) {
       toast({ title: "資料尚未載入", description: "請稍候再試，或改用關鍵字搜尋。" });
@@ -249,7 +296,7 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
         </div>
       </Card>
 
-      {/* 常見問題和使用情境並排 */}
+      {/* 常見問題和概念瀏覽並排 */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* 常見問題 */}
         <div className="space-y-4">
@@ -257,25 +304,10 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
           <FAQSection onDatasetSelect={handleFAQDatasetSelect} />
         </div>
 
-        {/* 使用情境 */}
+        {/* 概念瀏覽 */}
         <div className="space-y-4">
-          <h3 className="text-xl font-semibold">🎯 使用情境</h3>
-          <Card className="p-6 bg-gray-50">
-            <h4 className="text-lg font-medium mb-4">根據使用場景尋找資料</h4>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {situations.map((sit) => (
-                <button
-                  key={sit.name}
-                  className="p-6 bg-white rounded-xl hover:bg-primary hover:text-white transition-all shadow-sm hover:shadow-md"
-                  onClick={() => handleSituationClick(sit)}
-                >
-                  <div className="text-4xl mb-2">{sit.icon}</div>
-                  <div className="font-semibold text-lg mb-1">{sit.name}</div>
-                  <div className="text-sm opacity-80">{sit.description}</div>
-                </button>
-              ))}
-            </div>
-          </Card>
+          <h3 className="text-xl font-semibold">🗂️ 概念瀏覽</h3>
+          <ConceptExplorer onConceptSelect={handleConceptSelect} />
         </div>
       </div>
 
