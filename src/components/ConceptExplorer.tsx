@@ -27,28 +27,64 @@ const ConceptExplorer = ({ onConceptSelect }: ConceptExplorerProps) => {
       .then(([kgData, matchingData]) => {
         const conceptNodes = kgData.nodes.filter((n: any) => n.type === "concept");
         
-        // 獲取所有在 matching_results 中存在的關鍵字
-        const availableKeywords = new Set(
-          matchingData.matching_results.map((r: any) => r.關鍵字)
-        );
+        // 輔助函數：計算相關性分數
+        const calculateRelevance = (records: any[]) => {
+          let score = 0;
+          const weights = {
+            '第一階段': 0.4,
+            '第二階段': 0.3,
+            '第三階段': 0.2
+          };
+          
+          records.forEach(r => {
+            const stage = r.匹配階段 || '第三階段';
+            score += (weights[stage as keyof typeof weights] || 0.1);
+            score += (r.相關性分數 || 5) / 100;
+          });
+          
+          return Math.min(score / records.length, 1);
+        };
+
+        // 輔助函數：根據關鍵字搜尋資料集（threshold = 0.5）
+        const hasValidDatasets = (keyword: string): boolean => {
+          const matchRecords = matchingData.matching_results.filter(
+            (r: any) => r.關鍵字 === keyword
+          );
+
+          if (matchRecords.length === 0) return false;
+
+          const datasetGroups: { [key: string]: any[] } = {};
+          matchRecords.forEach((record: any) => {
+            const datasetName = record.資料集名稱;
+            if (!datasetGroups[datasetName]) {
+              datasetGroups[datasetName] = [];
+            }
+            datasetGroups[datasetName].push(record);
+          });
+
+          // 檢查是否至少有一個資料集的相關性 >= 0.5
+          return Object.values(datasetGroups).some(records => {
+            const relevance = calculateRelevance(records);
+            return relevance >= 0.5;
+          });
+        };
         
-        // 過濾出有連接到「存在於 matching_results 中的關鍵字」的概念
+        // 過濾出真正能找到資料集（relevance >= 0.5）的概念
         const conceptsWithDatasets = conceptNodes.filter((concept: any) => {
           const keywordLinks = kgData.links?.filter(
             (link: any) => link.type === 'keyword_to_concept' && link.target === concept.id
           ) || [];
           
-          // 檢查是否至少有一個關鍵字在 matching_results 中存在
+          // 檢查是否至少有一個關鍵字能找到有效資料集
           const hasValidKeyword = keywordLinks.some((link: any) => {
             const keywordName = link.source.replace('keyword_', '');
-            return availableKeywords.has(keywordName);
+            return hasValidDatasets(keywordName);
           });
           
           return hasValidKeyword;
         });
         
-        console.log(`總共 ${conceptNodes.length} 個概念，其中 ${conceptsWithDatasets.length} 個有連接到有效的資料集`);
-        console.log(`可用關鍵字數量: ${availableKeywords.size}`);
+        console.log(`總共 ${conceptNodes.length} 個概念，其中 ${conceptsWithDatasets.length} 個有連接到有效的資料集（relevance >= 0.5）`);
         setConcepts(conceptsWithDatasets);
       })
       .catch((err) => console.error("載入概念失敗:", err));
