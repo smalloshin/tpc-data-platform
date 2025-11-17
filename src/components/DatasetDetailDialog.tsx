@@ -60,11 +60,16 @@ const DatasetDetailDialog = ({
                 <TableBody>
                   {displayData.map((item, idx) => (
                     <TableRow key={idx}>
-                      {columns.map((col) => (
-                        <TableCell key={col} className="text-sm">
-                          {String(item[col])}
-                        </TableCell>
-                      ))}
+                      {columns.map((col) => {
+                        const value = item[col];
+                        const displayValue = value === null || value === undefined || 
+                                           String(value).toLowerCase() === 'nan' ? '' : String(value);
+                        return (
+                          <TableCell key={col} className="text-sm">
+                            {displayValue}
+                          </TableCell>
+                        );
+                      })}
                     </TableRow>
                   ))}
                 </TableBody>
