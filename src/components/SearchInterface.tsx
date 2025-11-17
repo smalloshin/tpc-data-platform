@@ -99,21 +99,22 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
   const calculateRelevance = (records: any[]) => {
     let score = 0;
     const weights = {
-      '第一階段': 0.4,
-      '第二階段': 0.3,
-      '第三階段': 0.2
+      '第一階段': 1.0,
+      '第二階段': 0.85,
+      '第三階段': 0.7
     };
     
     records.forEach(r => {
       const stage = r.匹配階段 || '第三階段';
-      score += (weights[stage as keyof typeof weights] || 0.1);
-      score += (r.相關性分數 || 5) / 100;
+      const stageWeight = weights[stage as keyof typeof weights] || 0.6;
+      const relevanceScore = (r.相關性分數 || 5) / 10; // 改為除以 10，讓分數範圍在 0-1
+      score += stageWeight * relevanceScore;
     });
     
     return Math.min(score / records.length, 1);
   };
 
-  const searchByKeyword = (keyword: string, threshold = 0.6): SearchResult[] => {
+  const searchByKeyword = (keyword: string, threshold = 0.5): SearchResult[] => {
     if (!matchingResults) return [];
     
     const results: SearchResult[] = [];
