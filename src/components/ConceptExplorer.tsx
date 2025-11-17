@@ -23,7 +23,17 @@ const ConceptExplorer = ({ onConceptSelect }: ConceptExplorerProps) => {
       .then((r) => r.json())
       .then((data) => {
         const conceptNodes = data.nodes.filter((n: any) => n.type === "concept");
-        setConcepts(conceptNodes);
+        
+        // 過濾出有連接到關鍵字的概念（即有資料集）
+        const conceptsWithKeywords = conceptNodes.filter((concept: any) => {
+          const hasKeywordLinks = data.links?.some(
+            (link: any) => link.type === 'keyword_to_concept' && link.target === concept.id
+          );
+          return hasKeywordLinks;
+        });
+        
+        console.log(`總共 ${conceptNodes.length} 個概念，其中 ${conceptsWithKeywords.length} 個有連接到資料集`);
+        setConcepts(conceptsWithKeywords);
       })
       .catch((err) => console.error("載入概念失敗:", err));
   }, []);
