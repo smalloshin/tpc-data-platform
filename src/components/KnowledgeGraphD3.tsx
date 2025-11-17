@@ -485,6 +485,9 @@ const KnowledgeGraphD3 = ({ onConceptClick }: KnowledgeGraphD3Props) => {
   }, [graphData, searchTerm, typeFilter, stageFilter, selectedNode, onConceptClick]);
 
   const handleReset = () => {
+    // 保存當前滾動位置
+    const scrollY = window.scrollY;
+    
     setSearchTerm('');
     setTypeFilter('all');
     setStageFilter('all');
@@ -495,6 +498,11 @@ const KnowledgeGraphD3 = ({ onConceptClick }: KnowledgeGraphD3Props) => {
     if (graphData) {
       setGraphData({ ...graphData });
     }
+    
+    // 在下一個渲染週期恢復滾動位置
+    requestAnimationFrame(() => {
+      window.scrollTo(0, scrollY);
+    });
   };
 
   if (!graphData) {
