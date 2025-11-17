@@ -196,7 +196,9 @@ const KnowledgeGraphD3 = ({ onConceptClick }: KnowledgeGraphD3Props) => {
       
       if (d.type === 'keyword') {
         // 如果點擊的是關鍵字，需要高亮兩層路徑：關鍵字 → 概念 → 資料集
+        // 重要：只顯示與該關鍵字相同階段的資料集
         const connectedConceptIds = new Set<string>();
+        const keywordStage = d.stage; // 取得關鍵字的階段
         
         // 第一層：找到與關鍵字相連的概念
         links.forEach((link: any) => {
@@ -218,7 +220,7 @@ const KnowledgeGraphD3 = ({ onConceptClick }: KnowledgeGraphD3Props) => {
           }
         });
         
-        // 第二層：找到這些概念相連的資料集
+        // 第二層：找到這些概念相連的資料集（只顯示與關鍵字相同階段的）
         links.forEach((link: any) => {
           const sourceId = typeof link.source === 'object' ? link.source.id : link.source;
           const targetId = typeof link.target === 'object' ? link.target.id : link.target;
@@ -227,7 +229,8 @@ const KnowledgeGraphD3 = ({ onConceptClick }: KnowledgeGraphD3Props) => {
           
           // 如果 source 是我們找到的概念，且 target 是資料集
           if (connectedConceptIds.has(sourceId) && targetNode?.type === 'dataset') {
-            if (stageFilter === 'all' || link.stage === stageFilter || !link.stage) {
+            // 只顯示與關鍵字階段相同的資料集
+            if (link.stage === keywordStage || !link.stage) {
               connectedNodeIds.add(targetId);
               highlightedLinks.add(`${sourceId}-${targetId}`);
             }
@@ -235,7 +238,8 @@ const KnowledgeGraphD3 = ({ onConceptClick }: KnowledgeGraphD3Props) => {
           
           // 如果 target 是我們找到的概念，且 source 是資料集
           if (connectedConceptIds.has(targetId) && sourceNode?.type === 'dataset') {
-            if (stageFilter === 'all' || link.stage === stageFilter || !link.stage) {
+            // 只顯示與關鍵字階段相同的資料集
+            if (link.stage === keywordStage || !link.stage) {
               connectedNodeIds.add(sourceId);
               highlightedLinks.add(`${sourceId}-${targetId}`);
             }
@@ -250,13 +254,15 @@ const KnowledgeGraphD3 = ({ onConceptClick }: KnowledgeGraphD3Props) => {
           const targetNode = nodes.find(n => n.id === targetId);
           
           if (sourceId === d.id && targetNode?.type === 'dataset') {
-            if (stageFilter === 'all' || link.stage === stageFilter || !link.stage) {
+            // 只顯示與關鍵字階段相同的資料集
+            if (link.stage === keywordStage || !link.stage) {
               connectedNodeIds.add(targetId);
               highlightedLinks.add(`${sourceId}-${targetId}`);
             }
           }
           if (targetId === d.id && sourceNode?.type === 'dataset') {
-            if (stageFilter === 'all' || link.stage === stageFilter || !link.stage) {
+            // 只顯示與關鍵字階段相同的資料集
+            if (link.stage === keywordStage || !link.stage) {
               connectedNodeIds.add(sourceId);
               highlightedLinks.add(`${sourceId}-${targetId}`);
             }
