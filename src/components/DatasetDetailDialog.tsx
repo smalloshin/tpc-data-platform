@@ -6,7 +6,14 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Badge } from "@/components/ui/badge";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 interface DatasetDetailDialogProps {
   open: boolean;
@@ -31,31 +38,38 @@ const DatasetDetailDialog = ({
     try {
       const data = JSON.parse(sampleData);
       if (Array.isArray(data) && data.length > 0) {
+        const displayData = data.slice(0, 5);
+        const columns = Object.keys(displayData[0]);
+        
         return (
           <div className="space-y-4">
-            <p className="text-sm text-muted-foreground">顯示前 5 筆資料：</p>
-            {data.slice(0, 5).map((item, idx) => (
-              <div key={idx} className="border rounded-lg p-4 bg-muted/30">
-                <div className="flex items-center gap-2 mb-2">
-                  <Badge variant="outline">第 {idx + 1} 筆</Badge>
-                </div>
-                <div className="grid grid-cols-1 gap-2">
-                  {Object.entries(item).map(([key, value]) => (
-                    <div key={key} className="flex items-start gap-2">
-                      <span className="font-medium text-sm min-w-[120px]">{key}:</span>
-                      <span className="text-sm text-muted-foreground flex-1">
-                        {String(value)}
-                      </span>
-                    </div>
+            <p className="text-sm text-muted-foreground">
+              顯示前 5 筆資料{data.length > 5 ? `（共 ${data.length} 筆）` : ''}
+            </p>
+            <div className="border rounded-lg">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    {columns.map((col) => (
+                      <TableHead key={col} className="font-medium">
+                        {col}
+                      </TableHead>
+                    ))}
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {displayData.map((item, idx) => (
+                    <TableRow key={idx}>
+                      {columns.map((col) => (
+                        <TableCell key={col} className="text-sm">
+                          {String(item[col])}
+                        </TableCell>
+                      ))}
+                    </TableRow>
                   ))}
-                </div>
-              </div>
-            ))}
-            {data.length > 5 && (
-              <p className="text-sm text-muted-foreground italic">
-                共 {data.length} 筆資料，僅顯示前 5 筆
-              </p>
-            )}
+                </TableBody>
+              </Table>
+            </div>
           </div>
         );
       }
