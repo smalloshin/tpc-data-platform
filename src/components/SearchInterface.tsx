@@ -39,57 +39,22 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
   const [knowledgeGraph, setKnowledgeGraph] = useState<any>(null);
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [keywordInput, setKeywordInput] = useState("");
+  const [situations, setSituations] = useState<Situation[]>([]);
   const resultsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // 載入資料
     Promise.all([
       fetch("/data/transmission_matching_results.json").then(r => r.json()),
-      fetch("/data/transmission_knowledge_graph.json").then(r => r.json())
-    ]).then(([matching, kg]) => {
+      fetch("/data/transmission_knowledge_graph.json").then(r => r.json()),
+      fetch("/data/situations.json").then(r => r.json())
+    ]).then(([matching, kg, situationsData]) => {
       setMatchingResults(matching);
       setKnowledgeGraph(kg);
+      setSituations(situationsData.situations);
     }).catch(err => console.error("載入資料失敗:", err));
   }, []);
 
-  const situations: Situation[] = [
-    {
-      name: "停電問題",
-      icon: "🔌",
-      description: "停電通知、搶修進度",
-      concepts: ["停電管理", "故障管理", "應急處理"]
-    },
-    {
-      name: "電費查詢",
-      icon: "💰",
-      description: "電價、帳單、繳費資訊",
-      concepts: ["電價結構", "用電計費", "帳務管理"]
-    },
-    {
-      name: "用電安全",
-      icon: "🛡️",
-      description: "供電品質、電壓穩定",
-      concepts: ["電力品質", "電壓系統", "安全保護"]
-    },
-    {
-      name: "再生能源",
-      icon: "🌱",
-      description: "綠能併網、發電資訊",
-      concepts: ["再生能源", "發電系統", "能源結構"]
-    },
-    {
-      name: "設施資訊",
-      icon: "🏗️",
-      description: "變電所、線路設施",
-      concepts: ["變電所", "輸電線路", "配電設備"]
-    },
-    {
-      name: "用電數據",
-      icon: "📊",
-      description: "用電量、負載統計",
-      concepts: ["用電統計", "負載管理", "電力調度"]
-    }
-  ];
 
   const calculateRelevance = (records: any[]) => {
     let score = 0;
