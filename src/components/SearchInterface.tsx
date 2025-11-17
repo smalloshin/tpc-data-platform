@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import FAQSection from "@/components/FAQSection";
 import ConceptExplorer from "@/components/ConceptExplorer";
 import DatasetDetailDialog from "@/components/DatasetDetailDialog";
-import KnowledgeGraphViewer from "@/components/KnowledgeGraphViewer";
+import KnowledgeGraphD3 from "@/components/KnowledgeGraphD3";
 import { toast } from "@/components/ui/use-toast";
 import { getDatasetDetail, type DatasetDetail } from "@/utils/datasetLoader";
 
@@ -554,7 +554,7 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
                 收合 ✕
               </Button>
             </div>
-            <KnowledgeGraphViewer onConceptClick={handleConceptSelect} />
+            <KnowledgeGraphD3 onConceptClick={handleConceptSelect} />
           </div>
         )}
       </div>
