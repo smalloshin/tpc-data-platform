@@ -138,18 +138,19 @@ const KnowledgeGraphD3 = ({ onConceptClick }: KnowledgeGraphD3Props) => {
         d3.select(this).attr('stroke-width', strokeWidth);
       });
 
-    // 繪製標籤（僅概念節點）
+    // 繪製標籤（概念節點常顯示，資料集節點在被強調時顯示）
     const label = g.append('g')
       .selectAll('text')
-      .data(nodes.filter((d: GraphNode) => d.type === 'concept'))
+      .data(nodes)
       .enter()
       .append('text')
       .text((d: GraphNode) => d.label)
-      .attr('font-size', 10)
+      .attr('font-size', (d: GraphNode) => d.type === 'concept' ? 10 : 9)
       .attr('dx', 15)
       .attr('dy', 4)
       .attr('fill', '#333')
-      .style('pointer-events', 'none');
+      .style('pointer-events', 'none')
+      .style('opacity', (d: GraphNode) => d.type === 'concept' ? 1 : 0);
 
     // 更新位置
     simulation.on('tick', () => {
@@ -404,7 +405,15 @@ const KnowledgeGraphD3 = ({ onConceptClick }: KnowledgeGraphD3Props) => {
         return highlightedLinks.has(linkKey) ? '#667eea' : '#999';
       });
       
-      label.style('opacity', (n: GraphNode) => connectedNodeIds.has(n.id) ? 1 : 0.2);
+      // 標籤：概念節點總是顯示，資料集節點只在被強調時顯示
+      label.style('opacity', (n: GraphNode) => {
+        if (n.type === 'concept') {
+          return connectedNodeIds.has(n.id) ? 1 : 0.2;
+        } else if (n.type === 'dataset') {
+          return connectedNodeIds.has(n.id) ? 1 : 0;
+        }
+        return 0;
+      });
 
       // 如果是概念節點，觸發回調
       if (d.type === 'concept' && onConceptClick) {
@@ -439,7 +448,13 @@ const KnowledgeGraphD3 = ({ onConceptClick }: KnowledgeGraphD3Props) => {
       link.attr('stroke-width', 1);
       link.attr('stroke', '#999');
       
-      label.style('opacity', (d: GraphNode) => shouldShow(d) ? 1 : 0.1);
+      // 標籤：概念節點根據 filter 顯示，資料集節點不顯示（除非被選中）
+      label.style('opacity', (d: GraphNode) => {
+        if (d.type === 'concept') {
+          return shouldShow(d) ? 1 : 0.1;
+        }
+        return 0;
+      });
 
       // 搜尋高亮
       if (searchTerm) {
@@ -629,11 +644,14 @@ const KnowledgeGraphD3 = ({ onConceptClick }: KnowledgeGraphD3Props) => {
 
       {/* 相關資料集列表 */}
       {relatedDatasets.length > 0 && (
-        <Card className="p-4">
+        <Card className="p-6 bg-gray-50">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-semibold text-lg">
-              相關資料集 ({relatedDatasets.length})
-            </h3>
+            <div>
+              <h3 className="text-xl font-semibold">相關資料集</h3>
+              <p className="text-sm text-gray-600 mt-1">
+                共找到 {relatedDatasets.length} 個資料集
+              </p>
+            </div>
             <Button
               variant="ghost"
               size="sm"
@@ -642,23 +660,25 @@ const KnowledgeGraphD3 = ({ onConceptClick }: KnowledgeGraphD3Props) => {
               <X className="h-4 w-4" />
             </Button>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+          <div className="space-y-2">
             {relatedDatasets.map((dataset) => (
               <div
                 key={dataset.id}
-                className="p-3 border rounded-lg hover:shadow-md transition-shadow bg-background"
+                className="border border-gray-200 rounded-lg overflow-hidden bg-white hover:shadow-md transition-shadow"
               >
-                <div className="space-y-2">
-                  <h4 className="font-medium text-sm line-clamp-2">{dataset.label}</h4>
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <Badge variant="secondary" className="text-xs">ID: {dataset.id}</Badge>
-                    {dataset.stage && <Badge variant="outline" className="text-xs">{dataset.stage}</Badge>}
+                <div className="p-4">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex-1">
+                      <h4 className="font-medium text-gray-800 mb-2">{dataset.label}</h4>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <Badge variant="secondary" className="text-xs">ID: {dataset.id}</Badge>
+                        {dataset.stage && <Badge variant="outline" className="text-xs">{dataset.stage}</Badge>}
+                        {dataset.category && (
+                          <Badge variant="outline" className="text-xs">{dataset.category}</Badge>
+                        )}
+                      </div>
+                    </div>
                   </div>
-                  {dataset.category && (
-                    <p className="text-xs text-muted-foreground">
-                      類別: {dataset.category}
-                    </p>
-                  )}
                 </div>
               </div>
             ))}
