@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
 import FAQSection from "@/components/FAQSection";
 
 interface Category {
@@ -222,21 +222,54 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
         <h2 className="text-3xl font-bold">{category.name}資料集搜尋</h2>
       </div>
 
-      <Tabs defaultValue="faq" className="w-full">
-        <TabsList className="grid w-full grid-cols-3 mb-8">
-          <TabsTrigger value="faq">💬 常見問題</TabsTrigger>
-          <TabsTrigger value="situation">🎯 使用情境</TabsTrigger>
-          <TabsTrigger value="keyword">🔍 關鍵字搜尋</TabsTrigger>
-        </TabsList>
+      {/* 關鍵字搜尋區塊 */}
+      <Card className="p-6 bg-gray-50 mb-8">
+        <h3 className="text-xl font-semibold mb-4">🔍 關鍵字搜尋</h3>
+        <div className="flex gap-3 mb-6">
+          <Input
+            placeholder="例如：變電所、饋線、輸電線路..."
+            value={keywordInput}
+            onChange={(e) => setKeywordInput(e.target.value)}
+            onKeyPress={(e) => e.key === 'Enter' && handleKeywordSearch()}
+            className="text-lg"
+          />
+          <Button onClick={handleKeywordSearch} className="px-8">
+            搜尋
+          </Button>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <span className="text-sm text-gray-600">快速搜尋：</span>
+          {['變電所', '饋線', '停電', '再生能源', '電價', '負載'].map((kw) => (
+            <Badge
+              key={kw}
+              variant="secondary"
+              className="cursor-pointer hover:bg-primary hover:text-white"
+              onClick={() => {
+                setKeywordInput(kw);
+                const results = searchByKeyword(kw);
+                setSearchResults(results);
+              }}
+            >
+              {kw}
+            </Badge>
+          ))}
+        </div>
+      </Card>
 
-        <TabsContent value="faq">
+      {/* 常見問題和使用情境並排 */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* 常見問題 */}
+        <div className="space-y-4">
+          <h3 className="text-xl font-semibold">💬 常見問題</h3>
           <FAQSection onDatasetSelect={handleFAQDatasetSelect} />
-        </TabsContent>
+        </div>
 
-        <TabsContent value="situation">
+        {/* 使用情境 */}
+        <div className="space-y-4">
+          <h3 className="text-xl font-semibold">🎯 使用情境</h3>
           <Card className="p-6 bg-gray-50">
-            <h3 className="text-xl font-semibold mb-4">根據使用場景尋找資料</h3>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            <h4 className="text-lg font-medium mb-4">根據使用場景尋找資料</h4>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {situations.map((sit) => (
                 <button
                   key={sit.name}
@@ -250,43 +283,8 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
               ))}
             </div>
           </Card>
-        </TabsContent>
-
-        <TabsContent value="keyword">
-          <Card className="p-6 bg-gray-50">
-            <h3 className="text-xl font-semibold mb-4">直接輸入專業關鍵字</h3>
-            <div className="flex gap-3 mb-6">
-              <Input
-                placeholder="例如：變電所、饋線、輸電線路..."
-                value={keywordInput}
-                onChange={(e) => setKeywordInput(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleKeywordSearch()}
-                className="text-lg"
-              />
-              <Button onClick={handleKeywordSearch} className="px-8">
-                搜尋
-              </Button>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              <span className="text-sm text-gray-600">快速搜尋：</span>
-              {['變電所', '饋線', '停電', '再生能源', '電價', '負載'].map((kw) => (
-                <Badge
-                  key={kw}
-                  variant="secondary"
-                  className="cursor-pointer hover:bg-primary hover:text-white"
-                  onClick={() => {
-                    setKeywordInput(kw);
-                    const results = searchByKeyword(kw);
-                    setSearchResults(results);
-                  }}
-                >
-                  {kw}
-                </Badge>
-              ))}
-            </div>
-          </Card>
-        </TabsContent>
-      </Tabs>
+        </div>
+      </div>
 
       {/* 搜尋結果 */}
       {searchResults.length > 0 && (
