@@ -424,10 +424,10 @@ const KnowledgeGraphD3 = ({ onConceptClick }: KnowledgeGraphD3Props) => {
         return 0;
       });
 
-      // 如果是概念節點，觸發回調
-      if (d.type === 'concept' && onConceptClick) {
-        onConceptClick(d);
-      }
+      // 依規則：點擊概念節點時不再觸發外部回調，以避免頁面自動滾動到其他區域
+      // if (d.type === 'concept' && onConceptClick) {
+      //   onConceptClick(d);
+      // }
     }
 
     // 篩選功能
