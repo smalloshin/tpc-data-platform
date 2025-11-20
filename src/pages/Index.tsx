@@ -57,8 +57,8 @@ const Index = () => {
     <div className="min-h-screen">
       {/* Header */}
       <header className="bg-white/95 backdrop-blur-sm shadow-lg py-10 text-center">
-        <h1 className="text-5xl font-extrabold bg-gradient-to-r from-[#667eea] to-[#764ba2] bg-clip-text text-transparent mb-3">
-          台電開放資料集搜尋系統
+        <h1 className="text-5xl font-extrabold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-3">
+          重要營運詮釋資料服務平台
         </h1>
         <p className="text-xl text-gray-600">基於知識圖譜的智能搜尋引擎 v2.0</p>
       </header>
