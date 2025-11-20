@@ -19,7 +19,7 @@ const CategoryLanding = ({ categories, onSelectCategory }: CategoryLandingProps)
           className="relative h-[350px] rounded-3xl overflow-hidden cursor-pointer transition-all duration-400 hover:-translate-y-3 hover:scale-105 hover:shadow-2xl"
           onClick={() => onSelectCategory(category)}
         >
-          <div className="absolute inset-0 bg-gradient-to-br from-[#667eea]/90 to-[#764ba2]/90 flex flex-col items-center justify-center p-8">
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/90 to-accent/90 flex flex-col items-center justify-center p-8">
             <div className="text-8xl mb-5">{category.icon}</div>
             <h2 className="text-4xl font-bold text-white mb-3">{category.name}</h2>
             <p className="text-lg text-white/90 text-center">{category.description}</p>
