@@ -19,20 +19,26 @@ interface FAQCategory {
 }
 
 interface FAQSectionProps {
+  categoryId: string;
   onDatasetSelect: (datasets: string[], question: string) => void;
 }
 
-const FAQSection = ({ onDatasetSelect }: FAQSectionProps) => {
+const FAQSection = ({ categoryId, onDatasetSelect }: FAQSectionProps) => {
   const [faqData, setFaqData] = useState<{ faq_categories: FAQCategory[] } | null>(null);
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
   const [expandedQuestion, setExpandedQuestion] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("/data/faq.json")
+    // 根據類別載入對應的 FAQ 檔案
+    const faqFile = categoryId === 'transmission' ? 'faq' : 
+                   categoryId === 'distribution' ? 'distribution_faq' : 
+                   'faq'; // 預設為輸電
+    
+    fetch(`/data/${faqFile}.json`)
       .then(r => r.json())
       .then(data => setFaqData(data))
       .catch(err => console.error("載入 FAQ 失敗:", err));
-  }, []);
+  }, [categoryId]);
 
   if (!faqData) {
     return (
