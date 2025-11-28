@@ -28,6 +28,9 @@ const ConceptExplorer = ({ categoryId, onConceptSelect }: ConceptExplorerProps) 
       .then(([kgData, matchingData]) => {
         const conceptNodes = kgData.nodes.filter((n: any) => n.type === "concept");
         
+        // 支援 edges 或 links 作為連線陣列的屬性名稱
+        const links = kgData.links || kgData.edges || [];
+        
         // 輔助函數：計算相關性分數
         const calculateRelevance = (records: any[]) => {
           let score = 0;
@@ -73,9 +76,9 @@ const ConceptExplorer = ({ categoryId, onConceptSelect }: ConceptExplorerProps) 
         
         // 過濾出真正能找到資料集（relevance >= 0）的概念
         const conceptsWithDatasets = conceptNodes.filter((concept: any) => {
-          const keywordLinks = kgData.links?.filter(
+          const keywordLinks = links.filter(
             (link: any) => link.type === 'belongs_to' && link.target === concept.id
-          ) || [];
+          );
           
           // 檢查是否至少有一個關鍵字能找到有效資料集
           const hasValidKeyword = keywordLinks.some((link: any) => {
