@@ -331,10 +331,12 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
     scrollToResults();
   };
 
-  const handleFAQDatasetSelect = (datasets: string[], question: string) => {
+  const handleFAQDatasetSelect = (datasets: any[], question: string) => {
     const results: SearchResult[] = [];
     
-    datasets.forEach((datasetName: string) => {
+    datasets.forEach((dataset: any) => {
+      // 處理新的資料格式：datasets 現在是物件陣列 {id, title, url}
+      const datasetName = typeof dataset === 'string' ? dataset : dataset.title;
       results.push({
         name: datasetName,
         relevance: 1.0,
