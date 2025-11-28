@@ -121,6 +121,12 @@ const ConceptExplorer = ({ categoryId, onConceptSelect }: ConceptExplorerProps) 
     "技術參數": "📊",
     "運作管理": "📋",
     "設施": "🏢",
+    "電力統計": "📊",
+    "用戶服務": "👥",
+    "費率管理": "💰",
+    "市場機制": "🏪",
+    "銷售業務": "🔌",
+    "供應鏈": "🏢",
   };
 
   return (
