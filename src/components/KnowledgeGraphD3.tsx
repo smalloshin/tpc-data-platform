@@ -43,16 +43,22 @@ const KnowledgeGraphD3 = ({ categoryId, onConceptClick }: KnowledgeGraphD3Props)
     fetch(`/data/${categoryId}_knowledge_graph.json`)
       .then(res => res.json())
       .then(data => {
-        setGraphData(data);
+        // 支援 edges 或 links 作為連線陣列的屬性名稱
+        const processedData = {
+          nodes: data.nodes,
+          links: data.links || data.edges || []
+        };
+        
+        setGraphData(processedData);
         
         // 計算統計資料
-        const concepts = data.nodes.filter((n: GraphNode) => n.type === 'concept').length;
-        const keywords = data.nodes.filter((n: GraphNode) => n.type === 'keyword').length;
-        const datasets = data.nodes.filter((n: GraphNode) => n.type === 'dataset').length;
+        const concepts = processedData.nodes.filter((n: GraphNode) => n.type === 'concept').length;
+        const keywords = processedData.nodes.filter((n: GraphNode) => n.type === 'keyword').length;
+        const datasets = processedData.nodes.filter((n: GraphNode) => n.type === 'dataset').length;
         
         setStats({
-          nodes: data.nodes.length,
-          links: data.links.length,
+          nodes: processedData.nodes.length,
+          links: processedData.links.length,
           concepts,
           keywords,
           datasets
