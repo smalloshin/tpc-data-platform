@@ -60,7 +60,7 @@ const Index = () => {
         <h1 className="text-5xl font-extrabold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-3">
           重要營運詮釋資料服務平台
         </h1>
-        <p className="text-xl text-gray-600">基於知識圖譜的智能搜尋引擎 v2.0</p>
+        <p className="text-xl text-gray-600">基於知識圖譜的智能搜尋引擎</p>
       </header>
 
       {/* Main Content */}
