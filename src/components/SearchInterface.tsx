@@ -198,9 +198,10 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
         return;
       }
 
-      const keywordLinks = knowledgeGraph.links?.filter(
-        (l: any) => l.type === 'keyword_to_concept' && l.target === conceptNode.id
-      ) || [];
+      const edges = knowledgeGraph.edges || knowledgeGraph.links || [];
+      const keywordLinks = edges.filter(
+        (l: any) => l.type === 'belongs_to' && l.target === conceptNode.id
+      );
 
       console.log(`概念「${conceptName}」找到 ${keywordLinks.length} 個關鍵字連結`);
 
@@ -280,10 +281,11 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
     const results: SearchResult[] = [];
     const processedDatasets = new Set<string>();
 
-    // 找出與此概念相關的關鍵字連結
-    const keywordLinks = knowledgeGraph.links?.filter(
+    // 找出與此概念相關的關鍵字連結（支援 edges 或 links）
+    const edges = knowledgeGraph.edges || knowledgeGraph.links || [];
+    const keywordLinks = edges.filter(
       (l: any) => l.type === 'belongs_to' && l.target === concept.id
-    ) || [];
+    );
 
     console.log(`概念「${concept.label}」找到 ${keywordLinks.length} 個關鍵字連結`);
 
