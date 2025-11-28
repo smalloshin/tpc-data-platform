@@ -550,7 +550,7 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
           </Card>
         )}
 
-        {showKnowledgeGraph && (
+        {showKnowledgeGraph && knowledgeGraph && (
           <div className="animate-fade-in">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-xl font-semibold">🗺️ 知識圖譜視覺化</h3>
