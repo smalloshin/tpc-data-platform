@@ -4,7 +4,7 @@
       "id": "concept_1",
       "label": "風力發電",
       "type": "concept",
-      "category": "統計",
+      "category": "再生能源",
       "color": "#F5A623",
       "size": 15
     },
@@ -12,7 +12,7 @@
       "id": "concept_2",
       "label": "太陽能發電",
       "type": "concept",
-      "category": "管理",
+      "category": "再生能源",
       "color": "#F5A623",
       "size": 15
     },
@@ -20,7 +20,7 @@
       "id": "concept_3",
       "label": "水力發電",
       "type": "concept",
-      "category": "價格",
+      "category": "再生能源",
       "color": "#F5A623",
       "size": 15
     },
@@ -28,7 +28,7 @@
       "id": "concept_4",
       "label": "火力發電",
       "type": "concept",
-      "category": "市場",
+      "category": "傳統能源",
       "color": "#F5A623",
       "size": 15
     },
@@ -36,7 +36,7 @@
       "id": "concept_5",
       "label": "核能發電",
       "type": "concept",
-      "category": "機制",
+      "category": "傳統能源",
       "color": "#F5A623",
       "size": 15
     },
@@ -44,7 +44,7 @@
       "id": "concept_6",
       "label": "再生能源",
       "type": "concept",
-      "category": "銷售",
+      "category": "能源類型",
       "color": "#F5A623",
       "size": 15
     },
@@ -52,7 +52,7 @@
       "id": "concept_7",
       "label": "發電機組",
       "type": "concept",
-      "category": "費率",
+      "category": "發電設施",
       "color": "#F5A623",
       "size": 15
     },
@@ -60,7 +60,7 @@
       "id": "concept_8",
       "label": "發電效率",
       "type": "concept",
-      "category": "服務",
+      "category": "運作管理",
       "color": "#F5A623",
       "size": 15
     },
@@ -68,7 +68,7 @@
       "id": "concept_9",
       "label": "發電容量",
       "type": "concept",
-      "category": "發電",
+      "category": "運作管理",
       "color": "#F5A623",
       "size": 15
     },
@@ -76,7 +76,7 @@
       "id": "concept_10",
       "label": "燃料",
       "type": "concept",
-      "category": "發電",
+      "category": "發電資源",
       "color": "#F5A623",
       "size": 15
     },
@@ -84,7 +84,7 @@
       "id": "concept_11",
       "label": "其他發電技術",
       "type": "concept",
-      "category": "發電",
+      "category": "發電技術",
       "color": "#F5A623",
       "size": 15
     },
