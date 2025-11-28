@@ -29,7 +29,8 @@ const ConceptExplorer = ({ categoryId, onConceptSelect }: ConceptExplorerProps) 
         const conceptNodes = kgData.nodes.filter((n: any) => n.type === "concept");
         
         // 支援 edges 或 links 作為連線陣列的屬性名稱
-        const links = kgData.links || kgData.edges || [];
+        const links = kgData.edges || kgData.links || [];
+        console.log(`載入了 ${links.length} 個連接關係`);
         
         // 輔助函數：計算相關性分數
         const calculateRelevance = (records: any[]) => {
@@ -67,29 +68,38 @@ const ConceptExplorer = ({ categoryId, onConceptSelect }: ConceptExplorerProps) 
             datasetGroups[datasetName].push(record);
           });
 
-          // 檢查是否至少有一個資料集的相關性 >= 0
+          // 檢查是否至少有一個資料集的相關性 >= 0.3（提高門檻確保品質）
           return Object.values(datasetGroups).some(records => {
             const relevance = calculateRelevance(records);
-            return relevance >= 0;
+            return relevance >= 0.3;
           });
         };
         
-        // 過濾出真正能找到資料集（relevance >= 0）的概念
+        // 過濾出真正能找到資料集（relevance >= 0.3）的概念
         const conceptsWithDatasets = conceptNodes.filter((concept: any) => {
           const keywordLinks = links.filter(
             (link: any) => link.type === 'belongs_to' && link.target === concept.id
           );
           
+          if (keywordLinks.length === 0) {
+            console.log(`概念 ${concept.label} 沒有關鍵字連接`);
+            return false;
+          }
+          
           // 檢查是否至少有一個關鍵字能找到有效資料集
           const hasValidKeyword = keywordLinks.some((link: any) => {
             const keywordName = link.source.replace('keyword_', '');
-            return hasValidDatasets(keywordName);
+            const hasDatasets = hasValidDatasets(keywordName);
+            if (hasDatasets) {
+              console.log(`概念 ${concept.label} 透過關鍵字 ${keywordName} 找到資料集`);
+            }
+            return hasDatasets;
           });
           
           return hasValidKeyword;
         });
         
-        console.log(`總共 ${conceptNodes.length} 個概念，其中 ${conceptsWithDatasets.length} 個有連接到有效的資料集（relevance >= 0）`);
+        console.log(`總共 ${conceptNodes.length} 個概念，其中 ${conceptsWithDatasets.length} 個有連接到有效的資料集（relevance >= 0.3）`);
         setConcepts(conceptsWithDatasets);
       })
       .catch((err) => console.error("載入概念失敗:", err));
