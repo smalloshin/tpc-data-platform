@@ -71,10 +71,10 @@ const ConceptExplorer = ({ categoryId, onConceptSelect }: ConceptExplorerProps) 
           });
         };
         
-        // 過濾出真正能找到資料集（relevance >= 0.5）的概念
+        // 過濾出真正能找到資料集（relevance >= 0）的概念
         const conceptsWithDatasets = conceptNodes.filter((concept: any) => {
           const keywordLinks = kgData.links?.filter(
-            (link: any) => link.type === 'keyword_to_concept' && link.target === concept.id
+            (link: any) => link.type === 'belongs_to' && link.target === concept.id
           ) || [];
           
           // 檢查是否至少有一個關鍵字能找到有效資料集
