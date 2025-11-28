@@ -265,7 +265,7 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
 
     // 找出與此概念相關的關鍵字連結
     const keywordLinks = knowledgeGraph.links?.filter(
-      (l: any) => l.type === 'keyword_to_concept' && l.target === concept.id
+      (l: any) => l.type === 'belongs_to' && l.target === concept.id
     ) || [];
 
     console.log(`概念「${concept.label}」找到 ${keywordLinks.length} 個關鍵字連結`);
