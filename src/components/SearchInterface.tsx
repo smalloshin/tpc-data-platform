@@ -58,11 +58,13 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
   const [showKnowledgeGraph, setShowKnowledgeGraph] = useState(false);
 
   useEffect(() => {
-    // 載入資料
+    // 根據類別 ID 決定要載入的資料檔案
+    const categoryId = category.id;
+    
     Promise.all([
-      fetch("/data/transmission_matching_results.json").then(r => r.json()),
-      fetch("/data/transmission_knowledge_graph.json").then(r => r.json()),
-      fetch("/data/situations.json").then(r => r.json())
+      fetch(`/data/${categoryId}_matching_results.json`).then(r => r.json()),
+      fetch(`/data/${categoryId}_knowledge_graph.json`).then(r => r.json()),
+      fetch(`/data/${categoryId}_situations.json`).then(r => r.json())
     ]).then(([matching, kg, situationsData]) => {
       setMatchingResults(matching);
       setKnowledgeGraph(kg);
@@ -77,7 +79,7 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
     }).catch(err => console.error("載入資料失敗:", err));
 
     // 載入搜尋歷史
-    const savedHistory = localStorage.getItem('searchHistory');
+    const savedHistory = localStorage.getItem(`searchHistory_${categoryId}`);
     if (savedHistory) {
       try {
         setSearchHistory(JSON.parse(savedHistory));
@@ -85,7 +87,7 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
         console.error("載入搜尋歷史失敗:", e);
       }
     }
-  }, []);
+  }, [category.id]);
 
   // 處理關鍵字輸入變化，更新建議列表
   useEffect(() => {
@@ -219,12 +221,12 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
     ].slice(0, 10); // 保留最近 10 筆
     
     setSearchHistory(updatedHistory);
-    localStorage.setItem('searchHistory', JSON.stringify(updatedHistory));
+    localStorage.setItem(`searchHistory_${category.id}`, JSON.stringify(updatedHistory));
   };
 
   const clearSearchHistory = () => {
     setSearchHistory([]);
-    localStorage.removeItem('searchHistory');
+    localStorage.removeItem(`searchHistory_${category.id}`);
     toast({ 
       title: "已清除搜尋歷史", 
       description: "所有搜尋記錄已被刪除" 
@@ -530,7 +532,7 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
                 收合 ✕
               </Button>
             </div>
-            <FAQSection onDatasetSelect={handleFAQDatasetSelect} />
+            <FAQSection categoryId={category.id} onDatasetSelect={handleFAQDatasetSelect} />
           </Card>
         )}
 
@@ -542,7 +544,7 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
                 收合 ✕
               </Button>
             </div>
-            <ConceptExplorer onConceptSelect={handleConceptSelect} />
+            <ConceptExplorer categoryId={category.id} onConceptSelect={handleConceptSelect} />
           </Card>
         )}
 
@@ -554,7 +556,7 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
                 收合 ✕
               </Button>
             </div>
-            <KnowledgeGraphD3 onConceptClick={handleConceptSelect} />
+            <KnowledgeGraphD3 categoryId={category.id} onConceptClick={handleConceptSelect} />
           </div>
         )}
       </div>

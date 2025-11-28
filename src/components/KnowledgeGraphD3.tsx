@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { X } from 'lucide-react';
 
 interface KnowledgeGraphD3Props {
+  categoryId: string;
   onConceptClick?: (concept: any) => void;
 }
 
@@ -27,7 +28,7 @@ interface GraphLink extends d3.SimulationLinkDatum<GraphNode> {
   stage?: string;
 }
 
-const KnowledgeGraphD3 = ({ onConceptClick }: KnowledgeGraphD3Props) => {
+const KnowledgeGraphD3 = ({ categoryId, onConceptClick }: KnowledgeGraphD3Props) => {
   const svgRef = useRef<SVGSVGElement>(null);
   const [graphData, setGraphData] = useState<{ nodes: GraphNode[]; links: GraphLink[] } | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -39,7 +40,7 @@ const KnowledgeGraphD3 = ({ onConceptClick }: KnowledgeGraphD3Props) => {
 
   // 載入資料
   useEffect(() => {
-    fetch('/data/transmission_knowledge_graph.json')
+    fetch(`/data/${categoryId}_knowledge_graph.json`)
       .then(res => res.json())
       .then(data => {
         setGraphData(data);
@@ -58,7 +59,7 @@ const KnowledgeGraphD3 = ({ onConceptClick }: KnowledgeGraphD3Props) => {
         });
       })
       .catch(err => console.error('載入知識圖譜失敗:', err));
-  }, []);
+  }, [categoryId]);
 
   // D3 力導向圖初始化
   useEffect(() => {
