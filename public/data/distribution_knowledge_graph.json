@@ -1,0 +1,212 @@
+{
+  "nodes": [
+    {
+      "id": "C001",
+      "label": "配電線路",
+      "type": "concept",
+      "category": "設施類型",
+      "color": "#F5A623",
+      "size": 15
+    },
+    {
+      "id": "C002",
+      "label": "配電變壓器",
+      "type": "concept",
+      "category": "設備",
+      "color": "#F5A623",
+      "size": 15
+    },
+    {
+      "id": "C003",
+      "label": "低壓配電",
+      "type": "concept",
+      "category": "系統",
+      "color": "#F5A623",
+      "size": 15
+    },
+    {
+      "id": "C004",
+      "label": "高壓配電",
+      "type": "concept",
+      "category": "系統",
+      "color": "#F5A623",
+      "size": 15
+    },
+    {
+      "id": "C005",
+      "label": "配電饋線",
+      "type": "concept",
+      "category": "設施",
+      "color": "#F5A623",
+      "size": 15
+    },
+    {
+      "id": "C006",
+      "label": "電表系統",
+      "type": "concept",
+      "category": "設備",
+      "color": "#F5A623",
+      "size": 15
+    },
+    {
+      "id": "C007",
+      "label": "用戶服務",
+      "type": "concept",
+      "category": "服務",
+      "color": "#F5A623",
+      "size": 15
+    },
+    {
+      "id": "C008",
+      "label": "供電品質",
+      "type": "concept",
+      "category": "品質管理",
+      "color": "#F5A623",
+      "size": 15
+    },
+    {
+      "id": "C009",
+      "label": "配電設備",
+      "type": "concept",
+      "category": "設備",
+      "color": "#F5A623",
+      "size": 15
+    },
+    {
+      "id": "C010",
+      "label": "停電管理",
+      "type": "concept",
+      "category": "運作管理",
+      "color": "#F5A623",
+      "size": 15
+    },
+    {
+      "id": "keyword_配電線路",
+      "label": "配電線路",
+      "type": "keyword",
+      "category": "配電",
+      "explanation": "配電線路是將電力從變電所配送到用戶端的線路",
+      "stage": "第一階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_配電變壓器",
+      "label": "配電變壓器",
+      "type": "keyword",
+      "category": "配電",
+      "explanation": "配電變壓器將高壓電降壓為適合用戶使用的電壓",
+      "stage": "第一階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_低壓配電",
+      "label": "低壓配電",
+      "type": "keyword",
+      "category": "配電",
+      "explanation": "低壓配電系統提供110V/220V電力給一般住宅和小型商業用戶",
+      "stage": "第一階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_電表",
+      "label": "電表",
+      "type": "keyword",
+      "category": "配電",
+      "explanation": "電表用於計量用戶用電量",
+      "stage": "第一階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_配電饋線",
+      "label": "配電饋線",
+      "type": "keyword",
+      "category": "配電",
+      "explanation": "配電饋線是配電系統中的主要供電線路",
+      "stage": "第一階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_停電",
+      "label": "停電",
+      "type": "keyword",
+      "category": "配電",
+      "explanation": "停電可能因計畫性維護或突發事故造成",
+      "stage": "第一階段",
+      "color": "#4A90E2",
+      "size": 8
+    }
+  ],
+  "links": [
+    {
+      "source": "keyword_配電線路",
+      "target": "C001",
+      "type": "belongs_to",
+      "label": "屬於"
+    },
+    {
+      "source": "keyword_配電變壓器",
+      "target": "C002",
+      "type": "belongs_to",
+      "label": "屬於"
+    },
+    {
+      "source": "keyword_低壓配電",
+      "target": "C003",
+      "type": "belongs_to",
+      "label": "屬於"
+    },
+    {
+      "source": "keyword_電表",
+      "target": "C006",
+      "type": "belongs_to",
+      "label": "屬於"
+    },
+    {
+      "source": "keyword_配電饋線",
+      "target": "C005",
+      "type": "belongs_to",
+      "label": "屬於"
+    },
+    {
+      "source": "keyword_停電",
+      "target": "C010",
+      "type": "belongs_to",
+      "label": "屬於"
+    },
+    {
+      "source": "C001",
+      "target": "C009",
+      "type": "part_of",
+      "label": "組成部分"
+    },
+    {
+      "source": "C002",
+      "target": "C009",
+      "type": "part_of",
+      "label": "組成部分"
+    },
+    {
+      "source": "C005",
+      "target": "C001",
+      "type": "part_of",
+      "label": "組成部分"
+    },
+    {
+      "source": "C003",
+      "target": "C007",
+      "type": "serves",
+      "label": "服務於"
+    },
+    {
+      "source": "C006",
+      "target": "C007",
+      "type": "supports",
+      "label": "支援"
+    }
+  ]
+}
