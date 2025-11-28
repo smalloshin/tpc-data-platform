@@ -46,6 +46,7 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
   const [keywordInput, setKeywordInput] = useState("");
   const [situations, setSituations] = useState<Situation[]>([]);
   const [availableKeywords, setAvailableKeywords] = useState<string[]>([]);
+  const [quickSearchKeywords, setQuickSearchKeywords] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([]);
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
@@ -76,6 +77,22 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
       );
       const keywords = Array.from(keywordSet).sort();
       setAvailableKeywords(keywords);
+      
+      // 統計關鍵字出現次數，選取最熱門的6個作為快速搜尋
+      const keywordCount = new Map<string, number>();
+      matching.matching_results.forEach((r: any) => {
+        const keyword = String(r.關鍵字);
+        if (keyword) {
+          keywordCount.set(keyword, (keywordCount.get(keyword) || 0) + 1);
+        }
+      });
+      
+      const topKeywords = Array.from(keywordCount.entries())
+        .sort((a, b) => b[1] - a[1]) // 按出現次數降序排列
+        .slice(0, 6) // 取前6個
+        .map(([keyword]) => keyword);
+      
+      setQuickSearchKeywords(topKeywords);
     }).catch(err => console.error("載入資料失敗:", err));
 
     // 載入搜尋歷史
@@ -409,22 +426,24 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
           </Button>
         </div>
         <div className="space-y-3">
-          <div className="flex flex-wrap gap-2">
-            <span className="text-sm text-gray-600">快速搜尋：</span>
-            {['變電所', '饋線', '停電', '再生能源', '電價', '負載'].map((kw) => (
-              <Badge
-                key={kw}
-                variant="secondary"
-                className="cursor-pointer hover:bg-primary hover:text-white transition-colors"
-                onClick={() => {
-                  setKeywordInput(kw);
-                  handleKeywordSearch(kw);
-                }}
-              >
-                {kw}
-              </Badge>
-            ))}
-          </div>
+          {quickSearchKeywords.length > 0 && (
+            <div className="flex flex-wrap gap-2">
+              <span className="text-sm text-gray-600">快速搜尋：</span>
+              {quickSearchKeywords.map((kw) => (
+                <Badge
+                  key={kw}
+                  variant="secondary"
+                  className="cursor-pointer hover:bg-primary hover:text-white transition-colors"
+                  onClick={() => {
+                    setKeywordInput(kw);
+                    handleKeywordSearch(kw);
+                  }}
+                >
+                  {kw}
+                </Badge>
+              ))}
+            </div>
+          )}
           
           {searchHistory.length > 0 && (
             <div className="flex flex-wrap gap-2 items-center pt-2 border-t">
