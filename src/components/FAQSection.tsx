@@ -4,9 +4,15 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, ChevronRight } from "lucide-react";
 
+interface Dataset {
+  id: string;
+  title: string;
+  url: string;
+}
+
 interface Question {
   question: string;
-  related_datasets: string[];
+  related_datasets: Dataset[];
   keywords: string[];
   answer_hint: string;
 }
@@ -20,7 +26,7 @@ interface FAQCategory {
 
 interface FAQSectionProps {
   categoryId: string;
-  onDatasetSelect: (datasets: string[], question: string) => void;
+  onDatasetSelect: (datasets: Dataset[], question: string) => void;
 }
 
 const FAQSection = ({ categoryId, onDatasetSelect }: FAQSectionProps) => {
