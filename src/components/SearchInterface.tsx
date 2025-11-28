@@ -558,7 +558,7 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
                 收合 ✕
               </Button>
             </div>
-            <KnowledgeGraphD3 onConceptClick={handleConceptSelect} />
+            <KnowledgeGraphD3 data={knowledgeGraph} onConceptClick={handleConceptSelect} />
           </div>
         )}
       </div>
