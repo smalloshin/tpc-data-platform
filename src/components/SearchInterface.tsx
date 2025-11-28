@@ -58,11 +58,15 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
   const [showKnowledgeGraph, setShowKnowledgeGraph] = useState(false);
 
   useEffect(() => {
-    // 載入資料
+    // 根據類別載入對應的資料
+    const categoryPrefix = category.id === 'transmission' ? 'transmission' : 
+                          category.id === 'distribution' ? 'distribution' : 
+                          'transmission'; // 預設為輸電
+    
     Promise.all([
-      fetch("/data/transmission_matching_results.json").then(r => r.json()),
-      fetch("/data/transmission_knowledge_graph.json").then(r => r.json()),
-      fetch("/data/situations.json").then(r => r.json())
+      fetch(`/data/${categoryPrefix}_matching_results.json`).then(r => r.json()),
+      fetch(`/data/${categoryPrefix}_knowledge_graph.json`).then(r => r.json()),
+      fetch(`/data/${categoryPrefix === 'transmission' ? 'situations' : categoryPrefix + '_situations'}.json`).then(r => r.json())
     ]).then(([matching, kg, situationsData]) => {
       setMatchingResults(matching);
       setKnowledgeGraph(kg);
@@ -82,10 +86,10 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
       try {
         setSearchHistory(JSON.parse(savedHistory));
       } catch (e) {
-        console.error("載入搜尋歷史失敗:", e);
+      console.error("載入搜尋歷史失敗:", e);
       }
     }
-  }, []);
+  }, [category.id]);
 
   // 處理關鍵字輸入變化，更新建議列表
   useEffect(() => {
@@ -530,7 +534,7 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
                 收合 ✕
               </Button>
             </div>
-            <FAQSection onDatasetSelect={handleFAQDatasetSelect} />
+            <FAQSection categoryId={category.id} onDatasetSelect={handleFAQDatasetSelect} />
           </Card>
         )}
 
@@ -542,7 +546,7 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
                 收合 ✕
               </Button>
             </div>
-            <ConceptExplorer onConceptSelect={handleConceptSelect} />
+            <ConceptExplorer categoryId={category.id} onConceptSelect={handleConceptSelect} />
           </Card>
         )}
 
