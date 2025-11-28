@@ -139,6 +139,46 @@
       "stage": "第一階段",
       "color": "#4A90E2",
       "size": 8
+    },
+    {
+      "id": "keyword_用戶服務",
+      "label": "用戶服務",
+      "type": "keyword",
+      "category": "配電",
+      "explanation": "提供用戶售電、申請、查詢等各項服務",
+      "stage": "第一階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_供電品質",
+      "label": "供電品質",
+      "type": "keyword",
+      "category": "配電",
+      "explanation": "電壓穩定度、頻率等供電品質指標",
+      "stage": "第一階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_電價",
+      "label": "電價",
+      "type": "keyword",
+      "category": "配電",
+      "explanation": "各種電價種類及適用範圍",
+      "stage": "第一階段",
+      "color": "#4A90E2",
+      "size": 8
+    },
+    {
+      "id": "keyword_路燈",
+      "label": "路燈",
+      "type": "keyword",
+      "category": "配電",
+      "explanation": "公共路燈用電統計與管理",
+      "stage": "第一階段",
+      "color": "#4A90E2",
+      "size": 8
     }
   ],
   "links": [
@@ -179,6 +219,30 @@
       "label": "屬於"
     },
     {
+      "source": "keyword_用戶服務",
+      "target": "C007",
+      "type": "belongs_to",
+      "label": "屬於"
+    },
+    {
+      "source": "keyword_供電品質",
+      "target": "C008",
+      "type": "belongs_to",
+      "label": "屬於"
+    },
+    {
+      "source": "keyword_電價",
+      "target": "C007",
+      "type": "belongs_to",
+      "label": "屬於"
+    },
+    {
+      "source": "keyword_路燈",
+      "target": "C007",
+      "type": "belongs_to",
+      "label": "屬於"
+    },
+    {
       "source": "C001",
       "target": "C009",
       "type": "part_of",
@@ -207,6 +271,12 @@
       "target": "C007",
       "type": "supports",
       "label": "支援"
+    },
+    {
+      "source": "C008",
+      "target": "C009",
+      "type": "evaluates",
+      "label": "評估"
     }
   ]
 }
