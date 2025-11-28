@@ -2205,7 +2205,7 @@
       "size": 10
     }
   ],
-  "edges": [
+  "links": [
     {
       "source": "keyword_售電量 (度)",
       "target": "concept_1",
