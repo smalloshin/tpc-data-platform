@@ -58,15 +58,11 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
   const [showKnowledgeGraph, setShowKnowledgeGraph] = useState(false);
 
   useEffect(() => {
-    // 根據類別載入對應的資料
-    const categoryPrefix = category.id === 'transmission' ? 'transmission' : 
-                          category.id === 'distribution' ? 'distribution' : 
-                          'transmission'; // 預設為輸電
-    
+    // 載入資料
     Promise.all([
-      fetch(`/data/${categoryPrefix}_matching_results.json`).then(r => r.json()),
-      fetch(`/data/${categoryPrefix}_knowledge_graph.json`).then(r => r.json()),
-      fetch(`/data/${categoryPrefix === 'transmission' ? 'situations' : categoryPrefix + '_situations'}.json`).then(r => r.json())
+      fetch("/data/transmission_matching_results.json").then(r => r.json()),
+      fetch("/data/transmission_knowledge_graph.json").then(r => r.json()),
+      fetch("/data/situations.json").then(r => r.json())
     ]).then(([matching, kg, situationsData]) => {
       setMatchingResults(matching);
       setKnowledgeGraph(kg);
@@ -86,10 +82,10 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
       try {
         setSearchHistory(JSON.parse(savedHistory));
       } catch (e) {
-      console.error("載入搜尋歷史失敗:", e);
+        console.error("載入搜尋歷史失敗:", e);
       }
     }
-  }, [category.id]);
+  }, []);
 
   // 處理關鍵字輸入變化，更新建議列表
   useEffect(() => {
@@ -534,7 +530,7 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
                 收合 ✕
               </Button>
             </div>
-            <FAQSection categoryId={category.id} onDatasetSelect={handleFAQDatasetSelect} />
+            <FAQSection onDatasetSelect={handleFAQDatasetSelect} />
           </Card>
         )}
 
@@ -546,11 +542,11 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
                 收合 ✕
               </Button>
             </div>
-            <ConceptExplorer categoryId={category.id} onConceptSelect={handleConceptSelect} />
+            <ConceptExplorer onConceptSelect={handleConceptSelect} />
           </Card>
         )}
 
-        {showKnowledgeGraph && knowledgeGraph && (
+        {showKnowledgeGraph && (
           <div className="animate-fade-in">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-xl font-semibold">🗺️ 知識圖譜視覺化</h3>
@@ -558,7 +554,7 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
                 收合 ✕
               </Button>
             </div>
-            <KnowledgeGraphD3 data={knowledgeGraph} onConceptClick={handleConceptSelect} />
+            <KnowledgeGraphD3 onConceptClick={handleConceptSelect} />
           </div>
         )}
       </div>

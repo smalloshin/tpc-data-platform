@@ -7,7 +7,6 @@ import { Badge } from '@/components/ui/badge';
 import { X } from 'lucide-react';
 
 interface KnowledgeGraphD3Props {
-  data?: { nodes: GraphNode[]; links: GraphLink[] };
   onConceptClick?: (concept: any) => void;
 }
 
@@ -28,7 +27,7 @@ interface GraphLink extends d3.SimulationLinkDatum<GraphNode> {
   stage?: string;
 }
 
-const KnowledgeGraphD3 = ({ data, onConceptClick }: KnowledgeGraphD3Props) => {
+const KnowledgeGraphD3 = ({ onConceptClick }: KnowledgeGraphD3Props) => {
   const svgRef = useRef<SVGSVGElement>(null);
   const [graphData, setGraphData] = useState<{ nodes: GraphNode[]; links: GraphLink[] } | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -40,45 +39,26 @@ const KnowledgeGraphD3 = ({ data, onConceptClick }: KnowledgeGraphD3Props) => {
 
   // 載入資料
   useEffect(() => {
-    if (data) {
-      // 使用外部傳入的資料
-      setGraphData(data);
-      
-      // 計算統計資料
-      const concepts = data.nodes.filter((n: GraphNode) => n.type === 'concept').length;
-      const keywords = data.nodes.filter((n: GraphNode) => n.type === 'keyword').length;
-      const datasets = data.nodes.filter((n: GraphNode) => n.type === 'dataset').length;
-      
-      setStats({
-        nodes: data.nodes.length,
-        links: data.links.length,
-        concepts,
-        keywords,
-        datasets
-      });
-    } else {
-      // 如果沒有傳入資料，則從檔案載入（向後相容）
-      fetch('/data/transmission_knowledge_graph.json')
-        .then(res => res.json())
-        .then(loadedData => {
-          setGraphData(loadedData);
-          
-          // 計算統計資料
-          const concepts = loadedData.nodes.filter((n: GraphNode) => n.type === 'concept').length;
-          const keywords = loadedData.nodes.filter((n: GraphNode) => n.type === 'keyword').length;
-          const datasets = loadedData.nodes.filter((n: GraphNode) => n.type === 'dataset').length;
-          
-          setStats({
-            nodes: loadedData.nodes.length,
-            links: loadedData.links.length,
-            concepts,
-            keywords,
-            datasets
-          });
-        })
-        .catch(err => console.error('載入知識圖譜失敗:', err));
-    }
-  }, [data]);
+    fetch('/data/transmission_knowledge_graph.json')
+      .then(res => res.json())
+      .then(data => {
+        setGraphData(data);
+        
+        // 計算統計資料
+        const concepts = data.nodes.filter((n: GraphNode) => n.type === 'concept').length;
+        const keywords = data.nodes.filter((n: GraphNode) => n.type === 'keyword').length;
+        const datasets = data.nodes.filter((n: GraphNode) => n.type === 'dataset').length;
+        
+        setStats({
+          nodes: data.nodes.length,
+          links: data.links.length,
+          concepts,
+          keywords,
+          datasets
+        });
+      })
+      .catch(err => console.error('載入知識圖譜失敗:', err));
+  }, []);
 
   // D3 力導向圖初始化
   useEffect(() => {

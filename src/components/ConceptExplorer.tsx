@@ -11,23 +11,18 @@ interface Concept {
 }
 
 interface ConceptExplorerProps {
-  categoryId: string;
   onConceptSelect: (concept: Concept) => void;
 }
 
-const ConceptExplorer = ({ categoryId, onConceptSelect }: ConceptExplorerProps) => {
+const ConceptExplorer = ({ onConceptSelect }: ConceptExplorerProps) => {
   const [concepts, setConcepts] = useState<Concept[]>([]);
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
 
   useEffect(() => {
-    // 根據類別載入對應的知識圖譜和匹配結果
-    const categoryPrefix = categoryId === 'transmission' ? 'transmission' : 
-                          categoryId === 'distribution' ? 'distribution' : 
-                          'transmission'; // 預設為輸電
-    
+    // 同時載入知識圖譜和匹配結果
     Promise.all([
-      fetch(`/data/${categoryPrefix}_knowledge_graph.json`).then(r => r.json()),
-      fetch(`/data/${categoryPrefix}_matching_results.json`).then(r => r.json())
+      fetch("/data/transmission_knowledge_graph.json").then(r => r.json()),
+      fetch("/data/transmission_matching_results.json").then(r => r.json())
     ])
       .then(([kgData, matchingData]) => {
         const conceptNodes = kgData.nodes.filter((n: any) => n.type === "concept");
@@ -94,7 +89,7 @@ const ConceptExplorer = ({ categoryId, onConceptSelect }: ConceptExplorerProps) 
         setConcepts(conceptsWithDatasets);
       })
       .catch((err) => console.error("載入概念失敗:", err));
-  }, [categoryId]);
+  }, []);
 
   const toggleCategory = (category: string) => {
     const newExpanded = new Set(expandedCategories);
