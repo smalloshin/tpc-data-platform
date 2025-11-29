@@ -4,7 +4,7 @@
       "id": "concept_1",
       "label": "售電量與購電量",
       "type": "concept",
-      "category": "統計",
+      "category": "電力統計",
       "color": "#F5A623",
       "size": 15
     },
@@ -12,7 +12,7 @@
       "id": "concept_2",
       "label": "用戶管理",
       "type": "concept",
-      "category": "管理",
+      "category": "用戶服務",
       "color": "#F5A623",
       "size": 15
     },
@@ -20,7 +20,7 @@
       "id": "concept_3",
       "label": "電費與電價",
       "type": "concept",
-      "category": "價格",
+      "category": "計價機制",
       "color": "#F5A623",
       "size": 15
     },
@@ -28,7 +28,7 @@
       "id": "concept_4",
       "label": "電力市場",
       "type": "concept",
-      "category": "市場",
+      "category": "市場運作",
       "color": "#F5A623",
       "size": 15
     },
@@ -36,7 +36,7 @@
       "id": "concept_5",
       "label": "市場價格機制",
       "type": "concept",
-      "category": "機制",
+      "category": "市場運作",
       "color": "#F5A623",
       "size": 15
     },
@@ -44,7 +44,7 @@
       "id": "concept_6",
       "label": "電力銷售",
       "type": "concept",
-      "category": "銷售",
+      "category": "用戶服務",
       "color": "#F5A623",
       "size": 15
     },
@@ -52,7 +52,7 @@
       "id": "concept_7",
       "label": "電網費率",
       "type": "concept",
-      "category": "費率",
+      "category": "計價機制",
       "color": "#F5A623",
       "size": 15
     },
@@ -60,7 +60,7 @@
       "id": "concept_8",
       "label": "供應商與電力公司",
       "type": "concept",
-      "category": "服務",
+      "category": "用戶服務",
       "color": "#F5A623",
       "size": 15
     },
