@@ -78,7 +78,7 @@ const ConceptExplorer = ({ categoryId, onConceptSelect }: ConceptExplorerProps) 
         // 過濾出真正能找到資料集（relevance >= 0.3）的概念
         const conceptsWithDatasets = conceptNodes.filter((concept: any) => {
           const keywordLinks = links.filter(
-            (link: any) => link.type === 'belongs_to' && link.target === concept.id
+            (link: any) => (link.type === 'belongs_to' || link.type === 'keyword_to_concept') && link.target === concept.id
           );
           
           if (keywordLinks.length === 0) {
