@@ -147,7 +147,7 @@ const ConceptExplorer = ({ categoryId, onConceptSelect }: ConceptExplorerProps) 
     "設備": "⚙️",
     "系統": "🔌",
     "技術": "💡",
-    "技術參數": "📊",
+    "技術參數": "⚙️",
     "設施": "🏢",
     "電力統計": "📊",
     "用戶服務": "👥",
@@ -155,6 +155,12 @@ const ConceptExplorer = ({ categoryId, onConceptSelect }: ConceptExplorerProps) 
     "市場機制": "🏪",
     "銷售業務": "🔌",
     "供應鏈": "🏢",
+    "計價機制": "💰",
+    "市場運作": "📈",
+    "變電設施": "🏗️",
+    "線路設施": "🔌",
+    "開關保護設備": "🛡️",
+    "系統運作": "📊",
   };
 
   return (

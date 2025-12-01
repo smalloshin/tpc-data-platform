@@ -4,7 +4,7 @@
       "id": "C001",
       "label": "輸電線路",
       "type": "concept",
-      "category": "設施類型",
+      "category": "線路設施",
       "color": "#F5A623",
       "size": 15
     },
@@ -12,7 +12,7 @@
       "id": "C002",
       "label": "變壓器設備",
       "type": "concept",
-      "category": "設備",
+      "category": "變電設施",
       "color": "#F5A623",
       "size": 15
     },
@@ -20,7 +20,7 @@
       "id": "C003",
       "label": "變電所",
       "type": "concept",
-      "category": "設施類型",
+      "category": "變電設施",
       "color": "#F5A623",
       "size": 15
     },
@@ -28,7 +28,7 @@
       "id": "C004",
       "label": "開關設備",
       "type": "concept",
-      "category": "設備",
+      "category": "開關保護設備",
       "color": "#F5A623",
       "size": 15
     },
@@ -36,7 +36,7 @@
       "id": "C005",
       "label": "測量設備",
       "type": "concept",
-      "category": "設備",
+      "category": "開關保護設備",
       "color": "#F5A623",
       "size": 15
     },
@@ -44,7 +44,7 @@
       "id": "C006",
       "label": "保護設備",
       "type": "concept",
-      "category": "設備",
+      "category": "開關保護設備",
       "color": "#F5A623",
       "size": 15
     },
@@ -52,7 +52,7 @@
       "id": "C007",
       "label": "配電設備",
       "type": "concept",
-      "category": "設備",
+      "category": "開關保護設備",
       "color": "#F5A623",
       "size": 15
     },
@@ -68,7 +68,7 @@
       "id": "C009",
       "label": "輸電運作",
       "type": "concept",
-      "category": "運作管理",
+      "category": "系統運作",
       "color": "#F5A623",
       "size": 15
     },
@@ -76,7 +76,7 @@
       "id": "C010",
       "label": "輸電系統",
       "type": "concept",
-      "category": "系統",
+      "category": "系統運作",
       "color": "#F5A623",
       "size": 15
     },
@@ -84,7 +84,7 @@
       "id": "C011",
       "label": "互聯系統",
       "type": "concept",
-      "category": "系統",
+      "category": "系統運作",
       "color": "#F5A623",
       "size": 15
     },
@@ -92,7 +92,7 @@
       "id": "C012",
       "label": "高壓直流",
       "type": "concept",
-      "category": "技術",
+      "category": "技術參數",
       "color": "#F5A623",
       "size": 15
     },
@@ -100,7 +100,7 @@
       "id": "C013",
       "label": "線路設施",
       "type": "concept",
-      "category": "設施",
+      "category": "線路設施",
       "color": "#F5A623",
       "size": 15
     },
@@ -108,7 +108,7 @@
       "id": "C014",
       "label": "電力交易",
       "type": "concept",
-      "category": "運作管理",
+      "category": "系統運作",
       "color": "#F5A623",
       "size": 15
     },
@@ -116,7 +116,7 @@
       "id": "C015",
       "label": "故障管理",
       "type": "concept",
-      "category": "運作管理",
+      "category": "系統運作",
       "color": "#F5A623",
       "size": 15
     },
@@ -1329,7 +1329,7 @@
     "stage3_count": 15,
     "total_concepts": 15
   },
-  "links": [
+  "edges": [
     {
       "id": "E0",
       "source": "keyword_饋線",
