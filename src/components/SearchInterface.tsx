@@ -52,6 +52,7 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
   const resultsRef = useRef<HTMLDivElement>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [dialogType, setDialogType] = useState<'detail' | 'sample' | 'summary'>('detail');
   const [selectedDataset, setSelectedDataset] = useState<DatasetDetail | null>(null);
   const [showFAQ, setShowFAQ] = useState(false);
   const [showConcepts, setShowConcepts] = useState(false);
@@ -354,11 +355,40 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
     const detail = await getDatasetDetail(datasetName);
     if (detail) {
       setSelectedDataset(detail);
+      setDialogType('detail');
       setDialogOpen(true);
     } else {
       toast({
         title: "找不到資料",
         description: "無法載入此資料集的詳細說明"
+      });
+    }
+  };
+
+  const handleViewSample = async (datasetName: string) => {
+    const detail = await getDatasetDetail(datasetName);
+    if (detail) {
+      setSelectedDataset(detail);
+      setDialogType('sample');
+      setDialogOpen(true);
+    } else {
+      toast({
+        title: "找不到資料",
+        description: "無法載入此資料集的範例資料"
+      });
+    }
+  };
+
+  const handleViewSummary = async (datasetName: string) => {
+    const detail = await getDatasetDetail(datasetName);
+    if (detail) {
+      setSelectedDataset(detail);
+      setDialogType('summary');
+      setDialogOpen(true);
+    } else {
+      toast({
+        title: "找不到資料",
+        description: "無法載入此資料集的總結"
       });
     }
   };
@@ -618,6 +648,20 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
                     >
                       查看詳情
                     </Button>
+                    <Button 
+                      size="sm"
+                      variant="outline"
+                      onClick={() => handleViewSample(result.name)}
+                    >
+                      範例資料
+                    </Button>
+                    <Button 
+                      size="sm"
+                      className="bg-gradient-to-r from-[#667eea] to-[#764ba2] text-white"
+                      onClick={() => handleViewSummary(result.name)}
+                    >
+                      資料集總結
+                    </Button>
                   </div>
                 </div>
               </Card>
@@ -631,6 +675,9 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
         onOpenChange={setDialogOpen}
         datasetName={selectedDataset?.name || ''}
         description={selectedDataset?.description}
+        sampleData={selectedDataset?.sampleData}
+        summary={selectedDataset?.summary}
+        type={dialogType}
       />
     </div>
   );
