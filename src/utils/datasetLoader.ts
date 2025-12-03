@@ -10,7 +10,9 @@ export interface DatasetDetail {
 let cachedData: Map<string, DatasetDetail> | null = null;
 
 const parseCSV = (text: string): any[] => {
-  const lines = text.split('\n');
+  // 移除 BOM 字元
+  const cleanText = text.replace(/^\uFEFF/, '');
+  const lines = cleanText.split('\n');
   if (lines.length < 2) return [];
   
   const headers = parseCSVLine(lines[0]);
