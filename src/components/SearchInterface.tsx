@@ -381,16 +381,10 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
 
   const handleViewSummary = async (datasetName: string) => {
     const detail = await getDatasetDetail(datasetName);
-    if (detail) {
-      setSelectedDataset(detail);
-      setDialogType('summary');
-      setDialogOpen(true);
-    } else {
-      toast({
-        title: "找不到資料",
-        description: "無法載入此資料集的總結"
-      });
-    }
+    // 即使找不到也打開對話框，顯示「暫無資料集總結」
+    setSelectedDataset(detail || { name: datasetName, description: '', sampleData: '', summary: '' });
+    setDialogType('summary');
+    setDialogOpen(true);
   };
 
   return (
