@@ -1,18 +1,24 @@
-import * as XLSX from 'xlsx';
-
 export interface DatasetDetail {
   name: string;
   description: string;
-  sampleData: string;
-  summary: string;
+  coreFunction: string;
+  geoScope: string;
+  timeRange: string;
+  dataGranularity: string;
+  scenario1: string;
+  scenario2: string;
+  scenario3: string;
+  updateDelay: string;
+  completeness: string;
+  accuracy: string;
+  relatedDatasets: string;
+  usageSuggestion: string;
 }
 
 let cachedData: Map<string, DatasetDetail> | null = null;
 
 const parseCSV = (text: string): any[] => {
-  // 移除 BOM 字元
-  const cleanText = text.replace(/^\uFEFF/, '');
-  const lines = cleanText.split('\n');
+  const lines = text.split('\n');
   if (lines.length < 2) return [];
   
   const headers = parseCSVLine(lines[0]);
@@ -71,64 +77,43 @@ export const loadDatasetDetails = async (): Promise<Map<string, DatasetDetail>> 
     return cachedData;
   }
 
-  const dataMap = new Map<string, DatasetDetail>();
-
   try {
-    // 載入原有的 xlsx 檔案（詳情和範例資料）
-    const xlsxResponse = await fetch('/data/dataset_details.xlsx');
-    const arrayBuffer = await xlsxResponse.arrayBuffer();
-    const workbook = XLSX.read(arrayBuffer, { type: 'array' });
-    const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-    const xlsxData = XLSX.utils.sheet_to_json<any>(firstSheet);
+    const response = await fetch('/data/dataset_summary.csv');
+    const text = await response.text();
+    const jsonData = parseCSV(text);
     
-    xlsxData.forEach((row: any) => {
+    const dataMap = new Map<string, DatasetDetail>();
+    
+    jsonData.forEach((row: any) => {
       const name = row['資料集名稱'] || '';
       if (name) {
-        dataMap.set(name, {
+        const detail: DatasetDetail = {
           name: name,
-          description: row['資料集詳細說明'] || '',
-          sampleData: row['範例資料'] || '',
-          summary: ''
-        });
+          description: row['資料集總結'] || '',
+          coreFunction: row['核心功能'] || '',
+          geoScope: row['地理範圍'] || '',
+          timeRange: row['時間範圍'] || '',
+          dataGranularity: row['資料粒度'] || '',
+          scenario1: row['應用場景 1'] || '',
+          scenario2: row['應用場景 2'] || '',
+          scenario3: row['應用場景 3'] || '',
+          updateDelay: row['更新延遲'] || '',
+          completeness: row['完整性'] || '',
+          accuracy: row['準確性'] || '',
+          relatedDatasets: row['相關資料集'] || '',
+          usageSuggestion: row['使用建議'] || ''
+        };
+        dataMap.set(name, detail);
       }
     });
-    console.log(`成功從 xlsx 載入 ${dataMap.size} 個資料集`);
-  } catch (error) {
-    console.error('載入 dataset_details.xlsx 失敗:', error);
-  }
-
-  try {
-    // 載入 CSV 檔案（資料集總結）
-    const csvResponse = await fetch('/data/dataset_summary.csv');
-    const text = await csvResponse.text();
-    const csvData = parseCSV(text);
     
-    let summaryCount = 0;
-    csvData.forEach((row: any) => {
-      const name = row['資料集名稱'] || '';
-      const summary = row['資料集總結'] || '';
-      if (name && summary) {
-        const existing = dataMap.get(name);
-        if (existing) {
-          existing.summary = summary;
-        } else {
-          dataMap.set(name, {
-            name: name,
-            description: '',
-            sampleData: '',
-            summary: summary
-          });
-        }
-        summaryCount++;
-      }
-    });
-    console.log(`成功從 csv 載入 ${summaryCount} 個資料集總結`);
+    cachedData = dataMap;
+    console.log(`成功載入 ${dataMap.size} 個資料集的總結資訊`);
+    return dataMap;
   } catch (error) {
-    console.error('載入 dataset_summary.csv 失敗:', error);
+    console.error('載入資料集總結資訊失敗:', error);
+    return new Map();
   }
-
-  cachedData = dataMap;
-  return dataMap;
 };
 
 export const getDatasetDetail = async (datasetName: string): Promise<DatasetDetail | null> => {
