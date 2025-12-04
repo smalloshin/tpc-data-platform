@@ -21,7 +21,8 @@ interface DatasetDetailDialogProps {
   datasetName: string;
   description?: string;
   sampleData?: string;
-  type: 'detail' | 'sample';
+  summary?: string;
+  type: 'detail' | 'sample' | 'summary';
 }
 
 const DatasetDetailDialog = ({
@@ -30,8 +31,17 @@ const DatasetDetailDialog = ({
   datasetName,
   description,
   sampleData,
+  summary,
   type
 }: DatasetDetailDialogProps) => {
+  const getTitle = () => {
+    switch (type) {
+      case 'detail': return '資料集詳細說明';
+      case 'sample': return '資料集範例資料';
+      case 'summary': return '資料集解釋';
+      default: return '資料集資訊';
+    }
+  };
   const renderSampleData = () => {
     if (!sampleData) return <p className="text-muted-foreground">暫無範例資料</p>;
     
@@ -85,25 +95,40 @@ const DatasetDetailDialog = ({
     return <pre className="text-sm whitespace-pre-wrap">{sampleData}</pre>;
   };
 
+  const renderContent = () => {
+    switch (type) {
+      case 'detail':
+        return (
+          <div className="prose prose-sm max-w-none">
+            {description || <p className="text-muted-foreground">暫無詳細說明</p>}
+          </div>
+        );
+      case 'sample':
+        return renderSampleData();
+      case 'summary':
+        return (
+          <div className="prose prose-sm max-w-none whitespace-pre-wrap leading-relaxed">
+            {summary || <p className="text-muted-foreground">暫無資料集解釋</p>}
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-3xl max-h-[80vh]">
         <DialogHeader>
           <DialogTitle className="text-xl">
-            {type === 'detail' ? '資料集詳細說明' : '資料集範例資料'}
+            {getTitle()}
           </DialogTitle>
           <DialogDescription className="text-base font-medium">
             {datasetName}
           </DialogDescription>
         </DialogHeader>
         <ScrollArea className="max-h-[60vh] pr-4">
-          {type === 'detail' ? (
-            <div className="prose prose-sm max-w-none">
-              {description || <p className="text-muted-foreground">暫無詳細說明</p>}
-            </div>
-          ) : (
-            renderSampleData()
-          )}
+          {renderContent()}
         </ScrollArea>
       </DialogContent>
     </Dialog>

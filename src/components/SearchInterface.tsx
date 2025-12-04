@@ -52,7 +52,7 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
   const resultsRef = useRef<HTMLDivElement>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [dialogType, setDialogType] = useState<'detail' | 'sample'>('detail');
+  const [dialogType, setDialogType] = useState<'detail' | 'sample' | 'summary'>('detail');
   const [selectedDataset, setSelectedDataset] = useState<DatasetDetail | null>(null);
   const [showFAQ, setShowFAQ] = useState(false);
   const [showConcepts, setShowConcepts] = useState(false);
@@ -379,6 +379,20 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
     }
   };
 
+  const handleViewSummary = async (datasetName: string) => {
+    const detail = await getDatasetDetail(datasetName);
+    if (detail) {
+      setSelectedDataset(detail);
+      setDialogType('summary');
+      setDialogOpen(true);
+    } else {
+      toast({
+        title: "找不到資料",
+        description: "無法載入此資料集的解釋"
+      });
+    }
+  };
+
   return (
     <div className="bg-white rounded-3xl p-10 shadow-2xl animate-in fade-in duration-500">
       <Button 
@@ -626,13 +640,20 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
                       </div>
                     )}
                   </div>
-                  <div className="flex gap-2 ml-4">
+                  <div className="flex gap-2 ml-4 flex-wrap">
                     <Button 
                       size="sm" 
                       variant="outline"
                       onClick={() => handleViewDetail(result.name)}
                     >
                       查看詳情
+                    </Button>
+                    <Button 
+                      size="sm"
+                      variant="outline"
+                      onClick={() => handleViewSummary(result.name)}
+                    >
+                      資料集解釋
                     </Button>
                     <Button 
                       size="sm"
@@ -655,6 +676,7 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
         datasetName={selectedDataset?.name || ''}
         description={selectedDataset?.description}
         sampleData={selectedDataset?.sampleData}
+        summary={selectedDataset?.summary}
         type={dialogType}
       />
     </div>
