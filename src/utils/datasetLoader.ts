@@ -6,6 +6,7 @@ export interface DatasetDetail {
   name: string;
   description: string;
   sampleData: string;
+  summary: string;
 }
 
 let cachedData: Map<string, DatasetDetail> | null = null;
@@ -16,6 +17,7 @@ export const loadDatasetDetails = async (): Promise<Map<string, DatasetDetail>> 
   }
 
   try {
+    // 載入原始資料集詳細資訊
     const response = await fetch('/data/dataset_details.xlsx');
     const arrayBuffer = await response.arrayBuffer();
     const workbook = XLSX.read(arrayBuffer, { type: 'array' });
@@ -23,15 +25,35 @@ export const loadDatasetDetails = async (): Promise<Map<string, DatasetDetail>> 
     const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
     const jsonData = XLSX.utils.sheet_to_json<any>(firstSheet);
     
+    // 載入資料集總結
+    const summaryResponse = await fetch('/data/dataset_summary.xlsx');
+    const summaryArrayBuffer = await summaryResponse.arrayBuffer();
+    const summaryWorkbook = XLSX.read(summaryArrayBuffer, { type: 'array' });
+    
+    const summarySheet = summaryWorkbook.Sheets[summaryWorkbook.SheetNames[0]];
+    const summaryData = XLSX.utils.sheet_to_json<any>(summarySheet);
+    
+    // 建立資料集名稱到總結的映射
+    const summaryMap = new Map<string, string>();
+    summaryData.forEach((row: any) => {
+      const name = row['資料集名稱'] || '';
+      const summary = row['資料集總結'] || '';
+      if (name && summary) {
+        summaryMap.set(name, summary);
+      }
+    });
+    
     const dataMap = new Map<string, DatasetDetail>();
     
     jsonData.forEach((row: any) => {
+      const name = row['資料集名稱'] || '';
       const detail: DatasetDetail = {
         department: row['部門'] || '',
         id: String(row['資料集ID'] || ''),
-        name: row['資料集名稱'] || '',
+        name: name,
         description: row['資料集詳細說明'] || '',
-        sampleData: row['範例資料'] || ''
+        sampleData: row['範例資料'] || '',
+        summary: summaryMap.get(name) || ''
       };
       
       if (detail.name) {
