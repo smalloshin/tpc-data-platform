@@ -115,6 +115,9 @@ export const searchOtherSystems = (systems: SystemData[], keyword: string): Syst
     system.purpose.toLowerCase().includes(searchTerm) ||
     system.managementTarget.toLowerCase().includes(searchTerm) ||
     system.functionDescription.toLowerCase().includes(searchTerm) ||
-    system.keywords.toLowerCase().includes(searchTerm)
+    system.keywords.toLowerCase().includes(searchTerm) ||
+    system.themeL1.toLowerCase().includes(searchTerm) ||
+    system.analysisTaskL2.toLowerCase().includes(searchTerm) ||
+    system.scenarios.toLowerCase().includes(searchTerm)
   );
 };
