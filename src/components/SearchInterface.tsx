@@ -8,8 +8,12 @@ import FAQSection from "@/components/FAQSection";
 import ConceptExplorer from "@/components/ConceptExplorer";
 import DatasetDetailDialog from "@/components/DatasetDetailDialog";
 import KnowledgeGraphD3 from "@/components/KnowledgeGraphD3";
+import ResponsibleUnitExplorer from "@/components/ResponsibleUnitExplorer";
+import OtherSituationExplorer from "@/components/OtherSituationExplorer";
+import OtherSystemDetailDialog from "@/components/OtherSystemDetailDialog";
 import { toast } from "@/components/ui/use-toast";
 import { getDatasetDetail, type DatasetDetail } from "@/utils/datasetLoader";
+import { loadOtherSystems, searchOtherSystems, type SystemData } from "@/utils/otherSystemsLoader";
 
 interface Category {
   id: string;
@@ -59,6 +63,10 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
   const [showKnowledgeGraph, setShowKnowledgeGraph] = useState(false);
   const [showResponsibleUnit, setShowResponsibleUnit] = useState(false);
   const [showSituationExplorer, setShowSituationExplorer] = useState(false);
+  const [otherSystems, setOtherSystems] = useState<SystemData[]>([]);
+  const [otherSearchResults, setOtherSearchResults] = useState<SystemData[]>([]);
+  const [selectedSystem, setSelectedSystem] = useState<SystemData | null>(null);
+  const [systemDialogOpen, setSystemDialogOpen] = useState(false);
   
   const isOtherCategory = category.id === "other";
 
@@ -66,38 +74,76 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
     // 根據類別 ID 決定要載入的資料檔案
     const categoryId = category.id;
     
-    Promise.all([
-      fetch(`/data/${categoryId}_matching_results.json`).then(r => r.json()),
-      fetch(`/data/${categoryId}_knowledge_graph.json`).then(r => r.json()),
-      fetch(`/data/${categoryId}_situations.json`).then(r => r.json())
-    ]).then(([matching, kg, situationsData]) => {
-      setMatchingResults(matching);
-      setKnowledgeGraph(kg);
-      setSituations(situationsData.situations);
-      
-      // 提取所有可用的關鍵字
-      const keywordSet = new Set<string>(
-        matching.matching_results.map((r: any) => String(r.關鍵字)).filter((k: string) => k)
-      );
-      const keywords = Array.from(keywordSet).sort();
-      setAvailableKeywords(keywords);
-      
-      // 統計關鍵字出現次數，選取最熱門的6個作為快速搜尋
-      const keywordCount = new Map<string, number>();
-      matching.matching_results.forEach((r: any) => {
-        const keyword = String(r.關鍵字);
-        if (keyword) {
-          keywordCount.set(keyword, (keywordCount.get(keyword) || 0) + 1);
-        }
+    // 若為「其他」類別，載入系統資料
+    if (categoryId === 'other') {
+      loadOtherSystems().then(systems => {
+        setOtherSystems(systems);
+        
+        // 從系統資料提取關鍵字
+        const keywordSet = new Set<string>();
+        systems.forEach(system => {
+          // 從管理標的提取關鍵字
+          if (system.managementTarget) {
+            keywordSet.add(system.managementTarget);
+          }
+          // 從主題領域提取
+          if (system.themeL1) {
+            keywordSet.add(system.themeL1);
+          }
+        });
+        const keywords = Array.from(keywordSet).sort();
+        setAvailableKeywords(keywords);
+        
+        // 選取熱門主題作為快速搜尋
+        const themeCount = new Map<string, number>();
+        systems.forEach(system => {
+          if (system.themeL1) {
+            themeCount.set(system.themeL1, (themeCount.get(system.themeL1) || 0) + 1);
+          }
+        });
+        
+        const topKeywords = Array.from(themeCount.entries())
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 6)
+          .map(([keyword]) => keyword);
+        
+        setQuickSearchKeywords(topKeywords);
       });
-      
-      const topKeywords = Array.from(keywordCount.entries())
-        .sort((a, b) => b[1] - a[1]) // 按出現次數降序排列
-        .slice(0, 6) // 取前6個
-        .map(([keyword]) => keyword);
-      
-      setQuickSearchKeywords(topKeywords);
-    }).catch(err => console.error("載入資料失敗:", err));
+    } else {
+      // 非「其他」類別，載入 JSON 檔案
+      Promise.all([
+        fetch(`/data/${categoryId}_matching_results.json`).then(r => r.json()),
+        fetch(`/data/${categoryId}_knowledge_graph.json`).then(r => r.json()),
+        fetch(`/data/${categoryId}_situations.json`).then(r => r.json())
+      ]).then(([matching, kg, situationsData]) => {
+        setMatchingResults(matching);
+        setKnowledgeGraph(kg);
+        setSituations(situationsData.situations);
+        
+        // 提取所有可用的關鍵字
+        const keywordSet = new Set<string>(
+          matching.matching_results.map((r: any) => String(r.關鍵字)).filter((k: string) => k)
+        );
+        const keywords = Array.from(keywordSet).sort();
+        setAvailableKeywords(keywords);
+        
+        // 統計關鍵字出現次數，選取最熱門的6個作為快速搜尋
+        const keywordCount = new Map<string, number>();
+        matching.matching_results.forEach((r: any) => {
+          const keyword = String(r.關鍵字);
+          if (keyword) {
+            keywordCount.set(keyword, (keywordCount.get(keyword) || 0) + 1);
+          }
+        });
+        
+        const topKeywords = Array.from(keywordCount.entries())
+          .sort((a, b) => b[1] - a[1]) // 按出現次數降序排列
+          .slice(0, 6) // 取前6個
+          .map(([keyword]) => keyword);
+        
+        setQuickSearchKeywords(topKeywords);
+      }).catch(err => console.error("載入資料失敗:", err));
+    }
 
     // 載入搜尋歷史
     const savedHistory = localStorage.getItem(`searchHistory_${categoryId}`);
@@ -260,6 +306,24 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
     if (!searchKeyword) return;
     
     setShowSuggestions(false);
+
+    // 「其他」類別使用不同的搜尋邏輯
+    if (isOtherCategory) {
+      const results = searchOtherSystems(otherSystems, searchKeyword);
+      setOtherSearchResults(results);
+      
+      if (results.length === 0) {
+        toast({ 
+          title: "沒有找到相關系統", 
+          description: `關鍵字「${searchKeyword}」暫無對應結果，請嘗試其他關鍵字。` 
+        });
+        return;
+      }
+      addToSearchHistory(searchKeyword);
+      scrollToResults();
+      return;
+    }
+
     const results = searchByKeyword(searchKeyword);
     setSearchResults(results);
     
@@ -649,7 +713,7 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
             </Button>
           </div>
 
-          {/* 展開內容區 - 待實作 */}
+          {/* 展開內容區 */}
           {showResponsibleUnit && (
             <Card className="p-6 animate-fade-in">
               <div className="flex items-center justify-between mb-4">
@@ -658,7 +722,12 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
                   收合 ✕
                 </Button>
               </div>
-              <p className="text-muted-foreground">依主責單位分類的內容將在此顯示</p>
+              <ResponsibleUnitExplorer 
+                onSystemSelect={(system) => {
+                  setSelectedSystem(system);
+                  setSystemDialogOpen(true);
+                }}
+              />
             </Card>
           )}
 
@@ -670,14 +739,63 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
                   收合 ✕
                 </Button>
               </div>
-              <p className="text-muted-foreground">依使用情境分類的內容將在此顯示</p>
+              <OtherSituationExplorer 
+                onSystemSelect={(system) => {
+                  setSelectedSystem(system);
+                  setSystemDialogOpen(true);
+                }}
+              />
             </Card>
           )}
         </div>
       )}
 
-      {/* 搜尋結果 */}
-      {searchResults.length > 0 && (
+      {/* 「其他」類別搜尋結果 */}
+      {isOtherCategory && otherSearchResults.length > 0 && (
+        <div ref={resultsRef} className="mt-8">
+          <h3 className="text-2xl font-bold mb-6">
+            找到 {otherSearchResults.length} 個相關系統
+          </h3>
+          <div className="space-y-4">
+            {otherSearchResults.map((system, idx) => (
+              <Card key={idx} className="p-6 hover:shadow-lg transition-shadow">
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <h4 className="text-lg font-semibold text-gray-800 mb-2">
+                      {system.systemName}
+                    </h4>
+                    <p className="text-sm text-gray-600 mb-3 line-clamp-2">
+                      {system.purpose}
+                    </p>
+                    <div className="flex flex-wrap gap-2 mb-3">
+                      <Badge variant="secondary">{system.responsibleUnit}</Badge>
+                      {system.themeL1 && (
+                        <Badge variant="outline">{system.themeL1}</Badge>
+                      )}
+                      <Badge variant="outline" className="text-xs">
+                        {system.managementTarget}
+                      </Badge>
+                    </div>
+                  </div>
+                  <Button 
+                    size="sm" 
+                    variant="outline"
+                    onClick={() => {
+                      setSelectedSystem(system);
+                      setSystemDialogOpen(true);
+                    }}
+                  >
+                    查看詳情
+                  </Button>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* 非「其他」類別搜尋結果 */}
+      {!isOtherCategory && searchResults.length > 0 && (
         <div ref={resultsRef} className="mt-8">
           <h3 className="text-2xl font-bold mb-6">
             找到 {searchResults.length} 個相關資料集
@@ -757,6 +875,12 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
         sampleData={selectedDataset?.sampleData}
         summary={selectedDataset?.summary}
         type={dialogType}
+      />
+
+      <OtherSystemDetailDialog
+        open={systemDialogOpen}
+        onOpenChange={setSystemDialogOpen}
+        system={selectedSystem}
       />
     </div>
   );
