@@ -10,6 +10,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { loadDatasetDetails, DatasetDetail } from "@/utils/datasetLoader";
 import DatasetDetailDialog from "./DatasetDetailDialog";
 
@@ -178,8 +183,21 @@ const DatasetBrowser = ({ onBack }: DatasetBrowserProps) => {
                   <TableCell className="font-medium">{dataset.department}</TableCell>
                   <TableCell>{dataset.id}</TableCell>
                   <TableCell className="text-primary font-medium">{dataset.name}</TableCell>
-                  <TableCell className="hidden md:table-cell max-w-md truncate text-muted-foreground">
-                    {dataset.description || "-"}
+                  <TableCell className="hidden md:table-cell max-w-md text-muted-foreground">
+                    {dataset.description ? (
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <span className="block truncate cursor-help">
+                            {dataset.description}
+                          </span>
+                        </TooltipTrigger>
+                        <TooltipContent side="bottom" className="max-w-sm whitespace-normal">
+                          <p>{dataset.description}</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    ) : (
+                      "-"
+                    )}
                   </TableCell>
                 </TableRow>
               ))
