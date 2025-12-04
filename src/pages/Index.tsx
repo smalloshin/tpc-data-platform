@@ -79,7 +79,7 @@ const Index = () => {
           size="sm"
           onClick={handleDownloadMergedExcel}
           disabled={downloading}
-          className="absolute top-4 right-4"
+          className="absolute top-4 right-4 invisible"
         >
           <Download className="w-4 h-4 mr-2" />
           {downloading ? "下載中..." : "下載合併 Excel"}
