@@ -32,7 +32,7 @@ const CategoryLanding = ({ categories, onSelectCategory, onBrowseDatasets }: Cat
           className="relative h-[320px] rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl group"
           onClick={onBrowseDatasets}
         >
-          <div className="absolute inset-0 bg-gradient-to-br from-emerald-600/90 to-teal-600/90 flex flex-col items-center justify-center p-6 group-hover:from-emerald-600 group-hover:to-teal-600 transition-all duration-300">
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/90 to-accent/90 flex flex-col items-center justify-center p-6 group-hover:from-primary group-hover:to-accent transition-all duration-300">
             <div className="text-7xl mb-4 transform group-hover:scale-110 transition-transform duration-300">📊</div>
             <h2 className="text-3xl font-bold text-white mb-2">瀏覽資料集</h2>
             <p className="text-base text-white/90 text-center leading-relaxed">查看系統所有資料集的完整列表</p>
