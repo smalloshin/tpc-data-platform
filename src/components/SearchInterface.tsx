@@ -3,13 +3,17 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 import FAQSection from "@/components/FAQSection";
 import ConceptExplorer from "@/components/ConceptExplorer";
 import DatasetDetailDialog from "@/components/DatasetDetailDialog";
 import KnowledgeGraphD3 from "@/components/KnowledgeGraphD3";
+import ResponsibleUnitExplorer from "@/components/ResponsibleUnitExplorer";
+import SituationExplorer from "@/components/SituationExplorer";
 import { toast } from "@/components/ui/use-toast";
 import { getDatasetDetail, type DatasetDetail } from "@/utils/datasetLoader";
+import { searchSystemsByKeyword, type OtherSystem } from "@/utils/otherSystemsLoader";
 
 interface Category {
   id: string;
@@ -54,17 +58,23 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogType, setDialogType] = useState<'detail' | 'sample' | 'summary'>('detail');
   const [selectedDataset, setSelectedDataset] = useState<DatasetDetail | null>(null);
+  const [selectedSystem, setSelectedSystem] = useState<OtherSystem | null>(null);
+  const [systemDialogOpen, setSystemDialogOpen] = useState(false);
   const [showFAQ, setShowFAQ] = useState(false);
   const [showConcepts, setShowConcepts] = useState(false);
   const [showKnowledgeGraph, setShowKnowledgeGraph] = useState(false);
   const [showResponsibleUnit, setShowResponsibleUnit] = useState(false);
   const [showSituationExplorer, setShowSituationExplorer] = useState(false);
+  const [otherSearchResults, setOtherSearchResults] = useState<OtherSystem[]>([]);
   
   const isOtherCategory = category.id === "other";
 
   useEffect(() => {
     // 根據類別 ID 決定要載入的資料檔案
     const categoryId = category.id;
+    
+    // 其他類別不需要載入 JSON 檔案
+    if (isOtherCategory) return;
     
     Promise.all([
       fetch(`/data/${categoryId}_matching_results.json`).then(r => r.json()),
@@ -255,11 +265,29 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
     });
   };
 
-  const handleKeywordSearch = (keyword?: string) => {
+  const handleKeywordSearch = async (keyword?: string) => {
     const searchKeyword = keyword || keywordInput.trim();
     if (!searchKeyword) return;
     
     setShowSuggestions(false);
+    
+    // 其他類別使用不同的搜尋邏輯
+    if (isOtherCategory) {
+      const results = await searchSystemsByKeyword(searchKeyword);
+      setOtherSearchResults(results);
+      
+      if (results.length === 0) {
+        toast({ 
+          title: "沒有找到相關系統", 
+          description: `關鍵字「${searchKeyword}」暫無對應結果，請嘗試其他關鍵字。` 
+        });
+        return;
+      }
+      addToSearchHistory(searchKeyword);
+      scrollToResults();
+      return;
+    }
+    
     const results = searchByKeyword(searchKeyword);
     setSearchResults(results);
     
@@ -274,6 +302,11 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
     // 添加到搜尋歷史
     addToSearchHistory(searchKeyword);
     scrollToResults();
+  };
+
+  const handleSystemSelect = (system: OtherSystem) => {
+    setSelectedSystem(system);
+    setSystemDialogOpen(true);
   };
 
   const handleConceptSelect = (concept: any) => {
@@ -418,7 +451,7 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
         <div className="flex gap-3 mb-6 relative">
           <div className="flex-1 relative">
             <Input
-              placeholder="例如：變電所、饋線、輸電線路..."
+              placeholder={isOtherCategory ? "例如：人事、會計、採購、燃料..." : "例如：變電所、饋線、輸電線路..."}
               value={keywordInput}
               onChange={(e) => setKeywordInput(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && handleKeywordSearch()}
@@ -649,7 +682,7 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
             </Button>
           </div>
 
-          {/* 展開內容區 - 待實作 */}
+          {/* 展開內容區 */}
           {showResponsibleUnit && (
             <Card className="p-6 animate-fade-in">
               <div className="flex items-center justify-between mb-4">
@@ -658,7 +691,7 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
                   收合 ✕
                 </Button>
               </div>
-              <p className="text-muted-foreground">依主責單位分類的內容將在此顯示</p>
+              <ResponsibleUnitExplorer onSystemSelect={handleSystemSelect} />
             </Card>
           )}
 
@@ -670,14 +703,82 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
                   收合 ✕
                 </Button>
               </div>
-              <p className="text-muted-foreground">依使用情境分類的內容將在此顯示</p>
+              <SituationExplorer onSystemSelect={handleSystemSelect} />
             </Card>
           )}
         </div>
       )}
 
-      {/* 搜尋結果 */}
-      {searchResults.length > 0 && (
+      {/* 其他類別搜尋結果 */}
+      {isOtherCategory && otherSearchResults.length > 0 && (
+        <div ref={resultsRef} className="mt-8">
+          <h3 className="text-2xl font-bold mb-6">
+            找到 {otherSearchResults.length} 個相關系統
+          </h3>
+          <div className="space-y-4">
+            {otherSearchResults.map((system) => (
+              <Card 
+                key={system.id} 
+                className="p-6 hover:shadow-lg transition-shadow cursor-pointer"
+                onClick={() => handleSystemSelect(system)}
+              >
+                <div className="flex justify-between items-start">
+                  <div className="flex-1">
+                    <h4 className="text-lg font-semibold text-primary">{system.name}</h4>
+                    <p className="text-muted-foreground mt-1">{system.purpose}</p>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      <Badge variant="secondary">{system.unit}</Badge>
+                      <Badge variant="outline">{system.target}</Badge>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* 系統詳情對話框 */}
+      <Dialog open={systemDialogOpen} onOpenChange={setSystemDialogOpen}>
+        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-xl">{selectedSystem?.name}</DialogTitle>
+          </DialogHeader>
+          {selectedSystem && (
+            <div className="space-y-4 mt-4">
+              <div>
+                <h4 className="font-semibold text-sm text-muted-foreground">建置目的</h4>
+                <p className="mt-1">{selectedSystem.purpose}</p>
+              </div>
+              <div>
+                <h4 className="font-semibold text-sm text-muted-foreground">管理標的</h4>
+                <p className="mt-1">{selectedSystem.target}</p>
+              </div>
+              <div>
+                <h4 className="font-semibold text-sm text-muted-foreground">功能描述</h4>
+                <p className="mt-1">{selectedSystem.description}</p>
+              </div>
+              <div>
+                <h4 className="font-semibold text-sm text-muted-foreground">提報單位</h4>
+                <Badge variant="secondary" className="mt-1">{selectedSystem.unit}</Badge>
+              </div>
+              {selectedSystem.keywords.length > 0 && (
+                <div>
+                  <h4 className="font-semibold text-sm text-muted-foreground">相關關鍵字</h4>
+                  <div className="flex flex-wrap gap-2 mt-1">
+                    {selectedSystem.keywords.slice(0, 10).map((keyword, idx) => (
+                      <Badge key={idx} variant="outline">{keyword}</Badge>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* 搜尋結果 - 非其他類別 */}
+      {!isOtherCategory && searchResults.length > 0 && (
         <div ref={resultsRef} className="mt-8">
           <h3 className="text-2xl font-bold mb-6">
             找到 {searchResults.length} 個相關資料集
