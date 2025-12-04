@@ -645,6 +645,7 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
                       size="sm" 
                       variant="outline"
                       onClick={() => handleViewDetail(result.name)}
+                      className="hidden"
                     >
                       查看詳情
                     </Button>
