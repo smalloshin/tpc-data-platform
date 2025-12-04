@@ -8,8 +8,16 @@
         {
           "question": "什麼是輸電系統？與配電系統有什麼不同？",
           "related_datasets": [
-            "台灣電力公司輸電線路統計資料",
-            "台灣電力公司變電所基本資料"
+            {
+              "id": "dataset_21",
+              "title": "台灣電力公司輸電線路統計資料",
+              "url": "https://data.gov.tw/dataset/16956"
+            },
+            {
+              "id": "dataset_20",
+              "title": "台灣電力公司超高壓及一次變電所主變壓器裝置容量及負載",
+              "url": "https://data.gov.tw/dataset/16874"
+            }
           ],
           "keywords": [
             "輸電系統",
@@ -21,8 +29,16 @@
         {
           "question": "台灣有哪些主要的輸電線路？",
           "related_datasets": [
-            "台灣電力公司輸電線路統計資料",
-            "台灣電力公司超高壓變電所資料"
+            {
+              "id": "dataset_21",
+              "title": "台灣電力公司輸電線路統計資料",
+              "url": "https://data.gov.tw/dataset/16956"
+            },
+            {
+              "id": "dataset_20",
+              "title": "台灣電力公司超高壓及一次變電所主變壓器裝置容量及負載",
+              "url": "https://data.gov.tw/dataset/16874"
+            }
           ],
           "keywords": [
             "輸電線路",
@@ -41,8 +57,16 @@
         {
           "question": "變電所的主要功能是什麼？",
           "related_datasets": [
-            "台灣電力公司變電所基本資料",
-            "台灣電力公司主變壓器資料"
+            {
+              "id": "dataset_20",
+              "title": "台灣電力公司超高壓及一次變電所主變壓器裝置容量及負載",
+              "url": "https://data.gov.tw/dataset/16874"
+            },
+            {
+              "id": "dataset_25",
+              "title": "台灣電力公司二次變電所主變壓器裝置容量及負載",
+              "url": "https://data.gov.tw/dataset/16960"
+            }
           ],
           "keywords": [
             "變電所",
@@ -54,7 +78,11 @@
         {
           "question": "超高壓變電所與一般變電所有何不同？",
           "related_datasets": [
-            "台灣電力公司超高壓變電所資料"
+            {
+              "id": "dataset_20",
+              "title": "台灣電力公司超高壓及一次變電所主變壓器裝置容量及負載",
+              "url": "https://data.gov.tw/dataset/16874"
+            }
           ],
           "keywords": [
             "超高壓變電所",
@@ -72,8 +100,16 @@
         {
           "question": "台電如何確保電力供需平衡？",
           "related_datasets": [
-            "台灣電力公司系統負載資料",
-            "台灣電力公司電力調度資訊"
+            {
+              "id": "dataset_3",
+              "title": "台灣電力公司歷年尖峰負載及備用容量率",
+              "url": "https://data.gov.tw/dataset/8307"
+            },
+            {
+              "id": "dataset_179",
+              "title": "台灣電力公司發電機組發電排程與系統備轉容量之調度規劃",
+              "url": "https://data.gov.tw/dataset/166609"
+            }
           ],
           "keywords": [
             "供需平衡",
@@ -85,7 +121,16 @@
         {
           "question": "什麼情況下會實施限電？",
           "related_datasets": [
-            "台灣電力公司限電相關資訊"
+            {
+              "id": "dataset_3",
+              "title": "台灣電力公司歷年尖峰負載及備用容量率",
+              "url": "https://data.gov.tw/dataset/8307"
+            },
+            {
+              "id": "dataset_37",
+              "title": "台灣電力公司過去電力供需資訊",
+              "url": "https://data.gov.tw/dataset/19995"
+            }
           ],
           "keywords": [
             "限電",
@@ -104,8 +149,16 @@
         {
           "question": "再生能源如何併入電網？",
           "related_datasets": [
-            "台灣電力公司再生能源併網資料",
-            "台灣電力公司綠能發電統計"
+            {
+              "id": "dataset_32",
+              "title": "台灣電力公司自建之各類再生能源發電量",
+              "url": "https://data.gov.tw/dataset/17140"
+            },
+            {
+              "id": "dataset_168",
+              "title": "台灣電力公司全國各縣市再生能源可併網容量",
+              "url": "https://data.gov.tw/dataset/156007"
+            }
           ],
           "keywords": [
             "再生能源",
@@ -117,7 +170,16 @@
         {
           "question": "太陽能發電對電網有什麼影響？",
           "related_datasets": [
-            "台灣電力公司太陽能發電統計資料"
+            {
+              "id": "dataset_57",
+              "title": "台灣電力公司太陽光電發電量及平均單位裝置容量每日發電量統計表",
+              "url": "https://data.gov.tw/dataset/29933"
+            },
+            {
+              "id": "dataset_32",
+              "title": "台灣電力公司自建之各類再生能源發電量",
+              "url": "https://data.gov.tw/dataset/17140"
+            }
           ],
           "keywords": [
             "太陽能",
@@ -136,8 +198,16 @@
         {
           "question": "輸電系統如何防範事故？",
           "related_datasets": [
-            "台灣電力公司輸電系統保護資料",
-            "台灣電力公司重大事故記錄"
+            {
+              "id": "dataset_149",
+              "title": "台灣電力公司配電系統重大事故停電速報案件記錄",
+              "url": "https://data.gov.tw/dataset/122741"
+            },
+            {
+              "id": "dataset_184",
+              "title": "台灣電力公司配電線路事故分析",
+              "url": "https://data.gov.tw/dataset/166643"
+            }
           ],
           "keywords": [
             "安全",
@@ -149,7 +219,16 @@
         {
           "question": "發生大停電時，台電如何復電？",
           "related_datasets": [
-            "台灣電力公司復電程序資料"
+            {
+              "id": "dataset_149",
+              "title": "台灣電力公司配電系統重大事故停電速報案件記錄",
+              "url": "https://data.gov.tw/dataset/122741"
+            },
+            {
+              "id": "dataset_3",
+              "title": "台灣電力公司歷年尖峰負載及備用容量率",
+              "url": "https://data.gov.tw/dataset/8307"
+            }
           ],
           "keywords": [
             "停電",
