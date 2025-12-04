@@ -57,6 +57,10 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
   const [showFAQ, setShowFAQ] = useState(false);
   const [showConcepts, setShowConcepts] = useState(false);
   const [showKnowledgeGraph, setShowKnowledgeGraph] = useState(false);
+  const [showResponsibleUnit, setShowResponsibleUnit] = useState(false);
+  const [showSituationExplorer, setShowSituationExplorer] = useState(false);
+  
+  const isOtherCategory = category.id === "other";
 
   useEffect(() => {
     // 根據類別 ID 決定要載入的資料檔案
@@ -492,111 +496,185 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
         </div>
       </Card>
 
-      {/* 常見問題、概念瀏覽和知識圖譜 */}
-      <div className="space-y-6">
-        {/* 按鈕列 */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Button
-            variant={showFAQ ? "default" : "outline"}
-            className="w-full justify-start text-lg py-8 transition-all"
-            onClick={() => {
-              setShowFAQ(!showFAQ);
-              if (!showFAQ) {
-                setShowConcepts(false);
-                setShowKnowledgeGraph(false);
-              }
-            }}
-          >
-            <span className="text-3xl mr-4">💬</span>
-            <div className="flex flex-col items-start">
-              <span className="font-semibold">常見問題</span>
-              <span className="text-xs opacity-70">快速找到相關資料集</span>
-            </div>
-            <span className="ml-auto text-sm">
-              {showFAQ ? '▲' : '▼'}
-            </span>
-          </Button>
+      {/* 常見問題、概念瀏覽和知識圖譜 - 非「其他」類別時顯示 */}
+      {!isOtherCategory && (
+        <div className="space-y-6">
+          {/* 按鈕列 */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <Button
+              variant={showFAQ ? "default" : "outline"}
+              className="w-full justify-start text-lg py-8 transition-all"
+              onClick={() => {
+                setShowFAQ(!showFAQ);
+                if (!showFAQ) {
+                  setShowConcepts(false);
+                  setShowKnowledgeGraph(false);
+                }
+              }}
+            >
+              <span className="text-3xl mr-4">💬</span>
+              <div className="flex flex-col items-start">
+                <span className="font-semibold">常見問題</span>
+                <span className="text-xs opacity-70">快速找到相關資料集</span>
+              </div>
+              <span className="ml-auto text-sm">
+                {showFAQ ? '▲' : '▼'}
+              </span>
+            </Button>
 
-          <Button
-            variant={showConcepts ? "default" : "outline"}
-            className="w-full justify-start text-lg py-8 transition-all"
-            onClick={() => {
-              setShowConcepts(!showConcepts);
-              if (!showConcepts) {
-                setShowFAQ(false);
-                setShowKnowledgeGraph(false);
-              }
-            }}
-          >
-            <span className="text-3xl mr-4">🗂️</span>
-            <div className="flex flex-col items-start">
-              <span className="font-semibold">概念瀏覽</span>
-              <span className="text-xs opacity-70">依主題分類探索</span>
-            </div>
-            <span className="ml-auto text-sm">
-              {showConcepts ? '▲' : '▼'}
-            </span>
-          </Button>
+            <Button
+              variant={showConcepts ? "default" : "outline"}
+              className="w-full justify-start text-lg py-8 transition-all"
+              onClick={() => {
+                setShowConcepts(!showConcepts);
+                if (!showConcepts) {
+                  setShowFAQ(false);
+                  setShowKnowledgeGraph(false);
+                }
+              }}
+            >
+              <span className="text-3xl mr-4">🗂️</span>
+              <div className="flex flex-col items-start">
+                <span className="font-semibold">概念瀏覽</span>
+                <span className="text-xs opacity-70">依主題分類探索</span>
+              </div>
+              <span className="ml-auto text-sm">
+                {showConcepts ? '▲' : '▼'}
+              </span>
+            </Button>
 
-          <Button
-            variant={showKnowledgeGraph ? "default" : "outline"}
-            className="w-full justify-start text-lg py-8 transition-all"
-            onClick={() => {
-              setShowKnowledgeGraph(!showKnowledgeGraph);
-              if (!showKnowledgeGraph) {
-                setShowFAQ(false);
-                setShowConcepts(false);
-              }
-            }}
-          >
-            <span className="text-3xl mr-4">🗺️</span>
-            <div className="flex flex-col items-start">
-              <span className="font-semibold">知識圖譜</span>
-              <span className="text-xs opacity-70">視覺化探索概念關聯</span>
-            </div>
-            <span className="ml-auto text-sm">
-              {showKnowledgeGraph ? '▲' : '▼'}
-            </span>
-          </Button>
-        </div>
-
-        {/* 展開內容區（全寬） */}
-        {showFAQ && (
-          <Card className="p-6 animate-fade-in">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-xl font-semibold">💬 常見問題</h3>
-              <Button variant="ghost" size="sm" onClick={() => setShowFAQ(false)}>
-                收合 ✕
-              </Button>
-            </div>
-            <FAQSection categoryId={category.id} onDatasetSelect={handleFAQDatasetSelect} />
-          </Card>
-        )}
-
-        {showConcepts && (
-          <Card className="p-6 animate-fade-in">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-xl font-semibold">🗂️ 概念瀏覽</h3>
-              <Button variant="ghost" size="sm" onClick={() => setShowConcepts(false)}>
-                收合 ✕
-              </Button>
-            </div>
-            <ConceptExplorer categoryId={category.id} onConceptSelect={handleConceptSelect} />
-          </Card>
-        )}
-
-        {showKnowledgeGraph && (
-          <div className="animate-fade-in">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-xl font-semibold">🗺️ 知識圖譜視覺化</h3>
-              <Button variant="ghost" size="sm" onClick={() => setShowKnowledgeGraph(false)}>
-                收合 ✕
-              </Button>
-            </div>
-            <KnowledgeGraphD3 categoryId={category.id} onConceptClick={handleConceptSelect} />
+            <Button
+              variant={showKnowledgeGraph ? "default" : "outline"}
+              className="w-full justify-start text-lg py-8 transition-all"
+              onClick={() => {
+                setShowKnowledgeGraph(!showKnowledgeGraph);
+                if (!showKnowledgeGraph) {
+                  setShowFAQ(false);
+                  setShowConcepts(false);
+                }
+              }}
+            >
+              <span className="text-3xl mr-4">🗺️</span>
+              <div className="flex flex-col items-start">
+                <span className="font-semibold">知識圖譜</span>
+                <span className="text-xs opacity-70">視覺化探索概念關聯</span>
+              </div>
+              <span className="ml-auto text-sm">
+                {showKnowledgeGraph ? '▲' : '▼'}
+              </span>
+            </Button>
           </div>
-        )}
-      </div>
+
+          {/* 展開內容區（全寬） */}
+          {showFAQ && (
+            <Card className="p-6 animate-fade-in">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-xl font-semibold">💬 常見問題</h3>
+                <Button variant="ghost" size="sm" onClick={() => setShowFAQ(false)}>
+                  收合 ✕
+                </Button>
+              </div>
+              <FAQSection categoryId={category.id} onDatasetSelect={handleFAQDatasetSelect} />
+            </Card>
+          )}
+
+          {showConcepts && (
+            <Card className="p-6 animate-fade-in">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-xl font-semibold">🗂️ 概念瀏覽</h3>
+                <Button variant="ghost" size="sm" onClick={() => setShowConcepts(false)}>
+                  收合 ✕
+                </Button>
+              </div>
+              <ConceptExplorer categoryId={category.id} onConceptSelect={handleConceptSelect} />
+            </Card>
+          )}
+
+          {showKnowledgeGraph && (
+            <div className="animate-fade-in">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-xl font-semibold">🗺️ 知識圖譜視覺化</h3>
+                <Button variant="ghost" size="sm" onClick={() => setShowKnowledgeGraph(false)}>
+                  收合 ✕
+                </Button>
+              </div>
+              <KnowledgeGraphD3 categoryId={category.id} onConceptClick={handleConceptSelect} />
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* 「其他」類別專用按鈕 */}
+      {isOtherCategory && (
+        <div className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Button
+              variant={showResponsibleUnit ? "default" : "outline"}
+              className="w-full justify-start text-lg py-8 transition-all"
+              onClick={() => {
+                setShowResponsibleUnit(!showResponsibleUnit);
+                if (!showResponsibleUnit) {
+                  setShowSituationExplorer(false);
+                }
+              }}
+            >
+              <span className="text-3xl mr-4">🏢</span>
+              <div className="flex flex-col items-start">
+                <span className="font-semibold">主責單位</span>
+                <span className="text-xs opacity-70">依單位分類探索</span>
+              </div>
+              <span className="ml-auto text-sm">
+                {showResponsibleUnit ? '▲' : '▼'}
+              </span>
+            </Button>
+
+            <Button
+              variant={showSituationExplorer ? "default" : "outline"}
+              className="w-full justify-start text-lg py-8 transition-all"
+              onClick={() => {
+                setShowSituationExplorer(!showSituationExplorer);
+                if (!showSituationExplorer) {
+                  setShowResponsibleUnit(false);
+                }
+              }}
+            >
+              <span className="text-3xl mr-4">🎯</span>
+              <div className="flex flex-col items-start">
+                <span className="font-semibold">情境探索</span>
+                <span className="text-xs opacity-70">依使用情境探索</span>
+              </div>
+              <span className="ml-auto text-sm">
+                {showSituationExplorer ? '▲' : '▼'}
+              </span>
+            </Button>
+          </div>
+
+          {/* 展開內容區 - 待實作 */}
+          {showResponsibleUnit && (
+            <Card className="p-6 animate-fade-in">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-xl font-semibold">🏢 主責單位</h3>
+                <Button variant="ghost" size="sm" onClick={() => setShowResponsibleUnit(false)}>
+                  收合 ✕
+                </Button>
+              </div>
+              <p className="text-muted-foreground">依主責單位分類的內容將在此顯示</p>
+            </Card>
+          )}
+
+          {showSituationExplorer && (
+            <Card className="p-6 animate-fade-in">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-xl font-semibold">🎯 情境探索</h3>
+                <Button variant="ghost" size="sm" onClick={() => setShowSituationExplorer(false)}>
+                  收合 ✕
+                </Button>
+              </div>
+              <p className="text-muted-foreground">依使用情境分類的內容將在此顯示</p>
+            </Card>
+          )}
+        </div>
+      )}
 
       {/* 搜尋結果 */}
       {searchResults.length > 0 && (
