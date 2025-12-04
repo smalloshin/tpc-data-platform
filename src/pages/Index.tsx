@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Download, Database } from "lucide-react";
+import { Download } from "lucide-react";
 import CategoryLanding from "@/components/CategoryLanding";
 import SearchInterface from "@/components/SearchInterface";
 import DatasetBrowser from "@/components/DatasetBrowser";
@@ -104,27 +104,14 @@ const Index = () => {
       <main>
         <div className="max-w-[1400px] mx-auto px-5 py-16">
           {viewMode === "landing" && (
-            <>
-              {/* 瀏覽資料集按鈕 */}
-              <div className="flex justify-center mb-8">
-                <Button
-                  variant="outline"
-                  size="lg"
-                  onClick={() => setViewMode("browser")}
-                  className="gap-2"
-                >
-                  <Database className="h-5 w-5" />
-                  瀏覽資料集
-                </Button>
-              </div>
-              <CategoryLanding 
-                categories={categories}
-                onSelectCategory={(cat) => {
-                  setSelectedCategory(cat);
-                  setViewMode("category");
-                }}
-              />
-            </>
+            <CategoryLanding 
+              categories={categories}
+              onSelectCategory={(cat) => {
+                setSelectedCategory(cat);
+                setViewMode("category");
+              }}
+              onBrowseDatasets={() => setViewMode("browser")}
+            />
           )}
           {viewMode === "category" && selectedCategory && (
             <SearchInterface 
