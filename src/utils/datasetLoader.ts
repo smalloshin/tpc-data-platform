@@ -11,6 +11,9 @@ export interface DatasetDetail {
 
 let cachedData: Map<string, DatasetDetail> | null = null;
 
+// 版本號用於強制重新載入資料
+const DATA_VERSION = 'v2';
+
 export const loadDatasetDetails = async (): Promise<Map<string, DatasetDetail>> => {
   if (cachedData) {
     return cachedData;
@@ -18,7 +21,7 @@ export const loadDatasetDetails = async (): Promise<Map<string, DatasetDetail>> 
 
   try {
     // 載入原始資料集詳細資訊
-    const response = await fetch('/data/dataset_details.xlsx');
+    const response = await fetch(`/data/dataset_details.xlsx?v=${DATA_VERSION}`);
     const arrayBuffer = await response.arrayBuffer();
     const workbook = XLSX.read(arrayBuffer, { type: 'array' });
     
@@ -26,7 +29,7 @@ export const loadDatasetDetails = async (): Promise<Map<string, DatasetDetail>> 
     const jsonData = XLSX.utils.sheet_to_json<any>(firstSheet);
     
     // 載入資料集總結
-    const summaryResponse = await fetch('/data/dataset_summary.xlsx');
+    const summaryResponse = await fetch(`/data/dataset_summary.xlsx?v=${DATA_VERSION}`);
     const summaryArrayBuffer = await summaryResponse.arrayBuffer();
     const summaryWorkbook = XLSX.read(summaryArrayBuffer, { type: 'array' });
     
