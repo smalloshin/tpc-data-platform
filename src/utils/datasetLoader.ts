@@ -12,7 +12,7 @@ export interface DatasetDetail {
 let cachedData: Map<string, DatasetDetail> | null = null;
 
 // 版本號用於強制重新載入資料
-const DATA_VERSION = 'v3';
+const DATA_VERSION = 'v4';
 
 export const loadDatasetDetails = async (): Promise<Map<string, DatasetDetail>> => {
   if (cachedData) {
@@ -50,12 +50,26 @@ export const loadDatasetDetails = async (): Promise<Map<string, DatasetDetail>> 
     
     jsonData.forEach((row: any) => {
       const name = row['資料集名稱'] || '';
+      const sampleDataRaw = row['範例資料'];
+      
+      // 處理範例資料 - 可能是字串或其他格式
+      let sampleData = '';
+      if (sampleDataRaw) {
+        if (typeof sampleDataRaw === 'string') {
+          sampleData = sampleDataRaw;
+        } else if (typeof sampleDataRaw === 'object') {
+          sampleData = JSON.stringify(sampleDataRaw);
+        } else {
+          sampleData = String(sampleDataRaw);
+        }
+      }
+      
       const detail: DatasetDetail = {
         department: row['部門'] || '',
         id: String(row['資料集ID'] || ''),
         name: name,
         description: row['資料集詳細說明'] || '',
-        sampleData: row['範例資料'] || '',
+        sampleData: sampleData,
         summary: summaryMap.get(name) || ''
       };
       
