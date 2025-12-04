@@ -71,6 +71,18 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
   const isOtherCategory = category.id === "other";
 
   useEffect(() => {
+    // 切換類別時重置所有狀態
+    setSearchResults([]);
+    setOtherSearchResults([]);
+    setKeywordInput("");
+    setDialogOpen(false);
+    setSystemDialogOpen(false);
+    setShowFAQ(false);
+    setShowConcepts(false);
+    setShowKnowledgeGraph(false);
+    setShowResponsibleUnit(false);
+    setShowSituationExplorer(false);
+    
     // 根據類別 ID 決定要載入的資料檔案
     const categoryId = category.id;
     
