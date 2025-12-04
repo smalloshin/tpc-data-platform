@@ -59,6 +59,12 @@ const Index = () => {
       name: "售電類別",
       icon: "💡",
       description: "電力銷售、電價、用電統計相關資料"
+    },
+    {
+      id: "other",
+      name: "其他",
+      icon: "📁",
+      description: "其他相關資料"
     }
   ];
 
