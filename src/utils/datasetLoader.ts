@@ -12,7 +12,7 @@ export interface DatasetDetail {
 let cachedData: Map<string, DatasetDetail> | null = null;
 
 // 版本號用於強制重新載入資料
-const DATA_VERSION = 'v2';
+const DATA_VERSION = 'v3';
 
 export const loadDatasetDetails = async (): Promise<Map<string, DatasetDetail>> => {
   if (cachedData) {
