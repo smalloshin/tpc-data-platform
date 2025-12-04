@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { Download } from "lucide-react";
+import { Download, Database } from "lucide-react";
 import CategoryLanding from "@/components/CategoryLanding";
 import SearchInterface from "@/components/SearchInterface";
+import DatasetBrowser from "@/components/DatasetBrowser";
 import { Button } from "@/components/ui/button";
 import { mergeAndDownloadExcel } from "@/utils/excelMerger";
 import { toast } from "sonner";
@@ -13,8 +14,11 @@ interface Category {
   description: string;
 }
 
+type ViewMode = "landing" | "category" | "browser";
+
 const Index = () => {
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
+  const [viewMode, setViewMode] = useState<ViewMode>("landing");
   const [loading, setLoading] = useState(true);
   const [downloading, setDownloading] = useState(false);
 
@@ -99,16 +103,40 @@ const Index = () => {
       {/* Main Content */}
       <main>
         <div className="max-w-[1400px] mx-auto px-5 py-16">
-          {!selectedCategory ? (
-            <CategoryLanding 
-              categories={categories}
-              onSelectCategory={setSelectedCategory}
-            />
-          ) : (
+          {viewMode === "landing" && (
+            <>
+              {/* 瀏覽資料集按鈕 */}
+              <div className="flex justify-center mb-8">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  onClick={() => setViewMode("browser")}
+                  className="gap-2"
+                >
+                  <Database className="h-5 w-5" />
+                  瀏覽資料集
+                </Button>
+              </div>
+              <CategoryLanding 
+                categories={categories}
+                onSelectCategory={(cat) => {
+                  setSelectedCategory(cat);
+                  setViewMode("category");
+                }}
+              />
+            </>
+          )}
+          {viewMode === "category" && selectedCategory && (
             <SearchInterface 
               category={selectedCategory}
-              onBack={() => setSelectedCategory(null)}
+              onBack={() => {
+                setSelectedCategory(null);
+                setViewMode("landing");
+              }}
             />
+          )}
+          {viewMode === "browser" && (
+            <DatasetBrowser onBack={() => setViewMode("landing")} />
           )}
         </div>
       </main>
