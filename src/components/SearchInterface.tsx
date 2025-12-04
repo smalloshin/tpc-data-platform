@@ -301,7 +301,7 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
     });
   };
 
-  const handleKeywordSearch = (keyword?: string) => {
+  const handleKeywordSearch = async (keyword?: string) => {
     const searchKeyword = keyword || keywordInput.trim();
     if (!searchKeyword) return;
     
@@ -309,7 +309,9 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
 
     // 「其他」類別使用不同的搜尋邏輯
     if (isOtherCategory) {
-      const results = searchOtherSystems(otherSystems, searchKeyword);
+      // 確保從 loader 取得最新的快取資料
+      const systems = await loadOtherSystems();
+      const results = searchOtherSystems(systems, searchKeyword);
       setOtherSearchResults(results);
       
       if (results.length === 0) {
