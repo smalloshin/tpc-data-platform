@@ -60,7 +60,18 @@
       "questions": [
         {
           "question": "如何查詢台電的太陽能發電資訊?",
-          "related_datasets": [],
+          "related_datasets": [
+            {
+              "id": "dataset_57",
+              "title": "台灣電力公司太陽光電發電量及平均單位裝置容量每日發電量統計表",
+              "url": "https://data.gov.tw/dataset/29933"
+            },
+            {
+              "id": "dataset_32",
+              "title": "台灣電力公司自建之各類再生能源發電量",
+              "url": "https://data.gov.tw/dataset/17140"
+            }
+          ],
           "keywords": [
             "非晶矽",
             "太陽能電池片",
@@ -70,7 +81,18 @@
         },
         {
           "question": "太陽能發電有哪些類型或相關資料?",
-          "related_datasets": [],
+          "related_datasets": [
+            {
+              "id": "dataset_57",
+              "title": "台灣電力公司太陽光電發電量及平均單位裝置容量每日發電量統計表",
+              "url": "https://data.gov.tw/dataset/29933"
+            },
+            {
+              "id": "dataset_32",
+              "title": "台灣電力公司自建之各類再生能源發電量",
+              "url": "https://data.gov.tw/dataset/17140"
+            }
+          ],
           "keywords": [
             "太陽能電池片",
             "聚焦型太陽能收集裝置口徑",
@@ -80,7 +102,13 @@
         },
         {
           "question": "什麼是非晶矽?",
-          "related_datasets": [],
+          "related_datasets": [
+            {
+              "id": "dataset_57",
+              "title": "台灣電力公司太陽光電發電量及平均單位裝置容量每日發電量統計表",
+              "url": "https://data.gov.tw/dataset/29933"
+            }
+          ],
           "keywords": [
             "非晶矽"
           ],
@@ -95,7 +123,23 @@
       "questions": [
         {
           "question": "如何查詢台電的水力發電資訊?",
-          "related_datasets": [],
+          "related_datasets": [
+            {
+              "id": "dataset_82",
+              "title": "台灣電力公司水力購電實績",
+              "url": "https://data.gov.tw/dataset/32498"
+            },
+            {
+              "id": "dataset_87",
+              "title": "台灣電力公司近十年水力機組大修紀錄",
+              "url": "https://data.gov.tw/dataset/33660"
+            },
+            {
+              "id": "dataset_5",
+              "title": "台灣電力公司水火力發電廠位置及機組設備",
+              "url": "https://data.gov.tw/dataset/8934"
+            }
+          ],
           "keywords": [
             "低水頭水輪機",
             "設計水頭",
@@ -105,7 +149,23 @@
         },
         {
           "question": "水力發電有哪些類型或相關資料?",
-          "related_datasets": [],
+          "related_datasets": [
+            {
+              "id": "dataset_82",
+              "title": "台灣電力公司水力購電實績",
+              "url": "https://data.gov.tw/dataset/32498"
+            },
+            {
+              "id": "dataset_87",
+              "title": "台灣電力公司近十年水力機組大修紀錄",
+              "url": "https://data.gov.tw/dataset/33660"
+            },
+            {
+              "id": "dataset_5",
+              "title": "台灣電力公司水火力發電廠位置及機組設備",
+              "url": "https://data.gov.tw/dataset/8934"
+            }
+          ],
           "keywords": [
             "設計水頭",
             "水力發電",
@@ -115,7 +175,18 @@
         },
         {
           "question": "什麼是低水頭水輪機?",
-          "related_datasets": [],
+          "related_datasets": [
+            {
+              "id": "dataset_82",
+              "title": "台灣電力公司水力購電實績",
+              "url": "https://data.gov.tw/dataset/32498"
+            },
+            {
+              "id": "dataset_5",
+              "title": "台灣電力公司水火力發電廠位置及機組設備",
+              "url": "https://data.gov.tw/dataset/8934"
+            }
+          ],
           "keywords": [
             "低水頭水輪機"
           ],
@@ -316,7 +387,18 @@
       "questions": [
         {
           "question": "如何查詢台電的再生能源資訊?",
-          "related_datasets": [],
+          "related_datasets": [
+            {
+              "id": "dataset_32",
+              "title": "台灣電力公司自建之各類再生能源發電量",
+              "url": "https://data.gov.tw/dataset/17140"
+            },
+            {
+              "id": "dataset_4",
+              "title": "台灣電力公司各機組發電量即時資訊(含外購電力)",
+              "url": "https://data.gov.tw/dataset/8931"
+            }
+          ],
           "keywords": [
             "再生能源資源",
             "不可再生燃料"
@@ -325,7 +407,13 @@
         },
         {
           "question": "什麼是再生能源資源?",
-          "related_datasets": [],
+          "related_datasets": [
+            {
+              "id": "dataset_32",
+              "title": "台灣電力公司自建之各類再生能源發電量",
+              "url": "https://data.gov.tw/dataset/17140"
+            }
+          ],
           "keywords": [
             "再生能源資源"
           ],
