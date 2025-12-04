@@ -127,9 +127,9 @@ const DatasetBrowser = ({ onBack }: DatasetBrowserProps) => {
       </div>
 
       {/* Table */}
-      <div className="border rounded-lg overflow-hidden bg-card">
+      <div className="border rounded-lg overflow-hidden bg-card max-h-[60vh] overflow-y-auto">
         <Table>
-          <TableHeader>
+          <TableHeader className="sticky top-0 bg-card z-10">
             <TableRow className="bg-muted/50">
               <TableHead
                 className="cursor-pointer hover:bg-muted transition-colors"
@@ -158,7 +158,7 @@ const DatasetBrowser = ({ onBack }: DatasetBrowserProps) => {
                   <SortIcon field="name" />
                 </div>
               </TableHead>
-              <TableHead className="hidden md:table-cell">說明</TableHead>
+              <TableHead className="hidden md:table-cell">詳細說明</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -179,7 +179,7 @@ const DatasetBrowser = ({ onBack }: DatasetBrowserProps) => {
                   <TableCell>{dataset.id}</TableCell>
                   <TableCell className="text-primary font-medium">{dataset.name}</TableCell>
                   <TableCell className="hidden md:table-cell max-w-md truncate text-muted-foreground">
-                    {dataset.summary || dataset.description || "-"}
+                    {dataset.description || "-"}
                   </TableCell>
                 </TableRow>
               ))
@@ -188,7 +188,7 @@ const DatasetBrowser = ({ onBack }: DatasetBrowserProps) => {
         </Table>
       </div>
 
-      {/* Detail Dialog */}
+      {/* Sample Data Dialog */}
       {selectedDataset && (
         <DatasetDetailDialog
           open={dialogOpen}
@@ -197,7 +197,7 @@ const DatasetBrowser = ({ onBack }: DatasetBrowserProps) => {
           description={selectedDataset.description}
           sampleData={selectedDataset.sampleData}
           summary={selectedDataset.summary}
-          type="detail"
+          type="sample"
         />
       )}
     </div>
