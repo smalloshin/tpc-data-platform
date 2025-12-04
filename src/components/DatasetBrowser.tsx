@@ -177,12 +177,21 @@ const DatasetBrowser = ({ onBack }: DatasetBrowserProps) => {
               filteredAndSortedDatasets.map((dataset, index) => (
                 <TableRow
                   key={`${dataset.id}-${index}`}
-                  className="cursor-pointer hover:bg-muted/50 transition-colors"
+                  className={`cursor-pointer hover:bg-muted/50 transition-colors ${!dataset.sampleData ? 'opacity-70' : ''}`}
                   onClick={() => handleRowClick(dataset)}
                 >
                   <TableCell className="font-medium">{dataset.department}</TableCell>
                   <TableCell>{dataset.id}</TableCell>
-                  <TableCell className="text-primary font-medium">{dataset.name}</TableCell>
+                  <TableCell className="text-primary font-medium">
+                    <div className="flex items-center gap-2">
+                      {dataset.name}
+                      {dataset.sampleData && (
+                        <span className="text-xs bg-green-100 text-green-700 px-1.5 py-0.5 rounded">
+                          有範例
+                        </span>
+                      )}
+                    </div>
+                  </TableCell>
                   <TableCell className="hidden md:table-cell max-w-md text-muted-foreground">
                     {dataset.description ? (
                       <Tooltip>
