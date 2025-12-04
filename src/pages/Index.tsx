@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
+import { Download } from "lucide-react";
 import CategoryLanding from "@/components/CategoryLanding";
 import SearchInterface from "@/components/SearchInterface";
+import { Button } from "@/components/ui/button";
+import { mergeAndDownloadExcel } from "@/utils/excelMerger";
+import { toast } from "sonner";
 
 interface Category {
   id: string;
@@ -12,11 +16,24 @@ interface Category {
 const Index = () => {
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
   const [loading, setLoading] = useState(true);
+  const [downloading, setDownloading] = useState(false);
 
   useEffect(() => {
     // 模擬資料載入
     setTimeout(() => setLoading(false), 500);
   }, []);
+
+  const handleDownloadMergedExcel = async () => {
+    setDownloading(true);
+    try {
+      await mergeAndDownloadExcel();
+      toast.success("Excel 檔案已下載");
+    } catch (error) {
+      toast.error("下載失敗，請稍後再試");
+    } finally {
+      setDownloading(false);
+    }
+  };
 
   const categories: Category[] = [
     {
@@ -56,7 +73,17 @@ const Index = () => {
   return (
     <div className="min-h-screen">
       {/* Header */}
-      <header className="bg-white/95 backdrop-blur-sm shadow-lg py-10 text-center">
+      <header className="bg-white/95 backdrop-blur-sm shadow-lg py-10 text-center relative">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={handleDownloadMergedExcel}
+          disabled={downloading}
+          className="absolute top-4 right-4"
+        >
+          <Download className="w-4 h-4 mr-2" />
+          {downloading ? "下載中..." : "下載合併 Excel"}
+        </Button>
         <h1 className="text-5xl font-extrabold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-3">
           重要營運詮釋資料服務平台
         </h1>
