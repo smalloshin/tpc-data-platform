@@ -66,7 +66,7 @@ const Index = () => {
     },
     {
       id: "other",
-      name: "其他",
+      name: "探索",
       icon: "📁",
       description: "其他相關資料"
     }
