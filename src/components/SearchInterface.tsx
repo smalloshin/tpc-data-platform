@@ -535,7 +535,7 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
                     isActive 
                       ? 'bg-primary/10 border-2 border-primary' 
                       : 'hover:bg-muted border-2 border-transparent'
-                  } ${index < tabs.length - 1 ? 'md:border-r-0' : ''}`}
+                  }`}
                 >
                   <div className={`p-2 rounded-lg ${isActive ? 'bg-primary text-primary-foreground' : 'bg-muted text-primary'}`}>
                     <IconComponent className="w-5 h-5" />
