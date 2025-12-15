@@ -114,6 +114,12 @@ const Index = () => {
             >
               其他類別
             </button>
+            <button
+              onClick={() => setViewMode("browser")}
+              className="text-sm text-foreground hover:text-primary transition-colors"
+            >
+              瀏覽資料集
+            </button>
           </nav>
 
           {/* Login Button */}
