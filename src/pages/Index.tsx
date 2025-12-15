@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Download, User, Zap, Battery, PlugZap, CircleDollarSign, FolderOpen } from "lucide-react";
+import heroIllustration from "@/assets/hero-illustration.png";
 import CategoryLanding from "@/components/CategoryLanding";
 import SearchInterface from "@/components/SearchInterface";
 import DatasetBrowser from "@/components/DatasetBrowser";
@@ -148,20 +149,13 @@ const Index = () => {
                     </h2>
                   </div>
                   
-                  {/* Right: Illustration Placeholder */}
+                  {/* Right: Illustration */}
                   <div className="hidden md:flex items-center justify-center">
-                    <div className="w-full max-w-md aspect-square bg-gradient-to-br from-primary/10 to-accent/10 rounded-3xl flex items-center justify-center">
-                      <div className="text-center space-y-4">
-                        <div className="flex justify-center gap-4">
-                          <Battery className="w-16 h-16 text-primary" />
-                          <Zap className="w-16 h-16 text-accent" />
-                        </div>
-                        <div className="flex justify-center gap-4">
-                          <PlugZap className="w-16 h-16 text-primary" />
-                          <CircleDollarSign className="w-16 h-16 text-accent" />
-                        </div>
-                      </div>
-                    </div>
+                    <img 
+                      src={heroIllustration} 
+                      alt="電力能源數據平台插圖" 
+                      className="w-full max-w-lg rounded-3xl"
+                    />
                   </div>
                 </div>
               </div>
