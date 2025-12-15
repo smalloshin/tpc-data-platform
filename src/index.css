@@ -9,37 +9,38 @@ All colors MUST be HSL.
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 0 0% 0%;
+    --foreground: 220 13% 25%;
 
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 0%;
+    --card-foreground: 220 13% 25%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 0%;
+    --popover-foreground: 220 13% 25%;
 
-    --primary: 150 45% 35%;
+    --primary: 160 55% 40%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 0 0% 0%;
+    --secondary: 160 30% 95%;
+    --secondary-foreground: 220 13% 25%;
 
-    --muted: 210 40% 96%;
-    --muted-foreground: 215 16% 47%;
+    --muted: 160 20% 96%;
+    --muted-foreground: 220 10% 50%;
 
-    --accent: 145 40% 40%;
+    --accent: 160 50% 45%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 150 45% 35%;
+    --border: 160 20% 88%;
+    --input: 160 20% 88%;
+    --ring: 160 55% 40%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
-    --blue-gradient-start: 150 30% 65%;
-    --green-gradient-end: 145 35% 55%;
+    /* Hero gradient */
+    --hero-gradient-start: 155 45% 85%;
+    --hero-gradient-end: 160 40% 75%;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5% 26%;
@@ -53,7 +54,6 @@ All colors MUST be HSL.
 }
 
 body {
-  background: linear-gradient(135deg, hsl(150, 30%, 65%) 0%, hsl(145, 35%, 55%) 100%);
   min-height: 100vh;
 }
 
