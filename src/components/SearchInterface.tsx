@@ -15,7 +15,7 @@ import OtherSystemDetailDialog from "@/components/OtherSystemDetailDialog";
 import { toast } from "@/components/ui/use-toast";
 import { getDatasetDetail, type DatasetDetail } from "@/utils/datasetLoader";
 import { loadOtherSystems, searchOtherSystems, type SystemData } from "@/utils/otherSystemsLoader";
-import generationIcon from "@/assets/generation-icon.png";
+
 
 interface Category {
   id: string;
@@ -505,11 +505,6 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
             {category.name}資料集搜尋
           </h2>
-          <img 
-            src={generationIcon} 
-            alt="類別圖示" 
-            className="w-24 h-24 mx-auto object-contain"
-          />
         </div>
 
         {/* 麵包屑導航 */}
