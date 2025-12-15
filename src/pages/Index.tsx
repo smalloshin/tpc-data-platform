@@ -81,7 +81,7 @@ const Index = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[hsl(var(--hero-gradient-start))] to-[hsl(var(--hero-gradient-end))]">
+      <div className="min-h-screen flex items-center justify-center bg-[hsl(var(--hero-bg))]">
         <div className="text-foreground text-xl">載入資料中...</div>
       </div>
     );
@@ -136,7 +136,7 @@ const Index = () => {
         {viewMode === "landing" && (
           <>
             {/* Hero Section */}
-            <section className="bg-gradient-to-br from-[hsl(var(--hero-gradient-start))] to-[hsl(var(--hero-gradient-end))]">
+            <section className="bg-[hsl(var(--hero-bg))]">
               <div className="max-w-7xl mx-auto px-6 py-16 md:py-24">
                 <div className="grid md:grid-cols-2 gap-12 items-center">
                   {/* Left: Text */}

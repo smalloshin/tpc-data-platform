@@ -38,9 +38,8 @@ All colors MUST be HSL.
 
     --radius: 0.75rem;
 
-    /* Hero gradient */
-    --hero-gradient-start: 155 45% 85%;
-    --hero-gradient-end: 160 40% 75%;
+    /* Hero background */
+    --hero-bg: 160 35% 79%;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5% 26%;
