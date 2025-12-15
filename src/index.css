@@ -38,8 +38,8 @@ All colors MUST be HSL.
 
     --radius: 0.75rem;
 
-    /* Hero background */
-    --hero-bg: 145 40% 85%;
+    /* Hero background #CDFAD5 */
+    --hero-bg: 131 82% 89%;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5% 26%;
