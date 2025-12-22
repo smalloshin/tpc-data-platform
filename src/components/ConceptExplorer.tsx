@@ -77,21 +77,9 @@ const ConceptExplorer = ({ categoryId, onConceptSelect }: ConceptExplorerProps) 
         
         // 過濾出真正能找到資料集（relevance >= 0.3）的概念
         const conceptsWithDatasets = conceptNodes.filter((concept: any) => {
-          // 方法 1: 透過 belongs_to 或 keyword_to_concept 找關鍵字再匹配資料集
           const keywordLinks = links.filter(
             (link: any) => (link.type === 'belongs_to' || link.type === 'keyword_to_concept') && link.target === concept.id
           );
-          
-          // 方法 2: 透過 concept_to_dataset 直接連接到資料集（輸電等類別使用此格式）
-          const datasetLinks = links.filter(
-            (link: any) => link.type === 'concept_to_dataset' && link.source === concept.id
-          );
-          
-          // 如果有直接連接到資料集的連結，則認為這個概念有效
-          if (datasetLinks.length > 0) {
-            console.log(`概念 ${concept.label} 透過 concept_to_dataset 直接連接 ${datasetLinks.length} 個資料集`);
-            return true;
-          }
           
           if (keywordLinks.length === 0) {
             console.log(`概念 ${concept.label} 沒有關鍵字連接`);
