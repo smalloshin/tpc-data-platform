@@ -4,7 +4,7 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { X, RefreshCw } from 'lucide-react';
+import { X, RefreshCw, ZoomIn, ZoomOut, Maximize } from 'lucide-react';
 
 interface KnowledgeGraphD3Props {
   categoryId: string;
@@ -30,6 +30,7 @@ interface GraphLink extends d3.SimulationLinkDatum<GraphNode> {
 
 const KnowledgeGraphD3 = ({ categoryId, onConceptClick }: KnowledgeGraphD3Props) => {
   const svgRef = useRef<SVGSVGElement>(null);
+  const zoomRef = useRef<d3.ZoomBehavior<SVGSVGElement, unknown> | null>(null);
   const [graphData, setGraphData] = useState<{ nodes: GraphNode[]; links: GraphLink[] } | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [typeFilter, setTypeFilter] = useState<'all' | 'keyword' | 'concept' | 'dataset'>('all');
@@ -42,6 +43,28 @@ const KnowledgeGraphD3 = ({ categoryId, onConceptClick }: KnowledgeGraphD3Props)
   // 重新排版按鈕的回調
   const handleRelayout = useCallback(() => {
     setLayoutKey(prev => prev + 1);
+  }, []);
+
+  // 縮放控制
+  const handleZoomIn = useCallback(() => {
+    if (svgRef.current && zoomRef.current) {
+      const svg = d3.select(svgRef.current);
+      svg.transition().duration(300).call(zoomRef.current.scaleBy, 1.5);
+    }
+  }, []);
+
+  const handleZoomOut = useCallback(() => {
+    if (svgRef.current && zoomRef.current) {
+      const svg = d3.select(svgRef.current);
+      svg.transition().duration(300).call(zoomRef.current.scaleBy, 0.67);
+    }
+  }, []);
+
+  const handleZoomReset = useCallback(() => {
+    if (svgRef.current && zoomRef.current) {
+      const svg = d3.select(svgRef.current);
+      svg.transition().duration(300).call(zoomRef.current.transform, d3.zoomIdentity);
+    }
   }, []);
 
   // 載入資料
@@ -97,6 +120,7 @@ const KnowledgeGraphD3 = ({ categoryId, onConceptClick }: KnowledgeGraphD3Props)
       });
 
     svg.call(zoom);
+    zoomRef.current = zoom;
 
     // 複製資料以避免修改原始資料
     const nodes = graphData.nodes.map(d => ({ ...d }));
@@ -627,6 +651,18 @@ const KnowledgeGraphD3 = ({ categoryId, onConceptClick }: KnowledgeGraphD3Props)
             <RefreshCw className="h-4 w-4" />
             重新排版
           </Button>
+
+          <div className="flex items-center gap-1 ml-2 border-l pl-2">
+            <Button variant="outline" size="icon" className="h-8 w-8" onClick={handleZoomOut} title="縮小">
+              <ZoomOut className="h-4 w-4" />
+            </Button>
+            <Button variant="outline" size="icon" className="h-8 w-8" onClick={handleZoomIn} title="放大">
+              <ZoomIn className="h-4 w-4" />
+            </Button>
+            <Button variant="outline" size="icon" className="h-8 w-8" onClick={handleZoomReset} title="重置視圖">
+              <Maximize className="h-4 w-4" />
+            </Button>
+          </div>
         </div>
 
         {/* 統計資訊 */}
