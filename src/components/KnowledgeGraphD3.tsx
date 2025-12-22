@@ -102,16 +102,21 @@ const KnowledgeGraphD3 = ({ categoryId, onConceptClick }: KnowledgeGraphD3Props)
       .force('charge', d3.forceManyBody().strength(-300))
       .force('center', d3.forceCenter(width / 2, height / 2))
       .force('collision', d3.forceCollide().radius(30))
-      .alphaDecay(0.05); // 加快衰減速度讓模擬更快穩定
-    
-    // 模擬穩定後停止，讓節點固定不動
-    simulation.on('end', () => {
-      // 固定所有節點位置
-      nodes.forEach((node: any) => {
-        node.fx = node.x;
-        node.fy = node.y;
+      .alphaDecay(0.06) // 加快衰減速度讓模擬更快穩定
+      .alphaMin(0.02);
+
+    // 讓圖在初始排版完成後「固定不飄動」：停止模擬並把所有節點鎖定在當前座標
+    const freeze = () => {
+      nodes.forEach((n: any) => {
+        n.fx = n.x;
+        n.fy = n.y;
       });
-    });
+      simulation.stop();
+    };
+
+    // 保險：即使沒有觸發 end 事件，也會在短時間後固定
+    const freezeTimer = window.setTimeout(freeze, 1200);
+    simulation.on('end', freeze);
 
     // 繪製連線
     const link = g.append('g')
@@ -201,10 +206,10 @@ const KnowledgeGraphD3 = ({ categoryId, onConceptClick }: KnowledgeGraphD3Props)
 
     function dragended(event: any, d: any) {
       if (!event.active) simulation.alphaTarget(0);
-      d.fx = null;
-      d.fy = null;
+      // 需求：拖完也要固定，不回彈/不再飄動
+      d.fx = d.x;
+      d.fy = d.y;
     }
-
     // 點擊節點處理
     function handleNodeClick(d: GraphNode) {
       // 保存當前滾動位置
@@ -497,6 +502,7 @@ const KnowledgeGraphD3 = ({ categoryId, onConceptClick }: KnowledgeGraphD3Props)
 
     // 清理
     return () => {
+      window.clearTimeout(freezeTimer);
       simulation.stop();
     };
   }, [graphData, searchTerm, typeFilter, stageFilter, selectedNode, onConceptClick]);
