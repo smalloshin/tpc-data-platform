@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import * as d3 from 'd3';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { X } from 'lucide-react';
+import { X, RefreshCw } from 'lucide-react';
 
 interface KnowledgeGraphD3Props {
   categoryId: string;
@@ -37,6 +37,12 @@ const KnowledgeGraphD3 = ({ categoryId, onConceptClick }: KnowledgeGraphD3Props)
   const [selectedNode, setSelectedNode] = useState<GraphNode | null>(null);
   const [relatedDatasets, setRelatedDatasets] = useState<GraphNode[]>([]);
   const [stats, setStats] = useState({ nodes: 0, links: 0, concepts: 0, keywords: 0, datasets: 0 });
+  const [layoutKey, setLayoutKey] = useState(0);
+
+  // 重新排版按鈕的回調
+  const handleRelayout = useCallback(() => {
+    setLayoutKey(prev => prev + 1);
+  }, []);
 
   // 載入資料
   useEffect(() => {
@@ -507,7 +513,7 @@ const KnowledgeGraphD3 = ({ categoryId, onConceptClick }: KnowledgeGraphD3Props)
       window.clearTimeout(freezeTimer);
       simulation.stop();
     };
-  }, [graphData, searchTerm, typeFilter, stageFilter, selectedNode, onConceptClick]);
+  }, [graphData, searchTerm, typeFilter, stageFilter, selectedNode, onConceptClick, layoutKey]);
 
   const handleReset = () => {
     // 保存當前滾動位置
@@ -615,6 +621,11 @@ const KnowledgeGraphD3 = ({ categoryId, onConceptClick }: KnowledgeGraphD3Props)
 
           <Button variant="secondary" size="sm" onClick={handleReset}>
             重置
+          </Button>
+          
+          <Button variant="outline" size="sm" onClick={handleRelayout} className="gap-1">
+            <RefreshCw className="h-4 w-4" />
+            重新排版
           </Button>
         </div>
 
