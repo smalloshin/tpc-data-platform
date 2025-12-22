@@ -114,8 +114,10 @@ const KnowledgeGraphD3 = ({ categoryId, onConceptClick }: KnowledgeGraphD3Props)
       simulation.stop();
     };
 
-    // 保險：即使沒有觸發 end 事件，也會在短時間後固定
-    const freezeTimer = window.setTimeout(freeze, 1200);
+    // 初始 0.2 秒後強制 freeze
+    const freezeTimer = window.setTimeout(() => {
+      freeze();
+    }, 200);
     simulation.on('end', freeze);
 
     // 繪製連線
