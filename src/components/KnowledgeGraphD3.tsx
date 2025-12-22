@@ -101,7 +101,17 @@ const KnowledgeGraphD3 = ({ categoryId, onConceptClick }: KnowledgeGraphD3Props)
       .force('link', d3.forceLink(links).id((d: any) => d.id).distance(100))
       .force('charge', d3.forceManyBody().strength(-300))
       .force('center', d3.forceCenter(width / 2, height / 2))
-      .force('collision', d3.forceCollide().radius(30));
+      .force('collision', d3.forceCollide().radius(30))
+      .alphaDecay(0.05); // 加快衰減速度讓模擬更快穩定
+    
+    // 模擬穩定後停止，讓節點固定不動
+    simulation.on('end', () => {
+      // 固定所有節點位置
+      nodes.forEach((node: any) => {
+        node.fx = node.x;
+        node.fy = node.y;
+      });
+    });
 
     // 繪製連線
     const link = g.append('g')
