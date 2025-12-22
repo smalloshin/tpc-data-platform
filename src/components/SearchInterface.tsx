@@ -365,10 +365,12 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
     const results: SearchResult[] = [];
     const processedDatasets = new Set<string>();
 
-    // 找出與此概念相關的關鍵字連結（支援 edges 或 links）
+    // 找出與此概念相關的連結（支援 edges 或 links）
     const edges = knowledgeGraph.edges || knowledgeGraph.links || [];
+    
+    // 方法 1: 透過 belongs_to 或 keyword_to_concept 找關鍵字再匹配資料集
     const keywordLinks = edges.filter(
-      (l: any) => l.type === 'belongs_to' && l.target === concept.id
+      (l: any) => (l.type === 'belongs_to' || l.type === 'keyword_to_concept') && l.target === concept.id
     );
 
     console.log(`概念「${concept.label}」找到 ${keywordLinks.length} 個關鍵字連結`);
@@ -389,7 +391,36 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
       });
     });
 
-    console.log(`概念「${concept.label}」找到 ${results.length} 筆結果`);
+    // 方法 2: 透過 concept_to_dataset 直接找資料集（輸電等類別使用此格式）
+    const datasetLinks = edges.filter(
+      (l: any) => l.type === 'concept_to_dataset' && l.source === concept.id
+    );
+
+    console.log(`概念「${concept.label}」找到 ${datasetLinks.length} 個直接資料集連結`);
+
+    datasetLinks.forEach((link: any) => {
+      // 取得資料集名稱（需從 matching_results 或 nodes 中找）
+      const datasetNode = knowledgeGraph.nodes?.find((n: any) => n.id === link.target);
+      const viaKeywords = link.via_keywords || [];
+      
+      // 透過 via_keywords 找資料集名稱
+      viaKeywords.forEach((keyword: string) => {
+        const keywordResults = searchByKeyword(keyword, 0);
+        keywordResults.forEach(result => {
+          if (!processedDatasets.has(result.name)) {
+            processedDatasets.add(result.name);
+            results.push({
+              ...result,
+              relevance: Math.max(result.relevance, link.score || 0.7),
+              method: `概念導引: ${concept.label}`,
+              matchReason: `屬於「${concept.category}」類別（透過：${keyword}）`
+            });
+          }
+        });
+      });
+    });
+
+    console.log(`概念「${concept.label}」最終找到 ${results.length} 筆結果`);
     
     if (results.length === 0) {
       toast({ 
