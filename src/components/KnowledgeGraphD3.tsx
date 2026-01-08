@@ -69,25 +69,92 @@ const KnowledgeGraphD3 = ({ categoryId, onConceptClick }: KnowledgeGraphD3Props)
 
   // 載入資料
   useEffect(() => {
-    fetch(`/data/${categoryId}_knowledge_graph.json`)
-      .then(res => res.json())
-      .then(data => {
+    Promise.all([
+      fetch(`/data/${categoryId}_knowledge_graph.json`).then(res => res.json()),
+      fetch(`/data/${categoryId}_matching_results.json`).then(res => res.json()).catch(() => null)
+    ])
+      .then(([graphData, matchingData]) => {
         // 支援 edges 或 links 作為連線陣列的屬性名稱
-        const processedData = {
-          nodes: data.nodes,
-          links: data.links || data.edges || []
-        };
+        let nodes = [...graphData.nodes];
+        let links = [...(graphData.links || graphData.edges || [])];
         
+        // 檢查是否已有資料集節點
+        const hasDatasetNodes = nodes.some((n: any) => n.type === 'dataset');
+        
+        // 如果沒有資料集節點，從 matching_results 建立
+        if (!hasDatasetNodes && matchingData?.matching_results) {
+          const datasetMap = new Map<string, any>();
+          const keywordToDatasets = new Map<string, Set<string>>();
+          
+          // 收集所有資料集並建立關鍵字到資料集的映射
+          matchingData.matching_results.forEach((match: any) => {
+            const datasetId = match['資料集ID'] || `dataset_${match['資料集名稱']}`;
+            const datasetName = match['資料集名稱'];
+            const keyword = match['關鍵字'];
+            const stage = match['匹配階段'];
+            
+            if (!datasetMap.has(datasetId)) {
+              datasetMap.set(datasetId, {
+                id: datasetId,
+                label: datasetName,
+                type: 'dataset',
+                category: categoryId,
+                color: '#50C878',
+                size: 10,
+                stage: stage
+              });
+            }
+            
+            // 找對應的關鍵字節點 ID
+            const keywordNodeId = `keyword_${keyword}`;
+            if (!keywordToDatasets.has(keywordNodeId)) {
+              keywordToDatasets.set(keywordNodeId, new Set());
+            }
+            keywordToDatasets.get(keywordNodeId)?.add(datasetId);
+          });
+          
+          // 加入資料集節點（限制數量以避免過多節點）
+          const datasetNodes = Array.from(datasetMap.values()).slice(0, 100);
+          nodes = [...nodes, ...datasetNodes];
+          
+          // 建立關鍵字到資料集的連結
+          const datasetIds = new Set(datasetNodes.map(d => d.id));
+          keywordToDatasets.forEach((datasetIdSet, keywordNodeId) => {
+            const keywordNode = nodes.find((n: any) => n.id === keywordNodeId);
+            if (keywordNode) {
+              datasetIdSet.forEach(datasetId => {
+                if (datasetIds.has(datasetId)) {
+                  links.push({
+                    source: keywordNodeId,
+                    target: datasetId,
+                    type: 'relates_to',
+                    stage: keywordNode.stage
+                  });
+                }
+              });
+            }
+          });
+        }
+        
+        // 標準化連結格式（處理 source_id/target_id）
+        links = links.map((link: any) => ({
+          source: link.source || link.source_id,
+          target: link.target || link.target_id,
+          type: link.type || link.relationship,
+          stage: link.stage
+        }));
+        
+        const processedData = { nodes, links };
         setGraphData(processedData);
         
         // 計算統計資料
-        const concepts = processedData.nodes.filter((n: GraphNode) => n.type === 'concept').length;
-        const keywords = processedData.nodes.filter((n: GraphNode) => n.type === 'keyword').length;
-        const datasets = processedData.nodes.filter((n: GraphNode) => n.type === 'dataset').length;
+        const concepts = nodes.filter((n: any) => n.type === 'concept').length;
+        const keywords = nodes.filter((n: any) => n.type === 'keyword').length;
+        const datasets = nodes.filter((n: any) => n.type === 'dataset').length;
         
         setStats({
-          nodes: processedData.nodes.length,
-          links: processedData.links.length,
+          nodes: nodes.length,
+          links: links.length,
           concepts,
           keywords,
           datasets
