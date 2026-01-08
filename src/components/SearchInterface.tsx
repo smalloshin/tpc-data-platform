@@ -43,6 +43,7 @@ interface SearchResult {
   method?: string;
   keywords?: string[];
   matchReason?: string;
+  source?: string;
 }
 
 const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
@@ -235,7 +236,8 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
           stage: records[0].匹配階段 || '未知',
           method: records[0].匹配方式 || '關鍵字匹配',
           keywords: allKeywords,
-          matchReason: records[0].匹配原因 || ''
+          matchReason: records[0].匹配原因 || '',
+          source: records[0].資料集來源 || ''
         });
       }
     });
@@ -861,6 +863,16 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
                       >
                         相關度: {(result.relevance * 100).toFixed(0)}%
                       </Badge>
+                      {result.source && (
+                        <Badge 
+                          variant="outline"
+                          className={result.source === '大數據平台資料集' 
+                            ? 'border-orange-400 text-orange-600 bg-orange-50' 
+                            : 'border-green-400 text-green-600 bg-green-50'}
+                        >
+                          {result.source}
+                        </Badge>
+                      )}
                     </div>
                     {result.matchReason && (
                       <p className="text-sm text-gray-600 mb-2">
