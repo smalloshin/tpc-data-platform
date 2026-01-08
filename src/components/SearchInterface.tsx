@@ -464,11 +464,37 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
     datasets.forEach((dataset: any) => {
       // 處理新的資料格式：datasets 現在是物件陣列 {id, title, url}
       const datasetName = typeof dataset === 'string' ? dataset : dataset.title;
+      
+      // 從 matching_results 查找該資料集的資訊
+      let source = '';
+      let stage = '';
+      let keywords: string[] = [];
+      
+      if (matchingResults?.matching_results) {
+        const matchRecords = matchingResults.matching_results.filter(
+          (r: any) => r.資料集名稱 === datasetName
+        );
+        
+        if (matchRecords.length > 0) {
+          source = matchRecords[0].資料集來源 || '';
+          stage = matchRecords[0].匹配階段 || '';
+          // 收集相關關鍵字
+          const keywordSet = new Set<string>();
+          matchRecords.forEach((r: any) => {
+            if (r.關鍵字) keywordSet.add(r.關鍵字);
+          });
+          keywords = Array.from(keywordSet).slice(0, 5);
+        }
+      }
+      
       results.push({
         name: datasetName,
         relevance: 1.0,
+        stage: stage || '第一階段',
         method: 'FAQ 推薦',
-        matchReason: `相關問題: ${question}`
+        matchReason: `相關問題: ${question}`,
+        source,
+        keywords
       });
     });
 
