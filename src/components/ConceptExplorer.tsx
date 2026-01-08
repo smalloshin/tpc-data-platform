@@ -77,9 +77,18 @@ const ConceptExplorer = ({ categoryId, onConceptSelect }: ConceptExplorerProps) 
         
         // 過濾出真正能找到資料集（relevance >= 0.3）的概念
         const conceptsWithDatasets = conceptNodes.filter((concept: any) => {
-          const keywordLinks = links.filter(
-            (link: any) => (link.type === 'belongs_to' || link.type === 'keyword_to_concept') && link.target === concept.id
-          );
+          // 支援多種連線格式：
+          // 1. type === 'belongs_to' 或 'keyword_to_concept' (如 generation, distribution)
+          // 2. relationship === '屬於' (如 transmission)
+          const keywordLinks = links.filter((link: any) => {
+            const isKeywordToConcept = 
+              link.type === 'belongs_to' || 
+              link.type === 'keyword_to_concept' ||
+              link.relationship === '屬於';
+            const targetMatchesId = link.target === concept.id;
+            const targetMatchesLabel = link.target === concept.label;
+            return isKeywordToConcept && (targetMatchesId || targetMatchesLabel);
+          });
           
           if (keywordLinks.length === 0) {
             console.log(`概念 ${concept.label} 沒有關鍵字連接`);
