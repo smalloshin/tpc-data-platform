@@ -15,6 +15,7 @@ import OtherSystemDetailDialog from "@/components/OtherSystemDetailDialog";
 import { toast } from "@/components/ui/use-toast";
 import { getDatasetDetail, type DatasetDetail } from "@/utils/datasetLoader";
 import { loadOtherSystems, searchOtherSystems, type SystemData } from "@/utils/otherSystemsLoader";
+import { getBigDataDataset, type BigDataDataset } from "@/utils/bigDataLoader";
 
 
 interface Category {
@@ -59,8 +60,9 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
   const resultsRef = useRef<HTMLDivElement>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [dialogType, setDialogType] = useState<'detail' | 'sample' | 'summary'>('detail');
+  const [dialogType, setDialogType] = useState<'detail' | 'sample' | 'summary' | 'tags' | 'rewrite'>('detail');
   const [selectedDataset, setSelectedDataset] = useState<DatasetDetail | null>(null);
+  const [selectedBigData, setSelectedBigData] = useState<BigDataDataset | null>(null);
   const [showFAQ, setShowFAQ] = useState(false);
   const [showConcepts, setShowConcepts] = useState(false);
   const [showKnowledgeGraph, setShowKnowledgeGraph] = useState(false);
@@ -468,17 +470,35 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
     scrollToResults();
   };
 
-  const handleViewDetail = async (datasetName: string) => {
-    const detail = await getDatasetDetail(datasetName);
-    if (detail) {
-      setSelectedDataset(detail);
-      setDialogType('detail');
-      setDialogOpen(true);
+  const handleViewDetail = async (datasetName: string, source?: string) => {
+    if (source === '大數據平台資料集') {
+      // 大數據平台資料集：顯示標籤
+      const bigData = await getBigDataDataset(datasetName);
+      if (bigData) {
+        setSelectedBigData(bigData);
+        setSelectedDataset(null);
+        setDialogType('tags');
+        setDialogOpen(true);
+      } else {
+        toast({
+          title: "找不到資料",
+          description: "無法載入此資料集的標籤資訊"
+        });
+      }
     } else {
-      toast({
-        title: "找不到資料",
-        description: "無法載入此資料集的詳細說明"
-      });
+      // 開放資料集：顯示詳細說明
+      const detail = await getDatasetDetail(datasetName);
+      if (detail) {
+        setSelectedDataset(detail);
+        setSelectedBigData(null);
+        setDialogType('detail');
+        setDialogOpen(true);
+      } else {
+        toast({
+          title: "找不到資料",
+          description: "無法載入此資料集的詳細說明"
+        });
+      }
     }
   };
 
@@ -486,6 +506,7 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
     const detail = await getDatasetDetail(datasetName);
     if (detail) {
       setSelectedDataset(detail);
+      setSelectedBigData(null);
       setDialogType('sample');
       setDialogOpen(true);
     } else {
@@ -496,17 +517,35 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
     }
   };
 
-  const handleViewSummary = async (datasetName: string) => {
-    const detail = await getDatasetDetail(datasetName);
-    if (detail) {
-      setSelectedDataset(detail);
-      setDialogType('summary');
-      setDialogOpen(true);
+  const handleViewSummary = async (datasetName: string, source?: string) => {
+    if (source === '大數據平台資料集') {
+      // 大數據平台資料集：顯示重寫敘述
+      const bigData = await getBigDataDataset(datasetName);
+      if (bigData) {
+        setSelectedBigData(bigData);
+        setSelectedDataset(null);
+        setDialogType('rewrite');
+        setDialogOpen(true);
+      } else {
+        toast({
+          title: "找不到資料",
+          description: "無法載入此資料集的重寫敘述"
+        });
+      }
     } else {
-      toast({
-        title: "找不到資料",
-        description: "無法載入此資料集的 AI 解釋"
-      });
+      // 開放資料集：顯示 AI 解釋
+      const detail = await getDatasetDetail(datasetName);
+      if (detail) {
+        setSelectedDataset(detail);
+        setSelectedBigData(null);
+        setDialogType('summary');
+        setDialogOpen(true);
+      } else {
+        toast({
+          title: "找不到資料",
+          description: "無法載入此資料集的 AI 解釋"
+        });
+      }
     }
   };
 
@@ -890,28 +929,51 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
                     )}
                   </div>
                   <div className="flex flex-wrap gap-2 ml-4">
-                    <Button 
-                      size="sm" 
-                      variant="outline"
-                      onClick={() => handleViewDetail(result.name)}
-                    >
-                      查看詳情
-                    </Button>
-                    <Button 
-                      size="sm"
-                      variant="outline"
-                      className="border-purple-300 text-purple-600 hover:bg-purple-50"
-                      onClick={() => handleViewSummary(result.name)}
-                    >
-                      ✨ AI資料集解釋
-                    </Button>
-                    <Button 
-                      size="sm"
-                      className="bg-gradient-to-r from-[#667eea] to-[#764ba2]"
-                      onClick={() => handleViewSample(result.name)}
-                    >
-                      範例資料
-                    </Button>
+                    {result.source === '大數據平台資料集' ? (
+                      <>
+                        <Button 
+                          size="sm" 
+                          variant="outline"
+                          className="border-orange-300 text-orange-600 hover:bg-orange-50"
+                          onClick={() => handleViewDetail(result.name, result.source)}
+                        >
+                          標籤
+                        </Button>
+                        <Button 
+                          size="sm"
+                          variant="outline"
+                          className="border-orange-300 text-orange-600 hover:bg-orange-50"
+                          onClick={() => handleViewSummary(result.name, result.source)}
+                        >
+                          ✨ AI資料集解釋
+                        </Button>
+                      </>
+                    ) : (
+                      <>
+                        <Button 
+                          size="sm" 
+                          variant="outline"
+                          onClick={() => handleViewDetail(result.name, result.source)}
+                        >
+                          查看詳情
+                        </Button>
+                        <Button 
+                          size="sm"
+                          variant="outline"
+                          className="border-purple-300 text-purple-600 hover:bg-purple-50"
+                          onClick={() => handleViewSummary(result.name, result.source)}
+                        >
+                          ✨ AI資料集解釋
+                        </Button>
+                        <Button 
+                          size="sm"
+                          className="bg-gradient-to-r from-[#667eea] to-[#764ba2]"
+                          onClick={() => handleViewSample(result.name)}
+                        >
+                          範例資料
+                        </Button>
+                      </>
+                    )}
                   </div>
                 </div>
               </Card>
@@ -924,10 +986,11 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
       <DatasetDetailDialog
         open={dialogOpen}
         onOpenChange={setDialogOpen}
-        datasetName={selectedDataset?.name || ''}
+        datasetName={selectedDataset?.name || selectedBigData?.name || ''}
         description={selectedDataset?.description}
         sampleData={selectedDataset?.sampleData}
         summary={selectedDataset?.summary}
+        bigDataDataset={selectedBigData}
         type={dialogType}
       />
 
