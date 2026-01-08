@@ -14,7 +14,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Sparkles } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Sparkles, Tag } from "lucide-react";
+import type { BigDataDataset } from "@/utils/bigDataLoader";
 
 interface DatasetDetailDialogProps {
   open: boolean;
@@ -23,7 +25,8 @@ interface DatasetDetailDialogProps {
   description?: string;
   sampleData?: string;
   summary?: string;
-  type: 'detail' | 'sample' | 'summary';
+  bigDataDataset?: BigDataDataset | null;
+  type: 'detail' | 'sample' | 'summary' | 'tags' | 'rewrite';
 }
 
 const DatasetDetailDialog = ({
@@ -33,6 +36,7 @@ const DatasetDetailDialog = ({
   description,
   sampleData,
   summary,
+  bigDataDataset,
   type
 }: DatasetDetailDialogProps) => {
   const renderSampleData = () => {
@@ -88,6 +92,54 @@ const DatasetDetailDialog = ({
     return <pre className="text-sm whitespace-pre-wrap">{sampleData}</pre>;
   };
 
+  const renderTags = () => {
+    if (!bigDataDataset || !bigDataDataset.tags || bigDataDataset.tags.length === 0) {
+      return <p className="text-muted-foreground">暫無標籤資訊</p>;
+    }
+
+    return (
+      <div className="space-y-4">
+        <p className="text-sm text-muted-foreground">
+          此資料集的分類標籤：
+        </p>
+        <div className="flex flex-wrap gap-2">
+          {bigDataDataset.tags.map((tag, idx) => (
+            <Badge 
+              key={idx} 
+              variant="secondary"
+              className="text-sm py-1 px-3 bg-orange-100 text-orange-700 border border-orange-300"
+            >
+              {tag}
+            </Badge>
+          ))}
+        </div>
+        {bigDataDataset.category && (
+          <div className="mt-4 p-3 bg-gray-50 rounded-lg">
+            <p className="text-sm text-gray-600">
+              <span className="font-medium">所屬類別：</span>{bigDataDataset.category}
+            </p>
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  const renderRewrite = () => {
+    if (!bigDataDataset || !bigDataDataset.rewrittenDescription) {
+      return <p className="text-muted-foreground">暫無重寫敘述</p>;
+    }
+
+    return (
+      <div className="prose prose-sm max-w-none">
+        <div className="bg-gradient-to-br from-orange-50 to-amber-50 p-4 rounded-lg border border-orange-100">
+          <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">
+            {bigDataDataset.rewrittenDescription}
+          </p>
+        </div>
+      </div>
+    );
+  };
+
   const getDialogTitle = () => {
     switch (type) {
       case 'detail': return '資料集詳細說明';
@@ -95,6 +147,18 @@ const DatasetDetailDialog = ({
       case 'summary': return (
         <span className="flex items-center gap-2">
           <Sparkles className="w-5 h-5 text-purple-500" />
+          AI 資料集解釋
+        </span>
+      );
+      case 'tags': return (
+        <span className="flex items-center gap-2">
+          <Tag className="w-5 h-5 text-orange-500" />
+          資料集標籤
+        </span>
+      );
+      case 'rewrite': return (
+        <span className="flex items-center gap-2">
+          <Sparkles className="w-5 h-5 text-orange-500" />
           AI 資料集解釋
         </span>
       );
@@ -123,6 +187,10 @@ const DatasetDetailDialog = ({
             )}
           </div>
         );
+      case 'tags':
+        return renderTags();
+      case 'rewrite':
+        return renderRewrite();
     }
   };
 
@@ -134,7 +202,7 @@ const DatasetDetailDialog = ({
             {getDialogTitle()}
           </DialogTitle>
           <DialogDescription className="text-base font-medium">
-            {datasetName}
+            {bigDataDataset?.name || datasetName}
           </DialogDescription>
         </DialogHeader>
         <ScrollArea className="max-h-[60vh] pr-4">
