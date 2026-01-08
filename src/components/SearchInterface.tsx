@@ -466,9 +466,10 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
       const datasetName = typeof dataset === 'string' ? dataset : dataset.title;
       
       // 從 matching_results 查找該資料集的資訊
-      let source = '';
-      let stage = '';
+      let source = '開放資料集'; // 預設為開放資料集
+      let stage = '第一階段';
       let keywords: string[] = [];
+      let matchReason = '';
       
       if (matchingResults?.matching_results) {
         const matchRecords = matchingResults.matching_results.filter(
@@ -476,8 +477,17 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
         );
         
         if (matchRecords.length > 0) {
-          source = matchRecords[0].資料集來源 || '';
-          stage = matchRecords[0].匹配階段 || '';
+          // 如果有資料集來源欄位，使用它；否則根據資料集ID判斷
+          if (matchRecords[0].資料集來源) {
+            source = matchRecords[0].資料集來源;
+          } else if (!matchRecords[0].資料集ID || matchRecords[0].資料集ID === '') {
+            // 沒有資料集ID 通常是大數據平台資料集
+            source = '大數據平台資料集';
+          }
+          
+          stage = matchRecords[0].匹配階段 || '第一階段';
+          matchReason = matchRecords[0].匹配原因 || '';
+          
           // 收集相關關鍵字
           const keywordSet = new Set<string>();
           matchRecords.forEach((r: any) => {
@@ -490,9 +500,9 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
       results.push({
         name: datasetName,
         relevance: 1.0,
-        stage: stage || '第一階段',
+        stage,
         method: 'FAQ 推薦',
-        matchReason: `相關問題: ${question}`,
+        matchReason: matchReason || `相關問題: ${question}`,
         source,
         keywords
       });
