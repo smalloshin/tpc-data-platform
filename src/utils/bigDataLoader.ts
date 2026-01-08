@@ -13,6 +13,61 @@ export const clearBigDataCache = () => {
   cachedData = null;
 };
 
+// 解析完整的 CSV，正確處理多行引號欄位
+function parseCSV(text: string): string[][] {
+  const rows: string[][] = [];
+  let currentRow: string[] = [];
+  let currentField = '';
+  let inQuotes = false;
+  
+  for (let i = 0; i < text.length; i++) {
+    const char = text[i];
+    const nextChar = text[i + 1];
+    
+    if (inQuotes) {
+      if (char === '"') {
+        if (nextChar === '"') {
+          // 雙引號轉義
+          currentField += '"';
+          i++;
+        } else {
+          // 結束引號
+          inQuotes = false;
+        }
+      } else {
+        currentField += char;
+      }
+    } else {
+      if (char === '"') {
+        inQuotes = true;
+      } else if (char === ',') {
+        currentRow.push(currentField);
+        currentField = '';
+      } else if (char === '\n' || (char === '\r' && nextChar === '\n')) {
+        currentRow.push(currentField);
+        if (currentRow.length > 0 && currentRow.some(f => f.trim())) {
+          rows.push(currentRow);
+        }
+        currentRow = [];
+        currentField = '';
+        if (char === '\r') i++; // 跳過 \r\n 中的 \n
+      } else if (char !== '\r') {
+        currentField += char;
+      }
+    }
+  }
+  
+  // 處理最後一個欄位和行
+  if (currentField || currentRow.length > 0) {
+    currentRow.push(currentField);
+    if (currentRow.some(f => f.trim())) {
+      rows.push(currentRow);
+    }
+  }
+  
+  return rows;
+}
+
 export const loadBigDataDatasets = async (): Promise<Map<string, BigDataDataset>> => {
   if (cachedData) {
     return cachedData;
@@ -24,16 +79,12 @@ export const loadBigDataDatasets = async (): Promise<Map<string, BigDataDataset>
     
     const dataMap = new Map<string, BigDataDataset>();
     
-    // 解析 CSV
-    const lines = text.split('\n');
+    // 解析 CSV（處理多行欄位）
+    const rows = parseCSV(text);
     
     // 跳過標題行
-    for (let i = 1; i < lines.length; i++) {
-      const line = lines[i].trim();
-      if (!line) continue;
-      
-      // CSV 解析 - 處理包含逗號和引號的欄位
-      const fields = parseCSVLine(line);
+    for (let i = 1; i < rows.length; i++) {
+      const fields = rows[i];
       
       if (fields.length >= 4) {
         const name = fields[0].trim();
@@ -66,35 +117,6 @@ export const loadBigDataDatasets = async (): Promise<Map<string, BigDataDataset>
     return new Map();
   }
 };
-
-// 解析 CSV 行，正確處理引號內的逗號
-function parseCSVLine(line: string): string[] {
-  const fields: string[] = [];
-  let current = '';
-  let inQuotes = false;
-  
-  for (let i = 0; i < line.length; i++) {
-    const char = line[i];
-    
-    if (char === '"') {
-      // 處理雙引號
-      if (inQuotes && line[i + 1] === '"') {
-        current += '"';
-        i++;
-      } else {
-        inQuotes = !inQuotes;
-      }
-    } else if (char === ',' && !inQuotes) {
-      fields.push(current);
-      current = '';
-    } else {
-      current += char;
-    }
-  }
-  
-  fields.push(current);
-  return fields;
-}
 
 export const getBigDataDataset = async (datasetName: string): Promise<BigDataDataset | null> => {
   const dataMap = await loadBigDataDatasets();
