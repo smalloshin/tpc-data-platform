@@ -594,6 +594,13 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
   // 當前激活的 Tab
   const [activeTab, setActiveTab] = useState<'search' | 'faq' | 'concepts' | 'graph'>('search');
 
+  // 切換 Tab 時清除搜尋結果
+  const handleTabChange = (tabId: 'search' | 'faq' | 'concepts' | 'graph') => {
+    // 先清除所有顯示內容
+    setSearchResults([]);
+    setActiveTab(tabId);
+  };
+
   const tabs = [
     { id: 'search' as const, label: '關鍵字搜尋', desc: '快速找到相關資料庫', icon: Search },
     { id: 'faq' as const, label: '常見問題', desc: '快速找到相關資料庫', icon: HelpCircle },
@@ -639,7 +646,7 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
               return (
                 <button
                   key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
+                  onClick={() => handleTabChange(tab.id)}
                   className={`flex items-center gap-3 p-4 rounded-xl transition-all text-left ${
                     isActive 
                       ? 'bg-primary/10 border-2 border-primary' 
