@@ -372,10 +372,16 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
     // 找出與此概念相關的連結（支援 edges 或 links）
     const edges = knowledgeGraph.edges || knowledgeGraph.links || [];
     
-    // 方法 1: 透過 belongs_to 或 keyword_to_concept 找關鍵字再匹配資料集
-    const keywordLinks = edges.filter(
-      (l: any) => (l.type === 'belongs_to' || l.type === 'keyword_to_concept') && l.target === concept.id
-    );
+    // 方法 1: 透過 belongs_to、keyword_to_concept 或 relationship === '屬於' 找關鍵字再匹配資料集
+    const keywordLinks = edges.filter((l: any) => {
+      const isKeywordToConcept = 
+        l.type === 'belongs_to' || 
+        l.type === 'keyword_to_concept' ||
+        l.relationship === '屬於';
+      const targetMatchesId = l.target === concept.id;
+      const targetMatchesLabel = l.target === concept.label;
+      return isKeywordToConcept && (targetMatchesId || targetMatchesLabel);
+    });
 
     console.log(`概念「${concept.label}」找到 ${keywordLinks.length} 個關鍵字連結`);
 
