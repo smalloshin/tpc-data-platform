@@ -462,38 +462,46 @@ const SearchInterface = ({ category, onBack }: SearchInterfaceProps) => {
     const results: SearchResult[] = [];
     
     datasets.forEach((dataset: any) => {
-      // 處理新的資料格式：datasets 現在是物件陣列 {id, title, url}
-      const datasetName = typeof dataset === 'string' ? dataset : dataset.title;
+      // 支援兩種格式：
+      // 1. {name, source, keywords} - transmission_faq 格式
+      // 2. {id, title, url} - distribution_faq 格式
+      const datasetName = typeof dataset === 'string' 
+        ? dataset 
+        : (dataset.name || dataset.title);
       
-      // 從 matching_results 查找該資料集的資訊
-      let source = '開放資料集'; // 預設為開放資料集
+      // 優先使用 FAQ 中直接提供的 source
+      let source = dataset.source || '開放資料集';
       let stage = '第一階段';
-      let keywords: string[] = [];
+      let keywords: string[] = dataset.keywords || [];
       let matchReason = '';
       
+      // 從 matching_results 查找更多資訊
       if (matchingResults?.matching_results) {
         const matchRecords = matchingResults.matching_results.filter(
           (r: any) => r.資料集名稱 === datasetName
         );
         
         if (matchRecords.length > 0) {
-          // 如果有資料集來源欄位，使用它；否則根據資料集ID判斷
-          if (matchRecords[0].資料集來源) {
-            source = matchRecords[0].資料集來源;
-          } else if (!matchRecords[0].資料集ID || matchRecords[0].資料集ID === '') {
-            // 沒有資料集ID 通常是大數據平台資料集
-            source = '大數據平台資料集';
+          // 如果 FAQ 沒有提供 source，則從 matching_results 取得
+          if (!dataset.source) {
+            if (matchRecords[0].資料集來源) {
+              source = matchRecords[0].資料集來源;
+            } else if (!matchRecords[0].資料集ID || matchRecords[0].資料集ID === '') {
+              source = '大數據平台資料集';
+            }
           }
           
           stage = matchRecords[0].匹配階段 || '第一階段';
           matchReason = matchRecords[0].匹配原因 || '';
           
-          // 收集相關關鍵字
-          const keywordSet = new Set<string>();
-          matchRecords.forEach((r: any) => {
-            if (r.關鍵字) keywordSet.add(r.關鍵字);
-          });
-          keywords = Array.from(keywordSet).slice(0, 5);
+          // 如果 FAQ 沒有提供 keywords，則從 matching_results 收集
+          if (keywords.length === 0) {
+            const keywordSet = new Set<string>();
+            matchRecords.forEach((r: any) => {
+              if (r.關鍵字) keywordSet.add(r.關鍵字);
+            });
+            keywords = Array.from(keywordSet).slice(0, 5);
+          }
         }
       }
       
