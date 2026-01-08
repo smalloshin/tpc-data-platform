@@ -238,7 +238,13 @@ const KnowledgeGraphD3 = ({ categoryId, onConceptClick }: KnowledgeGraphD3Props)
         if (d.type === 'keyword') return 8;
         return 10;
       })
-      .attr('fill', (d: GraphNode) => d.color)
+      .attr('fill', (d: GraphNode) => {
+        // 統一顏色：概念橙色、關鍵字藍色、資料集綠色
+        if (d.type === 'concept') return '#F5A623';
+        if (d.type === 'keyword') return '#4A90E2';
+        if (d.type === 'dataset') return '#50C878';
+        return d.color;
+      })
       .attr('stroke', '#fff')
       .attr('stroke-width', 2)
       .style('cursor', 'pointer')
