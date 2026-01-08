@@ -896,6 +896,11 @@ const KnowledgeGraphD3 = ({ categoryId, onConceptClick }: KnowledgeGraphD3Props)
                         </Badge>
                         <Badge variant="secondary">{stage}</Badge>
                         <Badge 
+                          className="bg-gradient-to-r from-[#667eea] to-[#764ba2] text-white"
+                        >
+                          相關度: 100%
+                        </Badge>
+                        <Badge 
                           variant="outline"
                           className={source === '大數據平台資料集' 
                             ? 'border-orange-400 text-orange-600 bg-orange-50' 
@@ -904,6 +909,9 @@ const KnowledgeGraphD3 = ({ categoryId, onConceptClick }: KnowledgeGraphD3Props)
                           {source}
                         </Badge>
                       </div>
+                      <p className="text-sm text-gray-600 mb-2">
+                        匹配原因: 知識圖譜關聯
+                      </p>
                       {keywords.length > 0 && (
                         <div className="flex flex-wrap gap-1">
                           {keywords.slice(0, 5).map((kw, i) => (
@@ -917,6 +925,41 @@ const KnowledgeGraphD3 = ({ categoryId, onConceptClick }: KnowledgeGraphD3Props)
                             </Badge>
                           )}
                         </div>
+                      )}
+                    </div>
+                    <div className="flex flex-wrap gap-2 ml-4">
+                      {source === '大數據平台資料集' ? (
+                        <>
+                          <Button 
+                            size="sm" 
+                            variant="outline"
+                            className="border-orange-300 text-orange-600 hover:bg-orange-50"
+                          >
+                            標籤
+                          </Button>
+                          <Button 
+                            size="sm"
+                            variant="outline"
+                            className="border-orange-300 text-orange-600 hover:bg-orange-50"
+                          >
+                            ✨ AI資料集解釋
+                          </Button>
+                        </>
+                      ) : (
+                        <>
+                          <Button size="sm" variant="outline">
+                            查看詳情
+                          </Button>
+                          <Button 
+                            size="sm"
+                            className="bg-gradient-to-r from-[#667eea] to-[#764ba2] text-white hover:opacity-90"
+                          >
+                            ✨ AI資料集解釋
+                          </Button>
+                          <Button size="sm" variant="default">
+                            範例資料
+                          </Button>
+                        </>
                       )}
                     </div>
                   </div>
