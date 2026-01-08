@@ -28,6 +28,13 @@ interface GraphLink extends d3.SimulationLinkDatum<GraphNode> {
   stage?: string;
 }
 
+interface DatasetInfo {
+  name: string;
+  stage: string;
+  source: '開放資料集' | '大數據平台資料集';
+  keywords: string[];
+}
+
 const KnowledgeGraphD3 = ({ categoryId, onConceptClick }: KnowledgeGraphD3Props) => {
   const svgRef = useRef<SVGSVGElement>(null);
   const zoomRef = useRef<d3.ZoomBehavior<SVGSVGElement, unknown> | null>(null);
@@ -37,6 +44,7 @@ const KnowledgeGraphD3 = ({ categoryId, onConceptClick }: KnowledgeGraphD3Props)
   const [stageFilter, setStageFilter] = useState<'all' | '第一階段' | '第二階段' | '第三階段'>('all');
   const [selectedNode, setSelectedNode] = useState<GraphNode | null>(null);
   const [relatedDatasets, setRelatedDatasets] = useState<GraphNode[]>([]);
+  const [datasetInfoMap, setDatasetInfoMap] = useState<Map<string, DatasetInfo>>(new Map());
   const [stats, setStats] = useState({ nodes: 0, links: 0, concepts: 0, keywords: 0, datasets: 0 });
   const [layoutKey, setLayoutKey] = useState(0);
 
@@ -77,6 +85,42 @@ const KnowledgeGraphD3 = ({ categoryId, onConceptClick }: KnowledgeGraphD3Props)
         // 支援 edges 或 links 作為連線陣列的屬性名稱
         let nodes = [...graphData.nodes];
         let links = [...(graphData.links || graphData.edges || [])];
+        
+        // 建立資料集資訊映射表
+        const infoMap = new Map<string, DatasetInfo>();
+        
+        if (matchingData?.matching_results) {
+          // 用資料集名稱分組收集關鍵字
+          const datasetKeywords = new Map<string, Set<string>>();
+          const datasetStages = new Map<string, string>();
+          
+          matchingData.matching_results.forEach((match: any) => {
+            const name = match['資料集名稱'];
+            const keyword = match['關鍵字'];
+            const stage = match['匹配階段'];
+            
+            if (!datasetKeywords.has(name)) {
+              datasetKeywords.set(name, new Set());
+            }
+            datasetKeywords.get(name)?.add(keyword);
+            
+            if (!datasetStages.has(name)) {
+              datasetStages.set(name, stage);
+            }
+          });
+          
+          // 建立資訊映射
+          datasetKeywords.forEach((keywords, name) => {
+            infoMap.set(name, {
+              name,
+              stage: datasetStages.get(name) || '第一階段',
+              source: '開放資料集',
+              keywords: Array.from(keywords)
+            });
+          });
+        }
+        
+        setDatasetInfoMap(infoMap);
         
         // 檢查是否已有資料集節點
         const hasDatasetNodes = nodes.some((n: any) => n.type === 'dataset');
@@ -822,28 +866,53 @@ const KnowledgeGraphD3 = ({ categoryId, onConceptClick }: KnowledgeGraphD3Props)
               <X className="h-4 w-4" />
             </Button>
           </div>
-          <div className="space-y-2">
-            {relatedDatasets.map((dataset) => (
-              <div
-                key={dataset.id}
-                className="border border-gray-200 rounded-lg overflow-hidden bg-white hover:shadow-md transition-shadow"
-              >
-                <div className="p-4">
-                  <div className="flex items-start justify-between gap-3">
+          <div className="space-y-4">
+            {relatedDatasets.map((dataset) => {
+              const info = datasetInfoMap.get(dataset.label);
+              const stage = info?.stage || dataset.stage || '第一階段';
+              const source = info?.source || '開放資料集';
+              const keywords = info?.keywords || [];
+              
+              return (
+                <Card key={dataset.id} className="p-6 hover:shadow-lg transition-shadow">
+                  <div className="flex items-start justify-between">
                     <div className="flex-1">
-                      <h4 className="font-medium text-gray-800 mb-2">{dataset.label}</h4>
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <Badge variant="secondary" className="text-xs">ID: {dataset.id}</Badge>
-                        {dataset.stage && <Badge variant="outline" className="text-xs">{dataset.stage}</Badge>}
-                        {dataset.category && (
-                          <Badge variant="outline" className="text-xs">{dataset.category}</Badge>
-                        )}
+                      <h4 className="text-lg font-semibold text-gray-800 mb-2">
+                        {dataset.label}
+                      </h4>
+                      <div className="flex flex-wrap gap-2 mb-3">
+                        <Badge variant="outline">
+                          知識圖譜探索
+                        </Badge>
+                        <Badge variant="secondary">{stage}</Badge>
+                        <Badge 
+                          variant="outline"
+                          className={source === '大數據平台資料集' 
+                            ? 'border-orange-400 text-orange-600 bg-orange-50' 
+                            : 'border-green-400 text-green-600 bg-green-50'}
+                        >
+                          {source}
+                        </Badge>
                       </div>
+                      {keywords.length > 0 && (
+                        <div className="flex flex-wrap gap-1">
+                          {keywords.slice(0, 5).map((kw, i) => (
+                            <Badge key={i} variant="outline" className="text-xs">
+                              {kw}
+                            </Badge>
+                          ))}
+                          {keywords.length > 5 && (
+                            <Badge variant="outline" className="text-xs text-muted-foreground">
+                              +{keywords.length - 5} 更多
+                            </Badge>
+                          )}
+                        </div>
+                      )}
                     </div>
                   </div>
-                </div>
-              </div>
-            ))}
+                </Card>
+              );
+            })}
           </div>
         </Card>
       )}
