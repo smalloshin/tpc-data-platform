@@ -835,9 +835,19 @@ const KnowledgeGraphD3 = ({ categoryId, onConceptClick }: KnowledgeGraphD3Props)
               </Button>
             </div>
             <div className="space-y-2 text-sm">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 flex-wrap">
                 <Badge variant="secondary">{selectedNode.type === 'concept' ? '概念' : selectedNode.type === 'keyword' ? '關鍵字' : '資料集'}</Badge>
                 {selectedNode.stage && <Badge variant="outline">{selectedNode.stage}</Badge>}
+                {selectedNode.type === 'dataset' && (
+                  <Badge 
+                    variant="outline"
+                    className={datasetInfoMap.get(selectedNode.label)?.source === '大數據平台資料集' 
+                      ? 'border-orange-400 text-orange-600 bg-orange-50' 
+                      : 'border-green-400 text-green-600 bg-green-50'}
+                  >
+                    {datasetInfoMap.get(selectedNode.label)?.source || '開放資料集'}
+                  </Badge>
+                )}
               </div>
               <div>
                 <span className="text-muted-foreground">類別: </span>
