@@ -74,7 +74,15 @@ export const loadBigDataDatasets = async (): Promise<Map<string, BigDataDataset>
   }
 
   try {
-    const response = await fetch(`/data/電業資料集_分類結果.csv?v=${DATA_VERSION}`);
+    const fileName = '電業資料集_分類結果.csv';
+    // 某些環境下含中文檔名的路徑需要 URL encode，否則會拿到 404/HTML，導致解析結果為 0
+    const url = `/data/${encodeURIComponent(fileName)}?v=${DATA_VERSION}`;
+
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status} when fetching ${url}`);
+    }
+
     const text = await response.text();
     
     const dataMap = new Map<string, BigDataDataset>();
