@@ -1,241 +1,321 @@
 {
   "faq_categories": [
     {
-      "category": "輸電系統",
+      "category": "輸電系統基礎",
       "icon": "⚡",
       "description": "輸電線路、變電所等基礎設施相關資訊",
       "questions": [
         {
-          "question": "什麼是輸電系統？與配電系統有什麼不同？",
+          "question": "什麼是輸電系統？",
+          "related_keywords": [
+            "輸電系統",
+            "輸電線路",
+            "電網"
+          ],
           "related_datasets": [
             {
-              "id": "dataset_21",
-              "title": "台灣電力公司輸電線路統計資料",
-              "url": "https://data.gov.tw/dataset/16956"
+              "name": "台灣電力公司台北市再生能源可併網容量",
+              "source": "開放資料集",
+              "keywords": [
+                "饋線",
+                "陸上電網互連點",
+                "變壓器"
+              ]
             },
             {
-              "id": "dataset_20",
-              "title": "台灣電力公司超高壓及一次變電所主變壓器裝置容量及負載",
-              "url": "https://data.gov.tw/dataset/16874"
+              "name": "台灣電力公司新北市再生能源可併網容量",
+              "source": "開放資料集",
+              "keywords": [
+                "饋線",
+                "陸上電網互連點",
+                "變壓器"
+              ]
+            },
+            {
+              "name": "台灣電力公司桃園市再生能源可併網容量",
+              "source": "開放資料集",
+              "keywords": [
+                "饋線",
+                "陸上電網互連點",
+                "變壓器"
+              ]
             }
           ],
-          "keywords": [
-            "輸電系統",
-            "配電系統",
-            "差異"
-          ],
-          "answer_hint": "輸電系統負責長距離高壓輸電，配電系統則負責將電力配送到用戶端。"
+          "answer_hint": "輸電系統是電力系統的重要組成部分，負責長距離高壓輸電。"
         },
         {
-          "question": "台灣有哪些主要的輸電線路？",
+          "question": "輸電線路有哪些不同的電壓等級？",
+          "related_keywords": [
+            "高壓",
+            "超高壓系統",
+            "一次系統",
+            "二次系統"
+          ],
           "related_datasets": [
             {
-              "id": "dataset_21",
-              "title": "台灣電力公司輸電線路統計資料",
-              "url": "https://data.gov.tw/dataset/16956"
+              "name": "二次系統輸電線常數表",
+              "source": "大數據平台資料集",
+              "keywords": [
+                "變電所",
+                "電網",
+                "故障"
+              ]
             },
             {
-              "id": "dataset_20",
-              "title": "台灣電力公司超高壓及一次變電所主變壓器裝置容量及負載",
-              "url": "https://data.gov.tw/dataset/16874"
+              "name": "一次系統輸電線常數表",
+              "source": "大數據平台資料集",
+              "keywords": [
+                "雙回線",
+                "電網",
+                "故障"
+              ]
             }
-          ],
-          "keywords": [
-            "輸電線路",
-            "路徑",
-            "分布"
           ],
           "answer_hint": "台灣輸電系統包含345kV、161kV等不同電壓等級的線路。"
         }
       ]
     },
     {
-      "category": "變電所",
+      "category": "變電設施",
       "icon": "🏗️",
       "description": "變電所運作、設備與管理資訊",
       "questions": [
         {
           "question": "變電所的主要功能是什麼？",
+          "related_keywords": [
+            "變電所",
+            "主變壓器",
+            "變壓器"
+          ],
           "related_datasets": [
             {
-              "id": "dataset_20",
-              "title": "台灣電力公司超高壓及一次變電所主變壓器裝置容量及負載",
-              "url": "https://data.gov.tw/dataset/16874"
+              "name": "台灣電力公司超高壓及一次變電所主變壓器裝置容量及負載",
+              "source": "開放資料集",
+              "keywords": [
+                "超高壓變電所 (仟伏安)",
+                "主變壓器",
+                "六氟化硫斷路器"
+              ]
             },
             {
-              "id": "dataset_25",
-              "title": "台灣電力公司二次變電所主變壓器裝置容量及負載",
-              "url": "https://data.gov.tw/dataset/16960"
+              "name": "台灣電力公司二次變電所主變壓器裝置容量及負載",
+              "source": "開放資料集",
+              "keywords": [
+                "變電所",
+                "受電端",
+                "高壓"
+              ]
+            },
+            {
+              "name": "台灣電力公司郝明義提問配電變壓器採V-V接線疑義",
+              "source": "開放資料集",
+              "keywords": [
+                "變壓器"
+              ]
             }
-          ],
-          "keywords": [
-            "變電所",
-            "功能",
-            "變壓"
           ],
           "answer_hint": "變電所負責電壓轉換、電力分配與系統調度。"
         },
         {
-          "question": "超高壓變電所與一般變電所有何不同？",
+          "question": "一次變電所與二次變電所有何不同？",
+          "related_keywords": [
+            "一次變電所",
+            "二次變電所",
+            "電壓"
+          ],
           "related_datasets": [
             {
-              "id": "dataset_20",
-              "title": "台灣電力公司超高壓及一次變電所主變壓器裝置容量及負載",
-              "url": "https://data.gov.tw/dataset/16874"
+              "name": "台灣電力公司超高壓及一次變電所主變壓器裝置容量及負載",
+              "source": "開放資料集",
+              "keywords": [
+                "超高壓變電所 (仟伏安)",
+                "主變壓器",
+                "六氟化硫斷路器"
+              ]
+            },
+            {
+              "name": "台灣電力公司二次變電所主變壓器裝置容量及負載",
+              "source": "開放資料集",
+              "keywords": [
+                "變電所",
+                "受電端",
+                "高壓"
+              ]
+            },
+            {
+              "name": "統計年報-輸配電統計-區營業處別二次變電所及配電線",
+              "source": "大數據平台資料集",
+              "keywords": [
+                "變電所",
+                "主變壓器",
+                "電網"
+              ]
             }
           ],
-          "keywords": [
-            "超高壓變電所",
-            "電壓等級"
-          ],
-          "answer_hint": "超高壓變電所處理345kV以上的超高壓電力，是電力傳輸的重要樞紐。"
+          "answer_hint": "一次變電所處理較高電壓等級，二次變電所則處理較低電壓等級。"
         }
       ]
     },
     {
-      "category": "電力調度",
+      "category": "電網運作",
       "icon": "📊",
       "description": "電力供需平衡、系統調度相關問題",
       "questions": [
         {
-          "question": "台電如何確保電力供需平衡？",
+          "question": "如何監控電網的負載情況？",
+          "related_keywords": [
+            "負載",
+            "電網",
+            "系統調度"
+          ],
           "related_datasets": [
             {
-              "id": "dataset_3",
-              "title": "台灣電力公司歷年尖峰負載及備用容量率",
-              "url": "https://data.gov.tw/dataset/8307"
+              "name": "台灣電力公司超高壓及一次變電所主變壓器裝置容量及負載",
+              "source": "開放資料集",
+              "keywords": [
+                "超高壓變電所 (仟伏安)",
+                "主變壓器",
+                "六氟化硫斷路器"
+              ]
             },
             {
-              "id": "dataset_179",
-              "title": "台灣電力公司發電機組發電排程與系統備轉容量之調度規劃",
-              "url": "https://data.gov.tw/dataset/166609"
+              "name": "台灣電力公司二次變電所主變壓器裝置容量及負載",
+              "source": "開放資料集",
+              "keywords": [
+                "變電所",
+                "受電端",
+                "高壓"
+              ]
+            },
+            {
+              "name": "統計年報-輸配電統計-超高壓及一次、配電變電所負載實績",
+              "source": "大數據平台資料集",
+              "keywords": [
+                "變電所",
+                "一次系統",
+                "超高壓系統"
+              ]
             }
           ],
-          "keywords": [
-            "供需平衡",
-            "調度",
-            "負載"
-          ],
-          "answer_hint": "透過電力調度中心即時監控與調整，確保供需平衡。"
+          "answer_hint": "通過實時監測系統，可以掌握電網各節點的負載狀況。"
         },
         {
-          "question": "什麼情況下會實施限電？",
+          "question": "輸電線路損耗如何計算？",
+          "related_keywords": [
+            "線路損耗",
+            "輸電線路",
+            "電力"
+          ],
           "related_datasets": [
             {
-              "id": "dataset_3",
-              "title": "台灣電力公司歷年尖峰負載及備用容量率",
-              "url": "https://data.gov.tw/dataset/8307"
+              "name": "台灣電力公司年度線路損失量(率)",
+              "source": "開放資料集",
+              "keywords": [
+                "比壓器",
+                "輸電系統（電力）",
+                "輸電（電力）（動詞）"
+              ]
             },
             {
-              "id": "dataset_37",
-              "title": "台灣電力公司過去電力供需資訊",
-              "url": "https://data.gov.tw/dataset/19995"
+              "name": "台灣電力公司配電線路事故分析",
+              "source": "開放資料集",
+              "keywords": [
+                "空氣斷開關",
+                "二次輸電線v"
+              ]
+            },
+            {
+              "name": "統計年報-輸配電統計-歷年輸配電線路長度",
+              "source": "大數據平台資料集",
+              "keywords": [
+                "線路損耗",
+                "輸電線路",
+                "電網"
+              ]
             }
           ],
-          "keywords": [
-            "限電",
-            "缺電",
-            "措施"
-          ],
-          "answer_hint": "當電力備轉容量不足或發生重大事故時，可能實施分區輪流限電。"
+          "answer_hint": "線路損耗主要由線路電阻引起，與電流平方成正比。"
         }
       ]
     },
     {
-      "category": "再生能源併網",
-      "icon": "🌞",
-      "description": "再生能源併入電網相關資訊",
+      "category": "設備管理",
+      "icon": "🔧",
+      "description": "變壓器、開關等設備的維護與管理",
       "questions": [
         {
-          "question": "再生能源如何併入電網？",
+          "question": "變壓器的檢修週期是多少？",
+          "related_keywords": [
+            "變壓器",
+            "檢修",
+            "維護"
+          ],
           "related_datasets": [
             {
-              "id": "dataset_32",
-              "title": "台灣電力公司自建之各類再生能源發電量",
-              "url": "https://data.gov.tw/dataset/17140"
+              "name": "台灣電力公司超高壓及一次變電所主變壓器裝置容量及負載",
+              "source": "開放資料集",
+              "keywords": [
+                "超高壓變電所 (仟伏安)",
+                "主變壓器",
+                "六氟化硫斷路器"
+              ]
             },
             {
-              "id": "dataset_168",
-              "title": "台灣電力公司全國各縣市再生能源可併網容量",
-              "url": "https://data.gov.tw/dataset/156007"
+              "name": "台灣電力公司二次變電所主變壓器裝置容量及負載",
+              "source": "開放資料集",
+              "keywords": [
+                "變電所",
+                "受電端",
+                "高壓"
+              ]
+            },
+            {
+              "name": "台灣電力公司郝明義提問配電變壓器採V-V接線疑義",
+              "source": "開放資料集",
+              "keywords": [
+                "變壓器"
+              ]
             }
           ],
-          "keywords": [
-            "再生能源",
-            "併網",
-            "流程"
-          ],
-          "answer_hint": "再生能源透過併網程序接入輸配電系統，需符合電網技術標準。"
+          "answer_hint": "變壓器通常按照定期檢修計畫進行維護，以確保設備正常運作。"
         },
         {
-          "question": "太陽能發電對電網有什麼影響？",
+          "question": "開關設備的故障如何排查？",
+          "related_keywords": [
+            "開關",
+            "斷路器",
+            "故障"
+          ],
           "related_datasets": [
             {
-              "id": "dataset_57",
-              "title": "台灣電力公司太陽光電發電量及平均單位裝置容量每日發電量統計表",
-              "url": "https://data.gov.tw/dataset/29933"
+              "name": "開關基本屬性",
+              "source": "大數據平台資料集",
+              "keywords": [
+                "故障",
+                "開關設備",
+                "斷路器"
+              ]
             },
             {
-              "id": "dataset_32",
-              "title": "台灣電力公司自建之各類再生能源發電量",
-              "url": "https://data.gov.tw/dataset/17140"
-            }
-          ],
-          "keywords": [
-            "太陽能",
-            "影響",
-            "挑戰"
-          ],
-          "answer_hint": "太陽能發電具間歇性，需搭配儲能或調度措施以穩定電網。"
-        }
-      ]
-    },
-    {
-      "category": "電網安全",
-      "icon": "🛡️",
-      "description": "電網保護、事故預防相關資訊",
-      "questions": [
-        {
-          "question": "輸電系統如何防範事故？",
-          "related_datasets": [
-            {
-              "id": "dataset_149",
-              "title": "台灣電力公司配電系統重大事故停電速報案件記錄",
-              "url": "https://data.gov.tw/dataset/122741"
+              "name": "開關裝拆紀錄",
+              "source": "大數據平台資料集",
+              "keywords": [
+                "故障",
+                "開關設備",
+                "斷路器"
+              ]
             },
             {
-              "id": "dataset_184",
-              "title": "台灣電力公司配電線路事故分析",
-              "url": "https://data.gov.tw/dataset/166643"
+              "name": "開關單位別",
+              "source": "大數據平台資料集",
+              "keywords": [
+                "故障",
+                "開關設備",
+                "斷路器"
+              ]
             }
           ],
-          "keywords": [
-            "安全",
-            "保護",
-            "預防"
-          ],
-          "answer_hint": "透過保護裝置、備援線路與定期檢修確保系統安全。"
-        },
-        {
-          "question": "發生大停電時，台電如何復電？",
-          "related_datasets": [
-            {
-              "id": "dataset_149",
-              "title": "台灣電力公司配電系統重大事故停電速報案件記錄",
-              "url": "https://data.gov.tw/dataset/122741"
-            },
-            {
-              "id": "dataset_3",
-              "title": "台灣電力公司歷年尖峰負載及備用容量率",
-              "url": "https://data.gov.tw/dataset/8307"
-            }
-          ],
-          "keywords": [
-            "停電",
-            "復電",
-            "程序"
-          ],
-          "answer_hint": "按分區優先順序逐步恢復供電，先恢復關鍵設施再擴及一般用戶。"
+          "answer_hint": "通過檢測開關的動作特性和保護動作記錄，可以診斷故障原因。"
         }
       ]
     }
