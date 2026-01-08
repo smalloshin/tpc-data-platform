@@ -207,6 +207,12 @@ const KnowledgeGraphD3 = ({ categoryId, onConceptClick }: KnowledgeGraphD3Props)
       .catch(err => console.error('載入知識圖譜失敗:', err));
   }, [categoryId]);
 
+  // 當 categoryId 改變時，清除選中節點和相關資料集
+  useEffect(() => {
+    setSelectedNode(null);
+    setRelatedDatasets([]);
+  }, [categoryId]);
+
   // D3 力導向圖初始化
   useEffect(() => {
     if (!graphData || !svgRef.current) return;
