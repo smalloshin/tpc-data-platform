@@ -195,6 +195,14 @@ const Index = () => {
           </div>
         )}
       </main>
+      {/* Footer */}
+      <footer className="bg-background border-t border-border py-6">
+        <div className="max-w-7xl mx-auto px-6 text-center">
+          <p className="text-sm text-muted-foreground">
+            Powered by 資拓宏宇 x 潮網科技
+          </p>
+        </div>
+      </footer>
     </div>
   );
 };
